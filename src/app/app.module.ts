@@ -4,13 +4,14 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomePageComponent }
+  { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   //make 404 page
 ];
 
@@ -21,7 +22,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent],

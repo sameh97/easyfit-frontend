@@ -7,20 +7,33 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
 import { catchError, distinct } from 'rxjs/operators';
 import { AppUtil } from '../common/app-util';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   private url = `${Consts.BASE_URL}/api/login`;
   private readonly jwtHelper = new JwtHelperService();
-  private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  
-  constructor(private http: HttpClient, private router: Router) { }
+  private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(
+    null
+  );
+
+  constructor(private http: HttpClient, private router: Router) {}
+
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem(Consts.KEY_USER_TOKEN);
+    if (!token) {
+      return false;
+    }
+    const tokenExpired = this.jwtHelper.isTokenExpired(token);
+    return !tokenExpired;
+  }
 
   public login(user: User): Observable<any> {
-    return this.http.post<string>(this.url, user, { observe: 'response' })
-    .pipe(catchError(AppUtil.handleError));
+    return this.http
+      .post<string>(this.url, user, { observe: 'response' })
+      .pipe(catchError(AppUtil.handleError));
   }
 
   public persistTokenFromResponse(response: any): void {
@@ -40,7 +53,7 @@ export class AuthenticationService {
       throw new Error('Cannot find token inside headers');
     }
 
-    localStorage.setItem(Consts.KEY_USER_TOKEN, authorizationValue);
+    window.localStorage.setItem(Consts.KEY_USER_TOKEN, authorizationValue);
     const user = this.extractUserFromToken(authorizationValue);
     this.currentUserSubject.next(user);
   }
@@ -56,8 +69,9 @@ export class AuthenticationService {
       return null;
     }
     try {
-      const user: User = JSON.parse(this.jwtHelper.decodeToken(token)[`sub`]);
-      return { ...user };
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      const user: User = {...decodedToken.sub};
+      return user;
     } catch (ex) {
       console.error('Saved user token is currupted');
       this.logout();
