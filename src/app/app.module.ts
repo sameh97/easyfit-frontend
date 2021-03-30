@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,7 +17,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomePageComponent],
+  declarations: [AppComponent, LoginComponent, HomePageComponent, RegisterPageComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

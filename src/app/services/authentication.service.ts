@@ -21,6 +21,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem(Consts.KEY_USER_TOKEN);
     if (!token) {
@@ -64,13 +66,18 @@ export class AuthenticationService {
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
+
+
   private extractUserFromToken(token: string): User {
     if (!token) {
       return null;
     }
     try {
       const decodedToken = this.jwtHelper.decodeToken(token);
-      const user: User = {...decodedToken.sub};
+      const user: User = { ...decodedToken.sub };
+
+      AppUtil.removePassword(user);
+
       return user;
     } catch (ex) {
       console.error('Saved user token is currupted');
