@@ -8,16 +8,28 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { MembersComponent } from './components/members/members.component';
+import { SearchfilterPipe } from './searchfilter.pipe';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
-  //make 404 page
+  { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  //TODO: make 404 page
 ];
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomePageComponent, RegisterPageComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomePageComponent,
+    RegisterPageComponent,
+    NavBarComponent,
+    MembersComponent,
+    SearchfilterPipe,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -14,7 +14,9 @@ export class RegistrationService {
   constructor(private http: HttpClient) {}
 
   public register(user: User): Observable<any> {
-    console.log(`user from reg service ${user.firstName} ${JSON.stringify(user)}`);
+    console.log(
+      `user from reg service ${user.firstName} ${JSON.stringify(user)}`
+    );
     return this.http
       .post<string>(this.url, user, { observe: 'response' })
       .pipe(catchError(AppUtil.handleError));
