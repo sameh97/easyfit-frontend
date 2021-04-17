@@ -9,9 +9,13 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { MembersComponent } from './components/members/members.component';
+import { MembersComponent } from './components/members-components/members/members.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
-
+import { ProductsComponent } from './components/products/products.component';
+import { AddMemberComponent } from './components/members-components/add-member/add-member.component';
+import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -29,6 +33,9 @@ const routes: Routes = [
     NavBarComponent,
     MembersComponent,
     SearchfilterPipe,
+    ProductsComponent,
+    AddMemberComponent,
+    UpdateMemberComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +43,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent],

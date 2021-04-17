@@ -78,9 +78,6 @@ export class AuthenticationService {
 
       AppUtil.removePassword(user);
 
-      //TODO: take gymId from somewhere else, this will occurr only while logging in:
-      //this.gymId = user.gymId;
-
       return user;
     } catch (ex) {
       console.error('Saved user token is currupted');
@@ -89,7 +86,6 @@ export class AuthenticationService {
     }
   }
 
-  // TODO: fix the refreshing problem, that causes to lose the gymId:
   public getGymId(): number {
     const token = localStorage.getItem(Consts.KEY_USER_TOKEN);
 

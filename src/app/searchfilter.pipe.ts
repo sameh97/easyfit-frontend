@@ -7,10 +7,7 @@ import { map } from 'rxjs/operators';
   name: 'searchfilter',
 })
 export class SearchfilterPipe implements PipeTransform {
-  transform(
-    members$: Observable<Member[]>,
-    searchValue: string
-  ): Observable<Member[]> {
+  transform(members$: Observable<Member[]>, searchValue: string): Observable<Member[]> {
     if (!members$ || !searchValue) {
       return members$;
     }
