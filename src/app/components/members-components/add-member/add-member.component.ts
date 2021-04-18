@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Member } from 'src/app/model/member';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-add-member',
@@ -10,13 +11,19 @@ import { Member } from 'src/app/model/member';
 export class AddMemberComponent implements OnInit {
   addMemberForm: FormGroup;
   member: Member;
-  constructor(private formBuilder: FormBuilder) {}
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private navigationService: NavigationHelperService
+  ) {}
 
   ngOnInit(): void {
     this.member = new Member();
     this.addMemberForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(4)]],
-      description: ['', []],
+      firstName: ['', [Validators.required]],
+      lastName: ['', []],
     });
   }
+
+  
 }

@@ -1,6 +1,6 @@
 <app-nav-bar></app-nav-bar>
 
-<app-add-member></app-add-member>
+<button (click)="openCreateMemberDialog()" type="button" class="btn btn-success">Add member</button>
 
 <input class="form-control mr-sm-2" [(ngModel)]="searchValue" name="searchInMembers" type="search" placeholder="Search"
   aria-label="Search">

@@ -1,90 +1,98 @@
-<!-- <form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
-    <span class="centered-form-heading">Add a new member</span>
-    <div class="grid-container">
-      <div class="grid-item-full-width">
-        <div class="form-group">
-          <label for="title" class="sr-only">Title</label>
-          <input [style.border]="getInputBorderStyle(title)" [(ngModel)]="quiz.title" name="title"
-            class="form-control" placeholder="Title" formControlName="title">
+<form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
+  <span class="centered-form-heading">Add a new member</span>
+  <div class="grid-container">
+    <div class="grid-item-full-width">
+      <div class="form-group">
+        <label for="firstName" class="sr-only">first name</label>
+        <input [(ngModel)]="member.firstName" name="firstName" class="form-control" placeholder="first name"
+          formControlName="firstName">
 
-          <div *ngIf="isInputValidationFailed(title)" class="validation-err-container">
-            <div *ngIf="title.errors.required">
-              Title is required.
-            </div>
-            <div *ngIf="title.errors.minlength">
-              Title must be at least {{ title.errors.minlength.requiredLength }} characters long.
-            </div>
+        <div *ngIf="isInputValidationFailed(firstName)" class="validation-err-container">
+          <div *ngIf="firstName.errors.required">
+            first name is required.
+          </div>
+          <div *ngIf="firstName.errors.minlength">
+            first name must be at least {{ firstName.errors.minlength.requiredLength }} characters long.
           </div>
         </div>
-      </div>
-
-      <div class="grid-item-full-width">
-        <div class="form-group">
-          <label for="description" class="sr-only">Description</label>
-          <input [style.border]="getInputBorderStyle(description)" [(ngModel)]="quiz.description"
-            name="description" placeholder="Description" class="form-control" formControlName="description" />
-        </div>
-      </div>
-
-      <div id="checkboxes-container" class="grid-item-full-width">
-        <mat-checkbox [checked]="quiz.isPublic" (change)="publicChanged($event.checked)">Show in public
-        </mat-checkbox>
-        <mat-checkbox [checked]="attachAnImage" (change)="attachAnImageChanged($event.checked)">Attach an image
-        </mat-checkbox>
-      </div>
-      <div class="grid-item-full-width">
-        <div *ngIf="!quiz.isPublic">
-          <button (click)="openChooseUsersDialog()"
-            class="btn btn-outline-primary">{{ getUserSelectionButtonText() }}</button>
-        </div>
-        <div *ngIf="!!attachAnImage">
-          <label for="image">Image</label>
-          <input type="file" class="form-control" formControlName="image" placeholder="Image"
-            accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
-        </div>
-      </div>
-
-      <div class="grid-item-full-width">
-        <div class="add-input-container">
-          <input #answerInput type="text" placeholder="Add answer" aria-label="Add answer">
-          <button class="btn btn-outline-primary" (click)="addAnswer(answerInput.value)">Add</button>
-        </div>
-      </div>
-
-      <div class="grid-item-full-width quiz-answers-list">
-        <span class="answers-list-title" mat-subheader>Answers list:</span>
-        <div mat-subheader *ngIf="quiz.answers.length === 0">
-          Please add answers to the quiz
-        </div>
-        <mat-list-item *ngFor="let answer of quiz.answers">
-          <div class="quiz-answer-list-item" (click)="setCorrect(answer)">
-            <div class="action-btn" *ngIf="answer.isCorrect;else not_correct">
-              <mat-icon mat-list-icon>done</mat-icon>
-            </div>
-
-            <ng-template class="action-btn" #not_correct>
-              <mat-icon mat-list-icon>arrow_forward_ios</mat-icon>
-            </ng-template>
-
-            <p class="answer-content">{{answer.content}}</p>
-
-            <mat-icon class="action-btn" (click)="deleteAnswer(answer)">delete</mat-icon>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </div>
-
-      <div class="grid-item-cancel-btn">
-        <button id="cancel-btn" class="btn btn-default btn-block" mat-dialog-close>
-          Cancel
-        </button>
-      </div>
-
-      <div class="grid-item-add-quiz">
-        <button id="add-quiz-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid"
-          (click)="addQuiz()">
-          Add quiz
-        </button>
       </div>
     </div>
-  </form> -->
+
+    <div class="grid-item-full-width">
+      <div class="form-group">
+        <label for="lastName" class="sr-only">last name</label>
+        <input [style.border]="getInputBorderStyle(lastName)" [(ngModel)]="member.lastName" name="lastName"
+          placeholder="last name" class="form-control" formControlName="lastName" />
+      </div>
+    </div>
+
+    <!-- <div class="grid-item-full-width">
+      <div class="form-group">
+        <label for="description" class="sr-only">Description</label>
+        <input [style.border]="getInputBorderStyle(description)" [(ngModel)]="quiz.description" name="description"
+          placeholder="Description" class="form-control" formControlName="description" />
+      </div>
+    </div> -->
+
+
+    <div id="checkboxes-container" class="grid-item-full-width">
+      <mat-checkbox [checked]="quiz.isPublic" (change)="publicChanged($event.checked)">Show in public
+      </mat-checkbox>
+      <mat-checkbox [checked]="attachAnImage" (change)="attachAnImageChanged($event.checked)">Attach an image
+      </mat-checkbox>
+    </div>
+    <div class="grid-item-full-width">
+      <div *ngIf="!quiz.isPublic">
+        <button (click)="openChooseUsersDialog()"
+          class="btn btn-outline-primary">{{ getUserSelectionButtonText() }}</button>
+      </div>
+      <div *ngIf="!!attachAnImage">
+        <label for="image">Image</label>
+        <input type="file" class="form-control" formControlName="image" placeholder="Image" accept=".png, .jpg, .jpeg"
+          (change)="handleSelectedImage($event.target.files)">
+      </div>
+    </div>
+
+    <div class="grid-item-full-width">
+      <div class="add-input-container">
+        <input #answerInput type="text" placeholder="Add answer" aria-label="Add answer">
+        <button class="btn btn-outline-primary" (click)="addAnswer(answerInput.value)">Add</button>
+      </div>
+    </div>
+
+    <div class="grid-item-full-width quiz-answers-list">
+      <span class="answers-list-title" mat-subheader>Answers list:</span>
+      <div mat-subheader *ngIf="quiz.answers.length === 0">
+        Please add answers to the quiz
+      </div>
+      <mat-list-item *ngFor="let answer of quiz.answers">
+        <div class="quiz-answer-list-item" (click)="setCorrect(answer)">
+          <div class="action-btn" *ngIf="answer.isCorrect;else not_correct">
+            <mat-icon mat-list-icon>done</mat-icon>
+          </div>
+
+          <ng-template class="action-btn" #not_correct>
+            <mat-icon mat-list-icon>arrow_forward_ios</mat-icon>
+          </ng-template>
+
+          <p class="answer-content">{{answer.content}}</p>
+
+          <mat-icon class="action-btn" (click)="deleteAnswer(answer)">delete</mat-icon>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </div>
+
+    <div class="grid-item-cancel-btn">
+      <button id="cancel-btn" class="btn btn-default btn-block" mat-dialog-close>
+        Cancel
+      </button>
+    </div>
+
+    <div class="grid-item-add-quiz">
+      <button id="add-quiz-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid" (click)="addQuiz()">
+        Add quiz
+      </button>
+    </div>
+  </div>
+</form>

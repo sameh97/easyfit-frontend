@@ -16,6 +16,7 @@ import { AddMemberComponent } from './components/members-components/add-member/a
 import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from './shared/shared.module';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     MatDialogModule

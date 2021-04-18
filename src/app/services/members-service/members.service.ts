@@ -13,13 +13,15 @@ export class MembersService {
   private readonly addUrl = `${Consts.BASE_URL}/api/add-member`;
   private readonly deleteUrl = `${Consts.BASE_URL}/api/delete-member`;
 
-  //TODO: init this var somewhere else:
-  private gymId = this.authService.getGymId();
+  private gymId: number;
 
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
-  ) {}
+  ) {
+    //TODO: init gym id somewhere else:
+    this.gymId = this.authService.getGymId();
+  }
 
   public create = (member: Member): Observable<any> => {
     member.gymId = this.gymId;
@@ -34,6 +36,6 @@ export class MembersService {
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.deleteUrl}?id=${id}`);
+    return this.http.post(`${this.deleteUrl}?id=${id}`, id);
   };
 }

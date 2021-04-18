@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
+import { AddMemberComponent } from '../add-member/add-member.component';
 
 @Component({
   selector: 'app-members',
   templateUrl: './members.component.html',
   styleUrls: ['./members.component.css'],
 })
-export class MembersComponent implements OnInit {
+export class MembersComponent implements OnInit, OnDestroy {
   public members$: Observable<Member[]>;
   closeResult = '';
   searchValue: string;
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private membersSerive: MembersService,
@@ -22,6 +24,10 @@ export class MembersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+  }
+
+  ngOnDestroy(): void {
+    AppUtil.releaseSubscriptions(this.subscriptions);
   }
 
   private getAll() {
@@ -51,4 +57,18 @@ export class MembersComponent implements OnInit {
         }
       });
   };
+
+  public openCreateMemberDialog() {
+    if (this.navigationService.isMobileMode()) {
+      this.subscriptions.push(
+        this.navigationService
+          .openDialog(AddMemberComponent, '100vw', null, true)
+          .subscribe()
+      );
+    } else {
+      this.subscriptions.push(
+        this.navigationService.openDialog(AddMemberComponent).subscribe()
+      );
+    }
+  }
 }

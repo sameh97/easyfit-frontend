@@ -7,5 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [ConfirmationDialogComponent],
   imports: [CommonModule, MatDialogModule, MatButtonModule],
+  exports: [CommonModule, MatDialogModule, MatButtonModule],
 })
 export class SharedModule {}
