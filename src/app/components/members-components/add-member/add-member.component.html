@@ -1,4 +1,4 @@
-<form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
+<!-- <form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
   <span class="centered-form-heading">Add a new member</span>
   <div class="grid-container">
     <div class="grid-item-full-width">
@@ -26,15 +26,13 @@
       </div>
     </div>
 
-    <!-- <div class="grid-item-full-width">
+     <div class="grid-item-full-width">
       <div class="form-group">
         <label for="description" class="sr-only">Description</label>
         <input [style.border]="getInputBorderStyle(description)" [(ngModel)]="quiz.description" name="description"
           placeholder="Description" class="form-control" formControlName="description" />
       </div>
-    </div> -->
-
-
+    </div> 
     <div id="checkboxes-container" class="grid-item-full-width">
       <mat-checkbox [checked]="quiz.isPublic" (change)="publicChanged($event.checked)">Show in public
       </mat-checkbox>
@@ -96,3 +94,37 @@
     </div>
   </div>
 </form>
+-->
+
+<p>
+  <mat-form-field appearance="legacy">
+    <mat-label>Legacy form field</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="standard">
+    <mat-label>Standard form field</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Fill form field</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="outline">
+    <mat-label>Outline form field</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-hint>Hint</mat-hint>
+  </mat-form-field>
+</p>

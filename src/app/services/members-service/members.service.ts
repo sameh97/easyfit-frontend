@@ -11,7 +11,7 @@ import { AuthenticationService } from './../authentication.service';
 export class MembersService {
   private readonly url = `${Consts.BASE_URL}/api/members`;
   private readonly addUrl = `${Consts.BASE_URL}/api/add-member`;
-  private readonly deleteUrl = `${Consts.BASE_URL}/api/delete-member`;
+  private readonly deleteUrl = `${Consts.BASE_URL}/api/member`;
 
   private gymId: number;
 
@@ -36,6 +36,6 @@ export class MembersService {
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.post(`${this.deleteUrl}?id=${id}`, id);
+    return this.http.delete(`${this.deleteUrl}?id=${id}`);
   };
 }

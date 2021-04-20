@@ -32,7 +32,9 @@
       <td [ngClass]="{'btn btn-success' : member.isActive,
                       'btn btn-danger' : !member.isActive}">{{getActiveDisplayString(member) }}</td>
       <td>{{member.joinDate | date }}</td>
-      <td><button (click)="delete(member.id, member.firstName)" type="button" class="btn btn-danger">Delete</button>
+      <td><button (click)="delete(member.id, member.firstName)" type="button" mat-raised-button
+          color="warn">Delete</button>
+        <button style="margin-left: 10px;" mat-raised-button color="primary">Primary</button>
       </td>
     </tr>
   </tbody>

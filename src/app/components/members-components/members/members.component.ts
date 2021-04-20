@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
 import { MembersService } from 'src/app/services/members-service/members.service';
@@ -46,14 +47,21 @@ export class MembersComponent implements OnInit, OnDestroy {
       .openYesNoDialogNoCallback(`Are you sure you want to delete ${name}?`)
       .subscribe((res) => {
         if (res) {
-          this.membersSerive.delete(id).subscribe(
-            (res) => {
-              console.log(res);
-            },
-            (err) => {
-              AppUtil.showError(err);
-            }
-          );
+          this.membersSerive
+            .delete(id)
+            .pipe(
+              tap((res) => {
+                this.members$ = this.membersSerive.getAll();
+              })
+            )
+            .subscribe(
+              (res) => {
+                console.log(res);
+              },
+              (err) => {
+                AppUtil.showError(err);
+              }
+            );
         }
       });
   };
