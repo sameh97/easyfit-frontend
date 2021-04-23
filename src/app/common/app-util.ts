@@ -53,6 +53,10 @@ export class AppUtil {
     setTimeout(() => alert('Something went wrong...'), 1);
   }
 
+  public static showWarningMessage(message: string) {
+    alert(message);
+  }
+
   public static appTokenGetter() {
     return localStorage.getItem(Consts.KEY_USER_TOKEN);
   }

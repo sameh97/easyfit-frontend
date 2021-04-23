@@ -6,6 +6,7 @@ import { Member } from 'src/app/model/member';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { AddMemberComponent } from '../add-member/add-member.component';
+import { UpdateMemberComponent } from '../update-member/update-member.component';
 
 @Component({
   selector: 'app-members',
@@ -42,16 +43,19 @@ export class MembersComponent implements OnInit, OnDestroy {
     return member.isActive ? 'Active' : 'Not Active';
   }
 
-  public delete = (id: number, name: string) => {
+  public delete = (id: number, member: Member) => {
+    const message = `Are you sure you want to delete the member with the following name:
+    ${member.firstName} ${member.lastName} ?`;
+
     this.navigationService
-      .openYesNoDialogNoCallback(`Are you sure you want to delete ${name}?`)
+      .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
           this.membersSerive
             .delete(id)
             .pipe(
               tap((res) => {
-                this.members$ = this.membersSerive.getAll();
+                this.getAll();
               })
             )
             .subscribe(
@@ -76,6 +80,20 @@ export class MembersComponent implements OnInit, OnDestroy {
     } else {
       this.subscriptions.push(
         this.navigationService.openDialog(AddMemberComponent).subscribe()
+      );
+    }
+  }
+
+  public openUpdateMemberDialog(member: Member) {
+    if (this.navigationService.isMobileMode()) {
+      this.subscriptions.push(
+        this.navigationService
+          .openDialog(UpdateMemberComponent, '100vw', null, true)
+          .subscribe()
+      );
+    } else {
+      this.subscriptions.push(
+        this.navigationService.openDialog(UpdateMemberComponent, null, member, null).subscribe()
       );
     }
   }

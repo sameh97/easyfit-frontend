@@ -1,9 +1,14 @@
 <app-nav-bar></app-nav-bar>
-
-<button (click)="openCreateMemberDialog()" type="button" class="btn btn-success">Add member</button>
-
-<input class="form-control mr-sm-2" [(ngModel)]="searchValue" name="searchInMembers" type="search" placeholder="Search"
-  aria-label="Search">
+<br>
+<div class="example-button-container">
+  <button type="button" (click)="openCreateMemberDialog()" mat-mini-fab color="primary"
+    aria-label="Example icon button with a plus one icon">
+    <mat-icon>plus_one</mat-icon>
+  </button>
+</div>
+<br><br>
+<input style="width: 250px;" class="form-control mr-sm-2" [(ngModel)]="searchValue" name="searchInMembers" type="search"
+  placeholder="Search" aria-label="Search">
 <table class="table">
   <thead>
     <tr>
@@ -14,8 +19,10 @@
       <th scope="col">birthDay</th>
       <th scope="col">email</th>
       <th scope="col">address</th>
+      <th scope="col">phone</th>
       <th scope="col">status</th>
       <th scope="col">Join date</th>
+      <th scope="col">membership expiration date</th>
       <th scope="col">action</th>
     </tr>
   </thead>
@@ -29,12 +36,14 @@
       <td>{{member.birthDay | date }}</td>
       <td>{{member.email }}</td>
       <td>{{member.address }}</td>
+      <td>{{member.phone }}</td>
       <td [ngClass]="{'btn btn-success' : member.isActive,
                       'btn btn-danger' : !member.isActive}">{{getActiveDisplayString(member) }}</td>
       <td>{{member.joinDate | date }}</td>
-      <td><button (click)="delete(member.id, member.firstName)" type="button" mat-raised-button
-          color="warn">Delete</button>
-        <button style="margin-left: 10px;" mat-raised-button color="primary">Primary</button>
+      <td>{{member.endOfMembershipDate | date }}</td>
+      <td><button (click)="delete(member.id, member)" type="button" mat-raised-button color="warn">Delete</button>
+        <button (click)="openUpdateMemberDialog(member)" style="margin-left: 10px;" mat-raised-button
+          color="primary">Edit</button>
       </td>
     </tr>
   </tbody>

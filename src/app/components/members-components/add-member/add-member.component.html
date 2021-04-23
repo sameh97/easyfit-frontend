@@ -1,130 +1,102 @@
-<!-- <form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
-  <span class="centered-form-heading">Add a new member</span>
-  <div class="grid-container">
-    <div class="grid-item-full-width">
-      <div class="form-group">
-        <label for="firstName" class="sr-only">first name</label>
-        <input [(ngModel)]="member.firstName" name="firstName" class="form-control" placeholder="first name"
-          formControlName="firstName">
+<div class="center">
+  <h2 mat-dialog-title>Create Member </h2>
+</div>
 
-        <div *ngIf="isInputValidationFailed(firstName)" class="validation-err-container">
-          <div *ngIf="firstName.errors.required">
-            first name is required.
-          </div>
-          <div *ngIf="firstName.errors.minlength">
-            first name must be at least {{ firstName.errors.minlength.requiredLength }} characters long.
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="center">
 
-    <div class="grid-item-full-width">
-      <div class="form-group">
-        <label for="lastName" class="sr-only">last name</label>
-        <input [style.border]="getInputBorderStyle(lastName)" [(ngModel)]="member.lastName" name="lastName"
-          placeholder="last name" class="form-control" formControlName="lastName" />
-      </div>
-    </div>
+  <form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm">
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>first name</mat-label>
+        <input [(ngModel)]="member.firstName" name="firstName" formControlName="firstName" matInput
+          placeholder="Placeholder">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-     <div class="grid-item-full-width">
-      <div class="form-group">
-        <label for="description" class="sr-only">Description</label>
-        <input [style.border]="getInputBorderStyle(description)" [(ngModel)]="quiz.description" name="description"
-          placeholder="Description" class="form-control" formControlName="description" />
-      </div>
-    </div> 
-    <div id="checkboxes-container" class="grid-item-full-width">
-      <mat-checkbox [checked]="quiz.isPublic" (change)="publicChanged($event.checked)">Show in public
-      </mat-checkbox>
-      <mat-checkbox [checked]="attachAnImage" (change)="attachAnImageChanged($event.checked)">Attach an image
-      </mat-checkbox>
-    </div>
-    <div class="grid-item-full-width">
-      <div *ngIf="!quiz.isPublic">
-        <button (click)="openChooseUsersDialog()"
-          class="btn btn-outline-primary">{{ getUserSelectionButtonText() }}</button>
-      </div>
-      <div *ngIf="!!attachAnImage">
-        <label for="image">Image</label>
-        <input type="file" class="form-control" formControlName="image" placeholder="Image" accept=".png, .jpg, .jpeg"
-          (change)="handleSelectedImage($event.target.files)">
-      </div>
-    </div>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>last name</mat-label>
+        <input [(ngModel)]="member.lastName" name="lastName" formControlName="lastName" matInput
+          placeholder="Last Name">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-    <div class="grid-item-full-width">
-      <div class="add-input-container">
-        <input #answerInput type="text" placeholder="Add answer" aria-label="Add answer">
-        <button class="btn btn-outline-primary" (click)="addAnswer(answerInput.value)">Add</button>
-      </div>
-    </div>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>Email</mat-label>
+        <input [(ngModel)]="member.email" type="email" name="email" formControlName="email" matInput
+          placeholder="Email">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-    <div class="grid-item-full-width quiz-answers-list">
-      <span class="answers-list-title" mat-subheader>Answers list:</span>
-      <div mat-subheader *ngIf="quiz.answers.length === 0">
-        Please add answers to the quiz
-      </div>
-      <mat-list-item *ngFor="let answer of quiz.answers">
-        <div class="quiz-answer-list-item" (click)="setCorrect(answer)">
-          <div class="action-btn" *ngIf="answer.isCorrect;else not_correct">
-            <mat-icon mat-list-icon>done</mat-icon>
-          </div>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>join Date</mat-label>
+        <input [(ngModel)]="member.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput
+          placeholder="join time">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-          <ng-template class="action-btn" #not_correct>
-            <mat-icon mat-list-icon>arrow_forward_ios</mat-icon>
-          </ng-template>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>End Date</mat-label>
+        <input [(ngModel)]="member.endOfMembershipDate" type="date" name="endOfMembershipDate"
+          formControlName="endOfMembershipDate" matInput placeholder="End Date">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-          <p class="answer-content">{{answer.content}}</p>
 
-          <mat-icon class="action-btn" (click)="deleteAnswer(answer)">delete</mat-icon>
-        </div>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </div>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>Phone</mat-label>
+        <input [(ngModel)]="member.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-    <div class="grid-item-cancel-btn">
-      <button id="cancel-btn" class="btn btn-default btn-block" mat-dialog-close>
-        Cancel
-      </button>
-    </div>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>Address</mat-label>
+        <input [(ngModel)]="member.address" type="text" name="address" formControlName="address" matInput
+          placeholder="Address">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-    <div class="grid-item-add-quiz">
-      <button id="add-quiz-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid" (click)="addQuiz()">
-        Add quiz
-      </button>
-    </div>
-  </div>
-</form>
--->
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>BirthDay</mat-label>
+        <input [(ngModel)]="member.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput
+          placeholder="BirthDay">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
 
-<p>
-  <mat-form-field appearance="legacy">
-    <mat-label>Legacy form field</mat-label>
-    <input matInput placeholder="Placeholder">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="standard">
-    <mat-label>Standard form field</mat-label>
-    <input matInput placeholder="Placeholder">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="fill">
-    <mat-label>Fill form field</mat-label>
-    <input matInput placeholder="Placeholder">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
-<p>
-  <mat-form-field appearance="outline">
-    <mat-label>Outline form field</mat-label>
-    <input matInput placeholder="Placeholder">
-    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-    <mat-hint>Hint</mat-hint>
-  </mat-form-field>
-</p>
+    <p>
+      <mat-form-field appearance="standard">
+        <mat-label>Image - <small>Optional</small></mat-label>
+        <input [(ngModel)]="member.imageURL" type="text" name="imageURL" formControlName="imageURL" matInput
+          placeholder="Image">
+        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>
+      </mat-form-field>
+    </p>
+
+    <button id="add-member-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid" (click)="create()">
+      Add member
+    </button>
+  </form>
+</div>

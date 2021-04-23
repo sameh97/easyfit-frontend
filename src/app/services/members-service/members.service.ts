@@ -12,6 +12,7 @@ export class MembersService {
   private readonly url = `${Consts.BASE_URL}/api/members`;
   private readonly addUrl = `${Consts.BASE_URL}/api/add-member`;
   private readonly deleteUrl = `${Consts.BASE_URL}/api/member`;
+  private readonly updateURL = `${Consts.BASE_URL}/api/update-member`;
 
   private gymId: number;
 
@@ -33,6 +34,10 @@ export class MembersService {
     return this.http.post<Member[]>(`${this.url}?gymId=${this.gymId}`, {
       observe: 'response',
     });
+  };
+
+  public update = (member: Member): Observable<Member> => {
+    return this.http.put<Member>(this.updateURL, member);
   };
 
   public delete = (id: number): Observable<any> => {
