@@ -11,15 +11,18 @@ import { AuthenticationService } from './../authentication.service';
 export class MembersService {
   private readonly url = `${Consts.BASE_URL}/api/members`;
   private readonly addUrl = `${Consts.BASE_URL}/api/add-member`;
-  private readonly deleteUrl = `${Consts.BASE_URL}/api/delete-member`;
+  private readonly deleteUrl = `${Consts.BASE_URL}/api/member`;
+  private readonly updateURL = `${Consts.BASE_URL}/api/update-member`;
 
-  //TODO: init this var somewhere else:
-  private gymId = this.authService.getGymId();
+  private gymId: number;
 
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
-  ) {}
+  ) {
+    //TODO: init gym id somewhere else:
+    this.gymId = this.authService.getGymId();
+  }
 
   public create = (member: Member): Observable<any> => {
     member.gymId = this.gymId;
@@ -31,6 +34,10 @@ export class MembersService {
     return this.http.post<Member[]>(`${this.url}?gymId=${this.gymId}`, {
       observe: 'response',
     });
+  };
+
+  public update = (member: Member): Observable<Member> => {
+    return this.http.put<Member>(this.updateURL, member);
   };
 
   public delete = (id: number): Observable<any> => {
