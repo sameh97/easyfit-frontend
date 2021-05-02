@@ -18,11 +18,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedModule } from './shared/shared.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MachinesComponent } from './components/machines-components/machines/machines.component';
+import { CreateMachineComponent } from './components/machines-components/create-machine/create-machine.component';
+import { EditMachineComponent } from './components/machines-components/edit-machine/edit-machine.component';
+import { MachinesTableComponent } from './components/machines-components/machines-table/machines-table.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
+
+  
   //TODO: make 404 page
 ];
 
@@ -38,6 +49,10 @@ const routes: Routes = [
     ProductsComponent,
     AddMemberComponent,
     UpdateMemberComponent,
+    MachinesComponent,
+    CreateMachineComponent,
+    EditMachineComponent,
+    MachinesTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +64,9 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
