@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BadInputError } from '../exceptions';
 import { NotFoundError } from '../exceptions/not-found-error';
 import { AccessDeniedError } from '../exceptions/access-denied-error';
-import { Consts } from './consts';
+import { AppConsts } from './consts';
 import { User } from '../model/user';
 
 export class AppUtil {
@@ -39,6 +39,10 @@ export class AppUtil {
     return throwError(new Error(bodyContent));
   }
 
+  public static showErrorMessage(message: string) {
+    alert(message);
+  }
+
   public static showError(err: Error): void {
     if (err instanceof AccessDeniedError) {
       setTimeout(() => alert('Access denied!'), 1);
@@ -58,7 +62,7 @@ export class AppUtil {
   }
 
   public static appTokenGetter() {
-    return localStorage.getItem(Consts.KEY_USER_TOKEN);
+    return localStorage.getItem(AppConsts.KEY_USER_TOKEN);
   }
 
   public static handleNullError(nullField: string) {

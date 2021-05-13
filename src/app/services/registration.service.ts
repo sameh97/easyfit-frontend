@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
-import { Consts } from '../common/consts';
+import { AppConsts } from '../common/consts';
 import { catchError } from 'rxjs/operators';
 import { AppUtil } from '../common/app-util';
 
@@ -10,7 +10,7 @@ import { AppUtil } from '../common/app-util';
   providedIn: 'root',
 })
 export class RegistrationService {
-  private url: string = `${Consts.BASE_URL}/api/register`;
+  private url: string = `${AppConsts.BASE_URL}/api/register`;
   constructor(private http: HttpClient) {}
 
   public register(user: User): Observable<any> {

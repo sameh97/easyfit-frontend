@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
       (res) => {
         console.log(res);
         this.authService.persistTokenFromResponse(res);
-        this.router.navigateByUrl('/home');;
+        this.router.navigateByUrl('/home');
       },
       (err: Error) => {
         console.log(JSON.stringify(err));
