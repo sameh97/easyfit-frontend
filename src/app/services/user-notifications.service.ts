@@ -26,7 +26,7 @@ export class UserNotificationsService extends ClientDataService {
     public http: HttpClient
   ) {
     super(`${AppConsts.BASE_URL}/api/v1/notifications/`, http);
-    this.initNotificationsForCurrentUser();
+    // this.initNotificationsForCurrentUser();
   }
 
   public initNotificationsForUser(userId: string): void {
@@ -45,32 +45,6 @@ export class UserNotificationsService extends ClientDataService {
           this.authService.logout();
         }
       );
-  }
-
-  public updateCurrentUserNotificationsIfNecessary(
-    message: AppNotificationMessage
-  ): void {
-    try {
-      if (!message || !this.currentUser) {
-        return null;
-      }
-
-      if (
-        message &&
-        message.targetUserIds &&
-        message.shouldAppearInUserNotifications(this.currentUser.id)
-      ) {
-        this.addToMyNotifications([message]);
-      }
-    } catch (ex) {
-      const messageToString = message.content
-        ? JSON.stringify(message.content)
-        : null;
-      console.error(
-        `An error ocurred while handling notification message: ${messageToString}. Error: ${ex.toString()}`
-      );
-      throw ex;
-    }
   }
 
   public getNotificaitonsListForUser(

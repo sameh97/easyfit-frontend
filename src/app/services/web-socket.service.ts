@@ -41,7 +41,7 @@ export class WebSocketService implements OnDestroy {
     for (const topicKey of Object.keys(SocketTopics)) {
       this.stompTopicSubscriptionSubjects.set(
         SocketTopics[topicKey],
-        new Subject<any>()
+        new Subject<AppNotificationMessage>()
       );
     }
 
@@ -103,6 +103,8 @@ export class WebSocketService implements OnDestroy {
     this.socket.on('connect_error', (error) => {
       this.socketFailedToConnectCallback.call(this, error);
     });
+
+    this.socket.on('event', (msg) => console.log(msg));
   }
 
   private listenToAllTopics(): void {
@@ -113,17 +115,12 @@ export class WebSocketService implements OnDestroy {
         let currTopic: string = stompTopicsIterator.next().value;
 
         while (AppUtil.hasValue(currTopic)) {
-          const subscription: any = socket.subscribe(
-            `/topic${currTopic}`,
-            (message: any) => {
-              const messageDestination: string = message
-                ? message.headers['destination']
-                : null;
-              const topic: string = messageDestination
-                ? CoreUtil.removePrefix(messageDestination, '/topic')
-                : '';
+          const subscription: any = socket.on(
+            `${currTopic}`,
+            (message: AppNotificationMessage) => {
+              const topic: string = message.topic;
               this.handleNotificationFromTopic(
-                message ? message.body : null,
+                message,
                 topic
               );
             }
@@ -153,33 +150,24 @@ export class WebSocketService implements OnDestroy {
       .subscribe((client: Stomp.Client) => client.disconnect(null));
   }
 
-  private handleNotificationFromTopic(message: string, topic: string): void {
+  private handleNotificationFromTopic(message: any, topic: string): void {
     const topicSubject: Subject<any> =
       this.stompTopicSubscriptionSubjects.get(topic);
     if (AppUtil.hasValue(topicSubject)) {
       topicSubject.next(message);
     }
-
-    try {
-      const appNotificationMessage = message
-        ? (JSON.parse(message) as AppNotificationMessage)
-        : null;
-      Object.setPrototypeOf(
-        appNotificationMessage,
-        AppNotificationMessage.prototype
-      );
-      this.notificationService.updateCurrentUserNotificationsIfNecessary(
-        appNotificationMessage
-      );
-    } catch (ex) {}
   }
 
-  private jsonHandler(messageString: string): any {
-    if (!messageString) {
+  private jsonHandler(message: any): any {
+    if (!message) {
       return null;
     }
 
-    return JSON.parse(messageString);
+    if (typeof message === 'string') {
+      return JSON.parse(message);
+    }
+
+    return message;
   }
 
   private socketFailedToConnectCallback(error: string | Stomp.Frame): void {

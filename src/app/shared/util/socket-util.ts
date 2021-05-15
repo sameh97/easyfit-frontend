@@ -17,11 +17,9 @@ export function textHandler(message: StompMessage): string {
 }
 
 export const SocketTopics = {
-  TOPIC_QUIZ_LIST_UPDATE: '/quiz-list-update',
-  TOPIC_QUIZ_ANSWERS_UPDATE: '/quiz-answers-update',
-  TOPIC_QUIZ_DELETED_UPDATE: '/quiz-deleted-update',
-  TOPIC_QUIZ_ASSIGNED_TO_USER: '/quiz-assigned-to-user',
-  TOPIC_USER_UPDATE: '/user-update',
+  TOPIC_CLEAN_MACHINE: '/clean-machine',
+  TOPIC_MACHINE_SERVICE: '/machine-service',
+  TOPIC_MEMBER_EXPIRED: '/user-expired',
 };
 
 // export function createNotificationMessageText(

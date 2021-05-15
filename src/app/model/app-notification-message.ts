@@ -2,7 +2,7 @@ import { SocketTopics } from '../shared/util/socket-util';
 
 export class AppNotificationMessage {
   id: string;
-  content: string;
+  content: any;
   topic: string;
   userId: string;
   username: string;
@@ -42,9 +42,11 @@ export class AppNotificationMessage {
     }
     if (
       this.topic.toLowerCase() ===
-        SocketTopics.TOPIC_QUIZ_ANSWERS_UPDATE.toLowerCase() ||
+        SocketTopics.TOPIC_CLEAN_MACHINE.toLowerCase() ||
       this.topic.toLowerCase() ===
-        SocketTopics.TOPIC_QUIZ_ASSIGNED_TO_USER.toLowerCase()
+        SocketTopics.TOPIC_MACHINE_SERVICE.toLowerCase() ||
+      this.topic.toLowerCase() ===
+        SocketTopics.TOPIC_MEMBER_EXPIRED.toLowerCase()
     ) {
       if (this.isUserTargeted(userId)) {
         return true;
