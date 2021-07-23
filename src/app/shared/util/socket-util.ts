@@ -20,6 +20,7 @@ export const SocketTopics = {
   TOPIC_CLEAN_MACHINE: '/clean-machine',
   TOPIC_MACHINE_SERVICE: '/machine-service',
   TOPIC_MEMBER_EXPIRED: '/user-expired',
+  TOPIC_SEND_CLIENT_DATA_TO_SERVER: 'send-client-data',
 };
 
 // export function createNotificationMessageText(

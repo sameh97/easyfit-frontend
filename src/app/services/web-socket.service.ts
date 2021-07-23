@@ -21,6 +21,7 @@ import { AppNotificationMessage } from '../model/app-notification-message';
 // import * as socketIO from 'socket.io-client';
 const socketIO = require('socket.io-client');
 import { R3ExpressionFactoryMetadata } from '@angular/compiler/src/render3/r3_factory';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,10 @@ export class WebSocketService implements OnDestroy {
     Subject<any>
   >();
 
-  constructor(private notificationService: UserNotificationsService) {
+  constructor(
+    private notificationService: UserNotificationsService,
+    private authenticationService: AuthenticationService
+  ) {
     for (const topicKey of Object.keys(SocketTopics)) {
       this.stompTopicSubscriptionSubjects.set(
         SocketTopics[topicKey],
@@ -58,12 +62,8 @@ export class WebSocketService implements OnDestroy {
     }
     this.connectToSocket()
       .pipe(first())
-      .subscribe((client) =>
-        client.send(
-          `/rquiz-socket${message.topic}`,
-          {},
-          JSON.stringify(message)
-        )
+      .subscribe((socket) =>
+        socket.emit(message.topic, JSON.stringify(message))
       );
   }
 
@@ -98,7 +98,9 @@ export class WebSocketService implements OnDestroy {
   private initSocketConnection(url: string): void {
     this.socket = new socketIO(url);
 
-    this.socket.on('connect', () => this.socketConnectedCallback());
+    this.socket.on('connect', () => {
+      this.socketConnectedCallback();
+    });
 
     this.socket.on('connect_error', (error) => {
       this.socketFailedToConnectCallback.call(this, error);
@@ -119,10 +121,7 @@ export class WebSocketService implements OnDestroy {
             `${currTopic}`,
             (message: AppNotificationMessage) => {
               const topic: string = message.topic;
-              this.handleNotificationFromTopic(
-                message,
-                topic
-              );
+              this.handleNotificationFromTopic(message, topic);
             }
           );
           currTopic = stompTopicsIterator.next().value;
@@ -142,6 +141,15 @@ export class WebSocketService implements OnDestroy {
 
   private socketConnectedCallback(): void {
     this.sockectState.next(SocketClientState.CONNECTED);
+
+    const currentGymID = this.authenticationService.getGymId();
+
+    const dataToSendToServer = new AppNotificationMessage(
+      currentGymID,
+      SocketTopics.TOPIC_SEND_CLIENT_DATA_TO_SERVER
+    );
+
+    this.send(dataToSendToServer);
   }
 
   ngOnDestroy(): void {
