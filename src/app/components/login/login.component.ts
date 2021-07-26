@@ -14,14 +14,21 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.authService.setCurrentUser();
+      this.router.navigate(['home']);
+    } else {
+      this.router.navigate(['login']);
+    }
+  }
 
   public login(user) {
     this.authService.login(user).subscribe(
       (res) => {
         console.log(res);
         this.authService.persistTokenFromResponse(res);
-        this.router.navigateByUrl('/home');;
+        this.router.navigateByUrl('/home');
       },
       (err: Error) => {
         console.log(JSON.stringify(err));
