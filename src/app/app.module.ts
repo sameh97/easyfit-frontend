@@ -5,10 +5,10 @@ import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
-import { HomePageComponent } from './components/home-page/home-page.component';
+
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+
 import { MembersComponent } from './components/members-components/members/members.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
 import { ProductsComponent } from './components/products/products.component';
@@ -44,8 +44,8 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
+  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
 
-  
   //TODO: make 404 page
 ];
 
@@ -53,9 +53,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    HomePageComponent,
     RegisterPageComponent,
-    NavBarComponent,
     MembersComponent,
     SearchfilterPipe,
     ProductsComponent,
