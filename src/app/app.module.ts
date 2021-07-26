@@ -36,6 +36,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
+import { MembersChartComponent } from './components/members-chart/members-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -66,6 +67,7 @@ const routes: Routes = [
     MachinesTableComponent,
     NavComponent,
     HomeComponent,
+    MembersChartComponent,
   ],
   imports: [
     BrowserModule,

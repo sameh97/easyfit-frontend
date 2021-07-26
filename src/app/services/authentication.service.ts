@@ -71,6 +71,15 @@ export class AuthenticationService {
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
+  public setCurrentUser() {
+    const token: string = window.localStorage.getItem(
+      AppConsts.KEY_USER_TOKEN
+    )!;
+
+    const user = this.extractUserFromToken(token);
+    this.currentUserSubject.next(user);
+  }
+
   private extractUserFromToken(token: string): User {
     if (!token) {
       return null;

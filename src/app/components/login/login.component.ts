@@ -14,7 +14,14 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.authService.setCurrentUser();
+      this.router.navigate(['home']);
+    } else {
+      this.router.navigate(['login']);
+    }
+  }
 
   public login(user) {
     this.authService.login(user).subscribe(
