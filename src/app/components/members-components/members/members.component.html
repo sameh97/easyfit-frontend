@@ -1,7 +1,12 @@
 <app-nav-bar></app-nav-bar>
 
-<app-add-member></app-add-member>
-
+<div class="example-button-container">
+  <button type="button" (click)="openCreateMemberDialog()" mat-mini-fab color="primary"
+    aria-label="Example icon button with a plus one icon">
+    <mat-icon>plus_one</mat-icon>
+  </button>
+</div>
+<br><br>
 <input class="form-control mr-sm-2" [(ngModel)]="searchValue" name="searchInMembers" type="search" placeholder="Search"
   aria-label="Search">
 <table class="table">
@@ -30,9 +35,11 @@
       <td>{{member.email }}</td>
       <td>{{member.address }}</td>
       <td [ngClass]="{'btn btn-success' : member.isActive,
-                      'btn btn-danger' : !member.isActive}">{{getActiveDisplayString(member) }}</td>
+                      'btn btn-danger' : !member.isActive}">{{getActiveDisplayString(member)}}</td>
       <td>{{member.joinDate | date }}</td>
-      <td><button (click)="delete(member.id, member.firstName)" type="button" class="btn btn-danger">Delete</button>
+      <td><button (click)="delete(member.id, member)" type="button" class="btn btn-danger">Delete</button>
+      <button (click)="openUpdateMemberDialog(member)" style="margin-left: 10px;" mat-raised-button
+          color="primary">Edit</button>
       </td>
     </tr>
   </tbody>

@@ -1,5 +1,5 @@
-export class Member {
-  public id: number;
+export class Trainer {
+    public id: number;
   public firstName: string;
   public lastName: string;
   public phone: string;
@@ -7,8 +7,8 @@ export class Member {
   public email: string;
   public address: string;
   public isActive: boolean;
+  public certificationDate : Date;
   public joinDate: Date;
-  public endOfMembershipDate : Date;
   public imageURL: string;
   public gymId: number;
 }

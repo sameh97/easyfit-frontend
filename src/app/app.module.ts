@@ -16,11 +16,19 @@ import { AddMemberComponent } from './components/members-components/add-member/a
 import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from './shared/shared.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TrainersComponent } from './components/trainers-components/trainers/trainers.component';
+import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
+import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer.component';
+
+
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  { path: 'trainers', component: TrainersComponent, canActivate: [AuthGuard] },
   //TODO: make 404 page
 ];
 
@@ -36,6 +44,9 @@ const routes: Routes = [
     ProductsComponent,
     AddMemberComponent,
     UpdateMemberComponent,
+    TrainersComponent,
+    UpdateTrainerComponent,
+    AddTrainerComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +55,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
