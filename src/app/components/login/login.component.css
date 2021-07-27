@@ -1,6 +1,13 @@
-.login-form {
-    background-color: #eeece6;
-    padding: 60px;
-    border-radius: 20px;
-  }
-  
+/* .login-form {
+
+
+  padding: 60px;
+  border-radius: 20px;
+} */
+
+body {
+  background-image: url('https://images.pexels.com/photos/577210/pexels-photo-577210.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+    );
+
+  background-size: cover;
+}
