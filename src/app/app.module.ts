@@ -40,12 +40,17 @@ import { MembersChartComponent } from './components/members-chart/members-chart.
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MembersPageComponent } from './components/members-components/members-page/members-page.component';
 import { MembersTableComponent } from './components/members-components/members-table/members-table.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'members', component: MembersPageComponent, canActivate: [AuthGuard] },
+  {
+    path: 'members',
+    component: MembersPageComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
 
@@ -95,6 +100,7 @@ const routes: Routes = [
     MatCardModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
