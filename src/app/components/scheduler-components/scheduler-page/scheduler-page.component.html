@@ -1,0 +1,56 @@
+<app-nav>
+
+  <div class="grid-container">
+    <div class="row1"></div>
+    <div class="row2">
+
+      <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
+        <mat-list>
+          <!--   public id: number;
+  public jobID: number;
+  public machineID: number;
+  public startTime: Date;
+  public endTime: Date;
+  public hoursFrequency: number;
+  public isActive: Boolean;
+  public gymId: number; -->
+          <mat-list-item *cdkVirtualFor="let scheduledjob of scheduledJobs" class="example-item">
+            <div class="grid-container-list-item">
+              <div class="details">
+
+                <h3 matLine>{{getJob(scheduledjob.jobID)}} Job</h3>
+                <h4 matLine> Status: {{getJobStatus(scheduledjob.isActive)}}</h4>
+                <p matLine>
+                  <span> Start time: {{scheduledjob.startTime | date}} </span>
+                </p>
+                <p matLine>
+                  <span> End time: {{scheduledjob.endTime | date}}</span>
+                </p>
+                <p matLine>
+                  <span> Runs Every: {{splitTime(scheduledjob.hoursFrequency).Days}} days
+                    {{splitTime(scheduledjob.hoursFrequency).Hours}} Hours</span>
+                  <!-- TODO: convert to days -->
+                </p>
+
+                <p matLine>
+                  <!-- <span> End time: {{scheduledjob.endTime | date}}</span> -->
+                  <button mat-stroked-button color="primary"
+                    (click)="openMachineDetailsDialog(scheduledjob.machineID)">Machine Details</button>
+                </p>
+              </div>
+              <div class="edit"> <button mat-flat-button color="primary">Edit</button></div>
+              <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)"
+                  color="warn">Delete</button></div>
+
+            </div>
+
+          </mat-list-item>
+
+        </mat-list>
+
+      </cdk-virtual-scroll-viewport>
+
+    </div>
+    <div class="row3"></div>
+  </div>
+</app-nav>

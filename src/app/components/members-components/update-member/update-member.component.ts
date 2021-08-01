@@ -16,6 +16,7 @@ import { MembersService } from 'src/app/services/members-service/members.service
   templateUrl: './update-member.component.html',
   styleUrls: ['./update-member.component.css'],
 })
+
 export class UpdateMemberComponent implements OnInit, OnDestroy {
   updateMemberForm: FormGroup;
   private subscriptions: Subscription[] = [];
