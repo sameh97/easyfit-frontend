@@ -52,6 +52,7 @@ export class UpdateMemberComponent implements OnInit, OnDestroy {
         this.member.address,
         [Validators.required, Validators.minLength(3)],
       ],
+      gender: [this.member.gender, Validators.required],
       birthDay: [this.member.birthDay, [Validators.required]],
       imageURL: [this.member.imageURL],
     });

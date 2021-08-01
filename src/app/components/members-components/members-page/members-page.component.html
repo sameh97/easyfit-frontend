@@ -6,10 +6,12 @@
         <mat-card class="dashboard-card">
           <mat-card-header>
             <mat-card-title>
-              All Members 
+              All Members
+              <!-- TODO: deal with this (more button) -->
               <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
                 <mat-icon>more_vert</mat-icon>
               </button>
+
               <button style="margin-left: 10px;" type="button" (click)="openCreateMemberDialog()" mat-mini-fab
                 color="primary" aria-label="Example icon button with a plus one icon">
                 <mat-icon>plus_one</mat-icon>

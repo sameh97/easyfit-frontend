@@ -53,7 +53,7 @@ export class MembersPageComponent implements OnDestroy, AfterViewChecked {
     if (this.navigationService.isMobileMode()) {
       this.subscriptions.push(
         this.navigationService
-          .openDialog(AddMemberComponent, '100vw', null, true)
+          .openDialog(AddMemberComponent, '100px', null, true)
           .subscribe()
       );
     } else {

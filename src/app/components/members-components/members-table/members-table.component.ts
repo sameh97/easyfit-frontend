@@ -69,6 +69,12 @@ export class MembersTableComponent implements OnInit, AfterViewInit {
 
   public getRows = (): number => {
     let rowsNum = Math.ceil(this.dataSource.data.length / 5);
+    if (rowsNum === 0) {
+      return 1;
+    }
+    if (rowsNum > 5) {
+      return 5;
+    }
     return rowsNum;
   };
 

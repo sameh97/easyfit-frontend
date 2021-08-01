@@ -34,7 +34,7 @@ export class NavigationHelperService {
     dialogData?: any,
     isFullScreen?: boolean
   ) {
-    let dialogWidth = '450px';
+    let dialogWidth = '500px';
     if (width) {
       dialogWidth = width;
     }
@@ -52,6 +52,7 @@ export class NavigationHelperService {
     } else {
       dialogRef = this.dialog.open(dialog, {
         width: dialogWidth,
+
         data: dialogData,
       });
     }

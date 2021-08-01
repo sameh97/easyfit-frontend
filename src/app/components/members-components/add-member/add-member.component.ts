@@ -29,6 +29,7 @@ export class AddMemberComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       joinDate: ['', [Validators.required]],
       endOfMembershipDate: ['', [Validators.required]],
+      gender: [Validators.required],
       phone: ['', [Validators.required, Validators.minLength(4)]],
       address: ['', [Validators.required, Validators.minLength(3)]],
       birthDay: ['', [Validators.required]],
