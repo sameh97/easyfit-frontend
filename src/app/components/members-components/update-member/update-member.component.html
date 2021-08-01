@@ -5,90 +5,107 @@
 <div class="center">
 
   <form *ngIf="updateMemberForm" #theForm="ngForm" [formGroup]="updateMemberForm" (ngSubmit)="update(theForm.value)">
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>first name</mat-label>
-        <input name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+    <div class="grid-container">
+      <div class="first-name">
+        <mat-form-field appearance="standard">
+          <mat-label>first name</mat-label>
+          <input name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
 
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>last name</mat-label>
-        <input name="lastName" formControlName="lastName" matInput placeholder="Last Name">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>Email</mat-label>
-        <input type="email" name="email" formControlName="email" matInput placeholder="Email">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>join Date</mat-label>
-        <input type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>End Date</mat-label>
-        <input type="date" name="endOfMembershipDate" formControlName="endOfMembershipDate" matInput
-          placeholder="End Date">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+      <div class="last-name">
+        <mat-form-field appearance="standard">
+          <mat-label>last name</mat-label>
+          <input name="lastName" formControlName="lastName" matInput placeholder="Last Name">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
 
 
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>Phone</mat-label>
-        <input name="phone" formControlName="phone" matInput placeholder="Phone">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+      <div class="end-date">
 
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>Address</mat-label>
-        <input type="text" name="address" formControlName="address" matInput placeholder="Address">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+        <!-- TODO: fix the date display problem -->
+        <mat-form-field class="wide" appearance="standard">
+          <mat-label>End Date</mat-label>
+          <input type="date" name="endOfMembershipDate" formControlName="endOfMembershipDate" matInput
+            placeholder="End Date">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
 
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>BirthDay</mat-label>
-        <input type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+      </div>
+      <div class="email-class">
 
-    <p>
-      <mat-form-field appearance="standard">
-        <mat-label>Image</mat-label>
-        <input type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field>
-    </p>
+        <mat-form-field appearance="standard">
+          <mat-label>Email</mat-label>
+          <input type="email" name="email" formControlName="email" matInput placeholder="Email">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
 
-    <button id="add-member-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
-      Update </button>
+      <div class="address-class">
+        <mat-form-field appearance="standard">
+          <mat-label>Address</mat-label>
+          <input type="text" name="address" formControlName="address" matInput placeholder="Address">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="phone">
+        <mat-form-field appearance="standard">
+          <mat-label>Phone</mat-label>
+          <input name="phone" formControlName="phone" matInput placeholder="Phone">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
+      <!-- TODO: fix the date display problem -->
+      <div class="birthday">
+        <mat-form-field appearance="standard">
+          <mat-label>BirthDay</mat-label>
+          <input type="date" name="birthDay" formControlName="birthDay" format="longDate" mask="dd-MM-y"
+            [(ngModel)]="member.birthDay" matInput placeholder="Birth Day">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+
+
+      </div>
+      <!-- TODO: fix the date display problem -->
+      <div class="join-date">
+        <mat-form-field class="wide" appearance="standard">
+          <mat-label>join Date</mat-label>
+          <input type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+
+      </div>
+
+      <div class="image">
+        <mat-form-field class="wide" appearance="standard">
+          <mat-label>Image</mat-label>
+          <input type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="gender">
+        <mat-radio-group [(ngModel)]="member.gender" formControlName="gender" aria-label="Select an option">
+          <mat-radio-button value="1">Male</mat-radio-button>
+          <mat-radio-button value="2">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <button id="add-member-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Update </button>
+    </div>
   </form>
 </div>

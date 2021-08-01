@@ -38,12 +38,27 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MembersChartComponent } from './components/members-chart/members-chart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MembersPageComponent } from './components/members-components/members-page/members-page.component';
+import { MembersTableComponent } from './components/members-components/members-table/members-table.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatRadioModule } from '@angular/material/radio';
+// import { MatRadioModule } from '@angular/material/radio';
+// import { MatSelectModule } from '@angular/material/select';
+// import {
+//   MatDatepicker,
+//   MatDatepickerModule,
+// } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'members',
+    component: MembersPageComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
 
@@ -67,6 +82,8 @@ const routes: Routes = [
     NavComponent,
     HomeComponent,
     MembersChartComponent,
+    MembersPageComponent,
+    MembersTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +108,10 @@ const routes: Routes = [
     MatCardModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    FlexLayoutModule,
+    MatRadioModule,
   ],
+
   providers: [],
   bootstrap: [AppComponent],
 })
