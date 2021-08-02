@@ -9,7 +9,7 @@ import { AuthenticationService } from '../authentication.service';
   providedIn: 'root',
 })
 export class SchedulerService {
-  private readonly url = `${AppConsts.BASE_URL}/api/schedules`;
+  private readonly url = `${AppConsts.BASE_URL}/api`;
 
   constructor(
     private http: HttpClient,
@@ -30,26 +30,26 @@ export class SchedulerService {
     scheduleJob.gymId = this.gymId;
 
     return this.http.post<ScheduledJob>(
-      `${this.url}/api/add-schedule?gymId=${this.gymId}`,
+      `${this.url}/add-schedule?gymId=${this.gymId}`,
       scheduleJob
     );
   };
 
   public getAll = (): Observable<ScheduledJob[]> => {
     this.initGymID();
-    return this.http.get<ScheduledJob[]>(`${this.url}?gymId=${this.gymId}`);
+    return this.http.get<ScheduledJob[]>(
+      `${this.url}/schedules?gymId=${this.gymId}`
+    );
   };
 
   public update = (scheduledJob: ScheduledJob): Observable<ScheduledJob> => {
     return this.http.put<ScheduledJob>(
-      `${this.url}/api/update-schedule`,
+      `${this.url}/update-schedule`,
       scheduledJob
     );
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(
-      `${AppConsts.BASE_URL}/api/delete-schedule?id=${id}`
-    );
+    return this.http.delete(`${this.url}/delete-schedule?id=${id}`);
   };
 }

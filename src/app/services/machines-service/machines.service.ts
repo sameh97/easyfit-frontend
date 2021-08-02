@@ -17,9 +17,9 @@ export class MachinesService {
     private authService: AuthenticationService
   ) {}
 
-  public getById = (machineId: number): Observable<Machine> => {
+  public getBySerialNumber = (machineSerialNumber: number): Observable<Machine> => {
     return this.http.get<Machine>(
-      `${AppConsts.BASE_URL}/api/machine?machineId=${machineId}`
+      `${AppConsts.BASE_URL}/api/machine?serialNumber=${machineSerialNumber}`
     );
   };
 

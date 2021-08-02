@@ -4,6 +4,7 @@ export class Machine {
   public description: string;
   public productionYear: number;
   public supplierName?: string;
+  public serialNumber: string;
   public productionCompany?: string;
   public price: number;
   public type?: string;

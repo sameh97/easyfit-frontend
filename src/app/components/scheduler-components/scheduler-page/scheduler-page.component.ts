@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Machine } from 'src/app/model/machine';
 import { ScheduledJob } from 'src/app/model/scheduled-job';
@@ -8,6 +8,7 @@ import { MachinesService } from 'src/app/services/machines-service/machines.serv
 import { SchedulerService } from 'src/app/services/scheduler-service/scheduler.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { MachineDetailsComponent } from '../machine-details/machine-details.component';
+import { UpdateScheduledJobComponent } from '../update-scheduled-job/update-scheduled-job.component';
 
 @Component({
   selector: 'app-scheduler-page',
@@ -56,40 +57,36 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     }
   };
 
-  public getMachineById = (machineID: number): Observable<Machine> => {
+  public getMachineBySerialNumber = (
+    machineSerialNumber: number
+  ): Observable<Machine> => {
     // let machineToRetreve: Machine;
 
     // this.machineService.getById(machineID).subscribe((machine) => {
     //   machineToRetreve = machine;
     // });
 
-    return this.machineService.getById(machineID);
+    return this.machineService.getBySerialNumber(machineSerialNumber);
   };
 
   public async openMachineDetailsDialog(machineId: number) {
-    const machine$: Observable<Machine> = await this.machineService.getById(
-      machineId
+    const machine$: Observable<Machine> =
+      this.machineService.getBySerialNumber(machineId);
+
+    this.subscriptions.push(
+      machine$
+        .pipe(
+          switchMap((machine) => {
+            return this.navigationService.openDialog(
+              MachineDetailsComponent,
+              null,
+              machine,
+              null
+            );
+          })
+        )
+        .subscribe()
     );
-
-    let machine: Machine;
-
-    machine$.subscribe((machineFromDb) => {
-      machine = machineFromDb;
-    });
-
-    if (this.navigationService.isMobileMode()) {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(MachineDetailsComponent, '100vw', null, true)
-          .subscribe()
-      );
-    } else {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(MachineDetailsComponent, null, machine, null)
-          .subscribe()
-      );
-    }
   }
 
   public splitTime(numberOfHours) {
@@ -107,8 +104,8 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
 
   public delete = (scheduledJob: ScheduledJob) => {
     //TODO: make the message show the machine's details:
-    const message = `Are you sure you want to delete the Scheduled job for the following machine:
-    ${scheduledJob.machineID}?`;
+    const message = `Are you sure you want to delete the Scheduled job for the machine with serial number:
+    ${scheduledJob.machineSerialNumber}?`;
 
     this.navigationService
       .openYesNoDialogNoCallback(message, 500)
@@ -132,4 +129,12 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
         }
       });
   };
+
+  public openUpdateScheduledJobDialog(scheduledJob: ScheduledJob) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(UpdateScheduledJobComponent, null, scheduledJob, null)
+        .subscribe()
+    );
+  }
 }

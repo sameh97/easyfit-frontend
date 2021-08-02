@@ -70,6 +70,8 @@ export class UpdateMemberComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.membersService.update(member).subscribe());
   };
 
+  
+
   get form(): { [key: string]: AbstractControl } {
     return this.updateMemberForm.controls;
   }

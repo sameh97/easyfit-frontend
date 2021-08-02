@@ -35,15 +35,16 @@
                 <p matLine>
                   <!-- <span> End time: {{scheduledjob.endTime | date}}</span> -->
                   <button mat-stroked-button color="primary"
-                    (click)="openMachineDetailsDialog(scheduledjob.machineID)">Machine Details</button>
+                    (click)="openMachineDetailsDialog(scheduledjob.machineSerialNumber)">Machine Details</button>
                 </p>
               </div>
-              <div class="edit"> <button mat-flat-button color="primary">Edit</button></div>
-              <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)"
-                  color="warn">Delete</button></div>
+              <div class="edit"> <button mat-flat-button color="primary"
+                  (click)="openUpdateScheduledJobDialog(scheduledjob)">Edit</button></div>
+              <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)" color="warn">Delete</button>
+              </div>
 
             </div>
-
+            <mat-divider></mat-divider>
           </mat-list-item>
 
         </mat-list>

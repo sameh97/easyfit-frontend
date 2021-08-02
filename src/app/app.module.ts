@@ -45,7 +45,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { SchedulerPageComponent } from './components/scheduler-components/scheduler-page/scheduler-page.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MachineDetailsComponent } from './components/scheduler-components/machine-details/machine-details.component';
-
+import { UpdateScheduledJobComponent } from './components/scheduler-components/update-scheduled-job/update-scheduled-job.component';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -94,6 +101,7 @@ const routes: Routes = [
     MembersTableComponent,
     SchedulerPageComponent,
     MachineDetailsComponent,
+    UpdateScheduledJobComponent,
   ],
   imports: [
     BrowserModule,
@@ -121,6 +129,10 @@ const routes: Routes = [
     FlexLayoutModule,
     MatRadioModule,
     ScrollingModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
   ],
 
   providers: [],
