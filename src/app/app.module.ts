@@ -42,6 +42,18 @@ import { MembersPageComponent } from './components/members-components/members-pa
 import { MembersTableComponent } from './components/members-components/members-table/members-table.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatRadioModule } from '@angular/material/radio';
+import { SchedulerPageComponent } from './components/scheduler-components/scheduler-page/scheduler-page.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MachineDetailsComponent } from './components/scheduler-components/machine-details/machine-details.component';
+import { UpdateScheduledJobComponent } from './components/scheduler-components/update-scheduled-job/update-scheduled-job.component';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AddScheduledJobPageComponent } from './components/scheduler-components/add-scheduled-job-page/add-scheduled-job-page.component';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -61,7 +73,11 @@ const routes: Routes = [
   },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
   { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'scheduler',
+    component: SchedulerPageComponent,
+    canActivate: [AuthGuard],
+  },
   //TODO: make 404 page
 ];
 
@@ -84,6 +100,10 @@ const routes: Routes = [
     MembersChartComponent,
     MembersPageComponent,
     MembersTableComponent,
+    SchedulerPageComponent,
+    MachineDetailsComponent,
+    UpdateScheduledJobComponent,
+    AddScheduledJobPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +130,11 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     FlexLayoutModule,
     MatRadioModule,
+    ScrollingModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
   ],
 
   providers: [],

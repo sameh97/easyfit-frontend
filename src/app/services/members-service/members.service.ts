@@ -37,9 +37,7 @@ export class MembersService {
 
   public getAll = (): Observable<Member[]> => {
     this.initGymID();
-    return this.http.post<Member[]>(`${this.url}?gymId=${this.gymId}`, {
-      observe: 'response',
-    });
+    return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`);
   };
 
   public update = (member: Member): Observable<Member> => {
