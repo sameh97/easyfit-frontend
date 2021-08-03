@@ -1,8 +1,9 @@
 <div class="center">
-  <h2 mat-dialog-title>Edit scheduled job </h2>
+  <h2 mat-dialog-title>Add new job </h2>
 </div>
 
-<form *ngIf="updateJobForm" #theForm="ngForm" [formGroup]="updateJobForm" (ngSubmit)="update(theForm.value)">
+<form *ngIf="addScheduledJobForm && scheduledJob" #theForm="ngForm" [formGroup]="addScheduledJobForm"
+  (ngSubmit)="create()">
 
   <mat-grid-list cols="4" rowHeight="60px">
     <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
@@ -35,12 +36,12 @@
 
     <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">
       <!-- <mat-form-field class="wide">
-        <mat-label>Start time</mat-label>
-        <input [(ngModel)]="scheduledJob.startTime" type="date" name="startTime" formControlName="startTime" matInput
-          placeholder="Start time">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field> -->
+          <mat-label>Start time</mat-label>
+          <input [(ngModel)]="scheduledJob.startTime" type="date" name="startTime" formControlName="startTime" matInput
+            placeholder="Start time">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field> -->
 
       <mat-form-field class="wide">
         <input matInput [ngxMatDatetimePicker]="startTimePicker" placeholder="Choose start time"
@@ -57,12 +58,12 @@
 
     <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">
       <!-- <mat-form-field class="wide">
-        <mat-label>End time</mat-label>
-        <input [(ngModel)]="scheduledJob.endTime" type="date" name="endTime" formControlName="endTime" matInput
-          placeholder="End time">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        <mat-hint>Hint</mat-hint>
-      </mat-form-field> -->
+          <mat-label>End time</mat-label>
+          <input [(ngModel)]="scheduledJob.endTime" type="date" name="endTime" formControlName="endTime" matInput
+            placeholder="End time">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field> -->
 
       <mat-form-field class="wide">
         <input matInput [ngxMatDatetimePicker]="endTimePicker" placeholder="Choose end time"
@@ -81,9 +82,11 @@
     <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
       <mat-form-field class="frequency-full-width" appearance="fill">
         <mat-label>Scheduler Frequency (in days)</mat-label>
-        <input type="number" formControlName="hoursFrequency" matInput placeholder="Frequency" value="1">
+        <input type="number" [(ngModel)]="scheduledJob.daysFrequency" formControlName="daysFrequency" matInput
+          placeholder="Frequency" value="1">
       </mat-form-field>
       <!--  (ngModelChange)="onFrequencySelected($event)" -->
+      <!-- TODO: check if the days is less than the days range between start and end date  -->
     </mat-grid-tile>
 
     <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
@@ -109,6 +112,6 @@
   </mat-grid-list>
 
   <button id="update-job-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
-    Update </button>
+    Add New Job </button>
 
 </form>

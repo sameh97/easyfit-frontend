@@ -53,6 +53,7 @@ import {
   NgxMatNativeDateModule,
 } from '@angular-material-components/datetime-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AddScheduledJobPageComponent } from './components/scheduler-components/add-scheduled-job-page/add-scheduled-job-page.component';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -102,6 +103,7 @@ const routes: Routes = [
     SchedulerPageComponent,
     MachineDetailsComponent,
     UpdateScheduledJobComponent,
+    AddScheduledJobPageComponent,
   ],
   imports: [
     BrowserModule,

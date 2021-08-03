@@ -7,6 +7,7 @@ import { ScheduledJob } from 'src/app/model/scheduled-job';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { SchedulerService } from 'src/app/services/scheduler-service/scheduler.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
+import { AddScheduledJobPageComponent } from '../add-scheduled-job-page/add-scheduled-job-page.component';
 import { MachineDetailsComponent } from '../machine-details/machine-details.component';
 import { UpdateScheduledJobComponent } from '../update-scheduled-job/update-scheduled-job.component';
 
@@ -89,18 +90,18 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  public splitTime(numberOfHours) {
-    var Days = Math.floor(numberOfHours / 24);
-    var Remainder = numberOfHours % 24;
-    var Hours = Math.floor(Remainder);
-    var Minutes = Math.floor(60 * (Remainder - Hours));
-    return { Days: Days, Hours: Hours, Minutes: Minutes };
-  }
+  // public splitTime(numberOfHours) {
+  //   var Days = Math.floor(numberOfHours / 24);
+  //   var Remainder = numberOfHours % 24;
+  //   var Hours = Math.floor(Remainder);
+  //   var Minutes = Math.floor(60 * (Remainder - Hours));
+  //   return { Days: Days, Hours: Hours, Minutes: Minutes };
+  // }
 
-  public timeResult = (numberOfHours) => {
-    const res = this.splitTime(numberOfHours);
-    return res;
-  };
+  // public timeResult = (numberOfHours) => {
+  //   const res = this.splitTime(numberOfHours);
+  //   return res;
+  // };
 
   public delete = (scheduledJob: ScheduledJob) => {
     //TODO: make the message show the machine's details:
@@ -134,6 +135,14 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.navigationService
         .openDialog(UpdateScheduledJobComponent, null, scheduledJob, null)
+        .subscribe()
+    );
+  }
+
+  public openCreateScheduledJobDialog() {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(AddScheduledJobPageComponent)
         .subscribe()
     );
   }

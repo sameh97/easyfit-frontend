@@ -37,26 +37,22 @@ export class UpdateScheduledJobComponent implements OnInit, OnDestroy {
       // TODO: make the validators more relevant:
       id: [this.scheduledJob.id, [Validators.required]],
       jobID: [this.scheduledJob.jobID, [Validators.required]],
-      // machineID: [this.scheduledJob.machineID, [Validators.required]],
       machineSerialNumber: [
         this.scheduledJob.machineSerialNumber,
         [Validators.required],
       ],
       startTime: [this.scheduledJob.startTime, [Validators.required]],
       endTime: [this.scheduledJob.endTime, [Validators.required]],
-      hoursFrequency: [
-        this.onFrequencySelected(this.scheduledJob.hoursFrequency),
-        [Validators.required],
-      ],
+      daysFrequency: [this.scheduledJob.daysFrequency, [Validators.required]],
       isActive: [this.scheduledJob.isActive, [Validators.required]],
       gymId: [this.scheduledJob.gymId, [Validators.required]],
     });
   };
 
-  public onFrequencySelected(selectedHours: any) {
-    let selectedHoursDays = selectedHours * 24;
-    this.scheduledJob.hoursFrequency = selectedHoursDays;
-  }
+  // public onFrequencySelected(selectedHours: any) {
+  //   let selectedHoursDays = selectedHours * 24;
+  //   return selectedHoursDays;
+  // }
 
   public update = (scheduledJob: ScheduledJob): Promise<void> => {
     if (!AppUtil.hasValue(scheduledJob)) {

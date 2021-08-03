@@ -1,23 +1,33 @@
 <app-nav>
 
   <div class="grid-container">
-    <div class="row1"></div>
+    <div class="row1">
+
+      <mat-grid-list cols="6" rowHeight="100px">
+        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+          <h2>All Scheduled Jobs</h2>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+          <button (click)="openCreateScheduledJobDialog()" mat-mini-fab color="primary"
+            aria-label="Example icon button with a plus one icon">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+
+
+    </div>
     <div class="row2">
 
       <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
         <mat-list>
-          <!--   public id: number;
-  public jobID: number;
-  public machineID: number;
-  public startTime: Date;
-  public endTime: Date;
-  public hoursFrequency: number;
-  public isActive: Boolean;
-  public gymId: number; -->
           <mat-list-item *cdkVirtualFor="let scheduledjob of scheduledJobs" class="example-item">
-            <div class="grid-container-list-item">
+            <div class="flex-container-list-item">
               <div class="details">
-
+        
                 <h3 matLine>{{getJob(scheduledjob.jobID)}} Job</h3>
                 <h4 matLine> Status: {{getJobStatus(scheduledjob.isActive)}}</h4>
                 <p matLine>
@@ -27,22 +37,20 @@
                   <span> End time: {{scheduledjob.endTime | date}}</span>
                 </p>
                 <p matLine>
-                  <span> Runs Every: {{splitTime(scheduledjob.hoursFrequency).Days}} days
-                    {{splitTime(scheduledjob.hoursFrequency).Hours}} Hours</span>
-                  <!-- TODO: convert to days -->
+                  <span> Runs Every: {{scheduledjob.daysFrequency}} days
+                  </span>
+
                 </p>
 
                 <p matLine>
-                  <!-- <span> End time: {{scheduledjob.endTime | date}}</span> -->
+
                   <button mat-stroked-button color="primary"
                     (click)="openMachineDetailsDialog(scheduledjob.machineSerialNumber)">Machine Details</button>
                 </p>
               </div>
-              <div class="edit"> <button mat-flat-button color="primary"
-                  (click)="openUpdateScheduledJobDialog(scheduledjob)">Edit</button></div>
+              <div class="edit"> <button mat-flat-button color="primary" (click)="openUpdateScheduledJobDialog(scheduledjob)">Edit</button></div>
               <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)" color="warn">Delete</button>
               </div>
-
             </div>
             <mat-divider></mat-divider>
           </mat-list-item>
@@ -52,6 +60,10 @@
       </cdk-virtual-scroll-viewport>
 
     </div>
-    <div class="row3"></div>
+    <div class="row3">
+
+
+      
+    </div>
   </div>
 </app-nav>

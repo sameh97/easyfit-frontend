@@ -4,6 +4,7 @@
 
 .row2 {
   grid-area: row2;
+
 }
 
 .row3 {
@@ -30,44 +31,51 @@
 
 .example-viewport {
   height: 600px;
-  /* width: 800px; */
-  border: 1px solid black;
+  border: 2px solid gray;
 }
 
 .example-item {
   height: 50px;
 }
 
-/* ******************* list item grid ***************** */
-
+/* ******************* list item flex ***************** */
 
 .details {
-  grid-area: details;
-  width: 900px;
-
+background-color:lightcoral ;
 }
 
 .edit {
-  grid-area: edit;
+ background-color: lightgreen;
 }
 
 .delete {
-  grid-area: delete;
+background-color: lightskyblue;
 }
 
 
-.grid-container-list-item {
-  display: grid;
-  grid-template-areas:
-    'details details details details details details details details details details edit delete';
-  grid-gap: 10px;
-  padding: 2px;
-
+.flex-container-list-item {
+  display: flex;
+  border: 6px solid red;
+  justify-content: space-between;
+  --gap: 10rem;
+  flex-wrap: wrap;
 }
 
 .grid-container-list-item>div {
-  text-align: left;
+  text-align: center;
   padding: 10px 0;
-  font-size: 15px;
-
+  font-size: 15px;  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
