@@ -41,30 +41,41 @@
 /* ******************* list item flex ***************** */
 
 .details {
-background-color:lightcoral ;
+
+flex: 6;
+  text-align: left;
 }
 
 .edit {
- background-color: lightgreen;
+
+
 }
 
 .delete {
-background-color: lightskyblue;
+
 }
 
 
 .flex-container-list-item {
+
+
   display: flex;
-  border: 6px solid red;
+
+  gap: 4rem;
   justify-content: space-between;
-  --gap: 10rem;
   flex-wrap: wrap;
+  flex: 0 0 100%;
 }
 
 .grid-container-list-item>div {
   text-align: center;
-  padding: 10px 0;
-  font-size: 15px;  
+  
+  font-size: 15px;   
+   padding: 10px 0;
+  
+  /* margin: 10px;
+  height: 100px;
+  width: 100px; */
 }
 
 

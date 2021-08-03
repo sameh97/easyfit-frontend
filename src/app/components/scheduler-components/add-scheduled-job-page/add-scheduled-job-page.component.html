@@ -15,7 +15,13 @@
 
     </mat-grid-tile>
     <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-
+      <small
+        *ngIf=" addScheduledJobForm.controls.machineSerialNumber.touched && addScheduledJobForm.controls.machineSerialNumber.errors?.machineNotExist"
+        class="text-danger">
+        Machine with serial number: {{addScheduledJobForm.controls.machineSerialNumber.errors?.machineNotExist.value }}
+        <br>
+        does not exist
+      </small>
     </mat-grid-tile>
 
 
