@@ -9,14 +9,10 @@ import { Machine } from 'src/app/model/machine';
 })
 export class MachineDetailsComponent implements OnInit {
   machineToDesplay: Machine;
-  name: string;
-  description: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private machine: Machine) {}
-
-  ngOnInit(): void {
-    // this.machineToDesplay = this.machine;
-    this.name = this.machine.name;
-    this.description = this.machine.description;
+  constructor(@Inject(MAT_DIALOG_DATA) private machine: Machine) {
+    this.machineToDesplay = this.machine;
   }
+
+  ngOnInit(): void {}
 }

@@ -6,12 +6,6 @@ import { AppUtil } from 'src/app/common/app-util';
 import { ScheduledJob } from 'src/app/model/scheduled-job';
 import { SchedulerService } from 'src/app/services/scheduler-service/scheduler.service';
 
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
 
 @Component({
   selector: 'app-update-scheduled-job',
