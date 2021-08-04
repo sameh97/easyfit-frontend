@@ -16,6 +16,7 @@ import { MembersService } from 'src/app/services/members-service/members.service
   templateUrl: './update-member.component.html',
   styleUrls: ['./update-member.component.css'],
 })
+
 export class UpdateMemberComponent implements OnInit, OnDestroy {
   updateMemberForm: FormGroup;
   private subscriptions: Subscription[] = [];
@@ -52,6 +53,7 @@ export class UpdateMemberComponent implements OnInit, OnDestroy {
         this.member.address,
         [Validators.required, Validators.minLength(3)],
       ],
+      gender: [this.member.gender, Validators.required],
       birthDay: [this.member.birthDay, [Validators.required]],
       imageURL: [this.member.imageURL],
     });
@@ -67,6 +69,8 @@ export class UpdateMemberComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.membersService.update(member).subscribe());
   };
+
+  
 
   get form(): { [key: string]: AbstractControl } {
     return this.updateMemberForm.controls;

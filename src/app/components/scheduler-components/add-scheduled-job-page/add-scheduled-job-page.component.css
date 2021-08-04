@@ -1,0 +1,17 @@
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.example-form-field {
+  width: 200px;
+}
+
+
+.frequency-full-width {
+  width: 90%;
+}
+
+.wide {
+  width: 430px;
+}

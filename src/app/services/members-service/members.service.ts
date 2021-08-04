@@ -20,20 +20,24 @@ export class MembersService {
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
-    //TODO: init gym id somewhere else:
-    this.gymId = this.authService.getGymId();
+    this.initGymID();
   }
 
+  // TODO: make it observable:
+  private initGymID = (): void => {
+    this.gymId = this.authService.getGymId();
+  };
+
   public create = (member: Member): Observable<any> => {
+    this.initGymID();
     member.gymId = this.gymId;
-                                
+
     return this.http.post<Member>(`${this.addUrl}?gymId=${this.gymId}`, member);
   };
 
   public getAll = (): Observable<Member[]> => {
-    return this.http.post<Member[]>(`${this.url}?gymId=${this.gymId}`, {
-      observe: 'response',
-    });
+    this.initGymID();
+    return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`);
   };
 
   public update = (member: Member): Observable<Member> => {

@@ -1,0 +1,35 @@
+<app-nav><br>
+  <div class="grid-container">
+    <h1 class="mat-h1">Members Page</h1>
+    <mat-grid-list cols="2" rowHeight="350px">
+      <mat-grid-tile [colspan]="2" [rowspan]="row">
+        <mat-card class="dashboard-card">
+          <mat-card-header>
+            <mat-card-title>
+              All Members
+              <!-- TODO: deal with this (more button) -->
+              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+
+              <button style="margin-left: 10px;" type="button" (click)="openCreateMemberDialog()" mat-mini-fab
+                color="primary" aria-label="Example icon button with a plus one icon">
+                <mat-icon>plus_one</mat-icon>
+              </button>
+
+              <mat-menu #menu="matMenu" xPosition="before">
+                <button mat-menu-item>Expand</button>
+                <button mat-menu-item>Remove</button>
+              </mat-menu>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="dashboard-card-content">
+
+            <app-members-table></app-members-table>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </div>
+</app-nav>

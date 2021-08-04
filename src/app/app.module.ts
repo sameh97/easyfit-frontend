@@ -11,7 +11,6 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 
 import { MembersComponent } from './components/members-components/members/members.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
-import { ProductsComponent } from './components/products/products.component';
 import { AddMemberComponent } from './components/members-components/add-member/add-member.component';
 import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,15 +36,54 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MembersChartComponent } from './components/members-chart/members-chart.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MembersPageComponent } from './components/members-components/members-page/members-page.component';
+import { MembersTableComponent } from './components/members-components/members-table/members-table.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatRadioModule } from '@angular/material/radio';
+import { SchedulerPageComponent } from './components/scheduler-components/scheduler-page/scheduler-page.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MachineDetailsComponent } from './components/scheduler-components/machine-details/machine-details.component';
+import { UpdateScheduledJobComponent } from './components/scheduler-components/update-scheduled-job/update-scheduled-job.component';
+import { MatDividerModule } from '@angular/material/divider';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { AddScheduledJobPageComponent } from './components/scheduler-components/add-scheduled-job-page/add-scheduled-job-page.component';
+import { ProductsPageComponent } from './components/products-components/products-page/products-page.component';
+import { AddProductComponent } from './components/products-components/add-product/add-product.component';
+import { UpdateProductPageComponent } from './components/products-components/update-product-page/update-product-page.component';
+// import { MatRadioModule } from '@angular/material/radio';
+// import { MatSelectModule } from '@angular/material/select';
+// import {
+//   MatDatepicker,
+//   MatDatepickerModule,
+// } from '@angular/material/datepicker';
+// import { MatNativeDateModule } from '@angular/material/core';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'members', component: MembersComponent, canActivate: [AuthGuard] },
+  {
+    path: 'members',
+    component: MembersPageComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
-  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
-
+  {
+    path: 'products',
+    component: ProductsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'scheduler',
+    component: SchedulerPageComponent,
+    canActivate: [AuthGuard],
+  },
   //TODO: make 404 page
 ];
 
@@ -56,7 +94,6 @@ const routes: Routes = [
     RegisterPageComponent,
     MembersComponent,
     SearchfilterPipe,
-    ProductsComponent,
     AddMemberComponent,
     UpdateMemberComponent,
     MachinesComponent,
@@ -66,6 +103,15 @@ const routes: Routes = [
     NavComponent,
     HomeComponent,
     MembersChartComponent,
+    MembersPageComponent,
+    MembersTableComponent,
+    SchedulerPageComponent,
+    MachineDetailsComponent,
+    UpdateScheduledJobComponent,
+    AddScheduledJobPageComponent,
+    ProductsPageComponent,
+    AddProductComponent,
+    UpdateProductPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +135,16 @@ const routes: Routes = [
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
+    FlexLayoutModule,
+    MatRadioModule,
+    ScrollingModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
   ],
+
   providers: [],
   bootstrap: [AppComponent],
 })
