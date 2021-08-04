@@ -12,11 +12,12 @@ export class MachineDetailsComponent implements OnInit {
   name: string;
   description: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private machine: Machine) {}
+  constructor(@Inject(MAT_DIALOG_DATA) private machine: Machine) {
+    this.machineToDesplay = this.machine;
+  }
 
   ngOnInit(): void {
-    // this.machineToDesplay = this.machine;
-    this.name = this.machine.name;
-    this.description = this.machine.description;
+    // this.name = this.machine.name;
+    // this.description = this.machine.description;
   }
 }

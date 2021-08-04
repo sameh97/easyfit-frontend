@@ -11,7 +11,6 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 
 import { MembersComponent } from './components/members-components/members/members.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
-import { ProductsComponent } from './components/products/products.component';
 import { AddMemberComponent } from './components/members-components/add-member/add-member.component';
 import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -54,6 +53,9 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddScheduledJobPageComponent } from './components/scheduler-components/add-scheduled-job-page/add-scheduled-job-page.component';
+import { ProductsPageComponent } from './components/products-components/products-page/products-page.component';
+import { AddProductComponent } from './components/products-components/add-product/add-product.component';
+import { UpdateProductPageComponent } from './components/products-components/update-product-page/update-product-page.component';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -72,7 +74,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
-  { path: 'products', component: ProductsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'products',
+    component: ProductsPageComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'scheduler',
     component: SchedulerPageComponent,
@@ -88,7 +94,6 @@ const routes: Routes = [
     RegisterPageComponent,
     MembersComponent,
     SearchfilterPipe,
-    ProductsComponent,
     AddMemberComponent,
     UpdateMemberComponent,
     MachinesComponent,
@@ -104,6 +109,9 @@ const routes: Routes = [
     MachineDetailsComponent,
     UpdateScheduledJobComponent,
     AddScheduledJobPageComponent,
+    ProductsPageComponent,
+    AddProductComponent,
+    UpdateProductPageComponent,
   ],
   imports: [
     BrowserModule,
