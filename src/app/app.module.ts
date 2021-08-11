@@ -56,6 +56,8 @@ import { AddScheduledJobPageComponent } from './components/scheduler-components/
 import { ProductsPageComponent } from './components/products-components/products-page/products-page.component';
 import { AddProductComponent } from './components/products-components/add-product/add-product.component';
 import { UpdateProductPageComponent } from './components/products-components/update-product-page/update-product-page.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MachineNotificationsComponent } from './components/machines-components/machine-notifications/machine-notifications.component';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -112,6 +114,7 @@ const routes: Routes = [
     ProductsPageComponent,
     AddProductComponent,
     UpdateProductPageComponent,
+    MachineNotificationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,6 +146,7 @@ const routes: Routes = [
     MatSlideToggleModule,
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
+    MatTabsModule,
   ],
 
   providers: [],

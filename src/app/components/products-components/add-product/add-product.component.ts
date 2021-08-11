@@ -30,15 +30,12 @@ export class AddProductComponent implements OnInit, OnDestroy {
     this.addProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
 
-      name: [this.product.name, [Validators.required]],
-      description: [this.product.description, [Validators.required]],
-      code: [this.product.code, [Validators.required]],
-      quantity: [
-        this.product.quantity,
-        [Validators.compose([Validators.required, this.nonZero])],
-      ],
-      imgUrl: [this.product.imgUrl, [Validators.required]],
-      categoryID: [this.product.categoryID, [Validators.required]],
+      name: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      code: ['', [Validators.required]],
+      quantity: ['', [Validators.compose([Validators.required, this.nonZero])]],
+      imgUrl: ['', [Validators.required]],
+      categoryID: ['', [Validators.required]],
     });
   }
 

@@ -2,15 +2,23 @@ import { CoreUtil } from './../common/core-util';
 import { AppUtil } from './../common/app-util';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { AuthenticationService } from './authentication.service';
+import { Observable } from 'rxjs';
+import { AppNotificationMessage } from '../model/app-notification-message';
 
 export class ClientDataService {
   constructor(public url: string, public http: HttpClient) {}
   // TODO: take headers from interceptor
-  getAll() {
+  public getAll = (gymId: number): Observable<AppNotificationMessage[]> => {
     return this.http
-      .get(`${this.url}all`, { headers: CoreUtil.createAuthorizationHeader() })
+      .get<AppNotificationMessage[]>(
+        `${this.url}/notifications?gymId=${gymId}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
       .pipe(catchError(AppUtil.handleError));
-  }
+  };
 
   delete(id: string) {
     return this.http
@@ -27,13 +35,13 @@ export class ClientDataService {
       .pipe(catchError(AppUtil.handleError));
   }
 
-  update(id: string, resource: any) {
-    return this.http
-      .put(`${this.url}id`, resource, {
-        headers: CoreUtil.createAuthorizationHeader(),
-      })
-      .pipe(catchError(AppUtil.handleError));
-  }
+  // update(id: string, resource: any) {
+  //   return this.http
+  //     .put(`${this.url}id`, resource, {
+  //       headers: CoreUtil.createAuthorizationHeader(),
+  //     })
+  //     .pipe(catchError(AppUtil.handleError));
+  // }
 
   get(id: string) {
     return this.http

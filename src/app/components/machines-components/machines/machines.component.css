@@ -1,0 +1,102 @@
+.example-viewport {
+    height: 600px;
+    /* border: 1px solid black; */
+}
+
+.example-item {
+    height: 50px;
+}
+
+
+/*****************************************/
+
+.row1 {
+    flex: 1;
+}
+
+.row2 {
+    flex: 5;
+}
+
+.row3 {
+    flex: 6;
+}
+
+.flex-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    flex-direction: column;
+    height: 900px;
+}
+
+.flex-container>div {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+
+/* *** list element flex *** */
+
+.img {
+    flex: 6;
+}
+
+.details {
+    flex: 20;
+}
+
+.edit {
+    flex: 1;
+}
+
+.delete {
+    flex: 1;
+}
+
+.list-element-flex-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    flex-direction: row;
+}
+
+.list-element-flex-container>div {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+
+/* ************************* */
+
+.dashboard-card {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    right: 50px;
+    bottom: 100px;
+    height: 650px;
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.dashboard-card-content {
+    text-align: center;
+}
+
+
+/* mat tab */
+
+.mat-tab-group {
+    margin: 4px;
+}

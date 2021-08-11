@@ -1,6 +1,105 @@
 <app-nav>
-  <p>machines works!</p>
-  <h3>{{scheduledJob}}</h3>
 
-  <app-machines-table></app-machines-table>
+
+    <div class="flex-container">
+        <div>
+            <mat-grid-list cols="6" rowHeight="70px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                    <!-- <h2>All Machines</h2> -->
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                    <button (click)="openCreateMachineDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </div>
+        <div>
+
+            <mat-card class="dashboard-card">
+                <mat-card-header>
+
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content">
+                    <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
+                        <mat-list role="list">
+                            <mat-list-item *cdkVirtualFor="let machine of machines" class="example-item" role="listitem">
+
+                                <div class="list-element-flex-container">
+                                    <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{machine.imgUrl}}">
+                                    </div>
+                                    <div class="details">
+                                        <h3 matLine>{{machine.name}}</h3>
+                                        <h4 matLine> Serial Number: {{machine.serialNumber}}</h4>
+                                        <p matLine>
+                                            <span> Description: {{machine.description}} </span>
+                                        </p>
+
+                                        <p matLine>
+                                            <span> Production Year: {{machine.productionYear}}
+                      </span>
+
+                                        </p>
+
+                                        <p matLine>
+                                            <span> price: {{machine.price | currency:'ILS'}}
+                      </span>
+
+                                        </p>
+
+                                    </div>
+                                    <div class="edit">
+                                        <button mat-flat-button color="primary" (click)="openViewMachineNotificationsDialog(machine)">View
+                      Notifications</button>
+
+                                        <button mat-flat-button color="primary" (click)="openUpdateMachineDialog(machine)">Edit</button>
+                                    </div>
+                                    <div class="delete"><button mat-raised-button (click)="delete(machine)" color="warn">Delete</button>
+                                    </div>
+                                </div>
+                                <mat-divider></mat-divider>
+                            </mat-list-item>
+
+                        </mat-list>
+
+                    </cdk-virtual-scroll-viewport>
+
+
+                </mat-card-content>
+            </mat-card>
+
+
+
+        </div>
+
+        <div>
+
+        </div>
+    </div>
+
 </app-nav>
+<!--   public id: number;
+  public supplierName?: string;
+  public productionCompany?: string;
+  public price: number;
+  public type?: string;
+  public gymId: number; -->
+
+
+<!-- <mat-tab-group mat-stretch-tabs dynamicHeight="true">
+    <mat-tab label="All Machines">
+</mat-tab>
+<mat-tab label="Running Scheduled jobs">
+    <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let notification of notifications">
+            {{notification.content.machineSerialNumber}}</mat-list-item>
+
+    </mat-list>
+
+</mat-tab>
+
+</mat-tab-group> -->

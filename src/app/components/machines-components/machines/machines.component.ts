@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { AppUtil } from 'src/app/common/app-util';
 import { AppNotificationMessage } from 'src/app/model/app-notification-message';
-import { MachineScheduledJob } from 'src/app/model/machine-scheduled-job';
+import { Machine } from 'src/app/model/machine';
+import { MachinesService } from 'src/app/services/machines-service/machines.service';
+import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { SocketTopics } from 'src/app/shared/util/socket-util';
+import { CreateMachineComponent } from '../create-machine/create-machine.component';
+import { EditMachineComponent } from '../edit-machine/edit-machine.component';
+import { MachineNotificationsComponent } from '../machine-notifications/machine-notifications.component';
 
 @Component({
   selector: 'app-machines',
@@ -10,16 +18,97 @@ import { SocketTopics } from 'src/app/shared/util/socket-util';
   styleUrls: ['./machines.component.css'],
 })
 export class MachinesComponent implements OnInit {
-  scheduledJob: MachineScheduledJob;
+  // scheduledJob: MachineScheduledJob;
+  notifications: AppNotificationMessage[];
+  machines: Machine[];
+  private subscriptions: Subscription[] = [];
 
-  constructor(private webSocketService: WebSocketService) {}
+  constructor(
+    private webSocketService: WebSocketService,
+    private navigationService: NavigationHelperService,
+    private machinesService: MachinesService,
+    private userNotificationsService: UserNotificationsService
+  ) {}
 
   ngOnInit(): void {
-    this.webSocketService
-      .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
-      .subscribe((job: AppNotificationMessage) => {
-        console.log(`Got the message from server: ${JSON.stringify(job)}`);
-        this.scheduledJob = job.content as MachineScheduledJob;
+    this.subscriptions.push(
+      this.userNotificationsService
+        .getAll()
+        .subscribe((notifications: AppNotificationMessage[]) => {
+          this.notifications = notifications;
+        })
+    );
+
+    this.subscriptions.push(
+      this.webSocketService
+        .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
+        .subscribe((job: AppNotificationMessage) => {
+          console.log(`Got the message from server: ${JSON.stringify(job)}`);
+          this.notifications.push(job);
+          // this.scheduledJob = job.content as MachineScheduledJob;
+        })
+    );
+
+    this.subscriptions.push(
+      this.webSocketService
+        .onMessage(SocketTopics.TOPIC_MACHINE_SERVICE)
+        .subscribe((job: AppNotificationMessage) => {
+          console.log(`Got the message from server: ${JSON.stringify(job)}`);
+          this.notifications.push(job);
+          // this.scheduledJob = job.content as MachineScheduledJob;
+        })
+    );
+
+    this.subscriptions.push(
+      this.machinesService.getAll().subscribe((machines) => {
+        this.machines = machines;
+      })
+    );
+  }
+
+  public openViewMachineNotificationsDialog(machine: Machine) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(MachineNotificationsComponent, '900px', machine, null)
+        .subscribe()
+    );
+  }
+
+  public openCreateMachineDialog() {
+    this.subscriptions.push(
+      this.navigationService.openDialog(CreateMachineComponent).subscribe()
+    );
+  }
+
+  public openUpdateMachineDialog(machine: Machine) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(EditMachineComponent, null, machine, null)
+        .subscribe()
+    );
+  }
+
+  public delete = (machine: Machine) => {
+    const message = `Are you sure you want to delete the machine with the serial number:
+    ${machine.serialNumber}?`;
+
+    this.navigationService
+      .openYesNoDialogNoCallback(message, 500)
+      .subscribe((res) => {
+        if (res) {
+          this.machinesService.delete(machine.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
+        }
       });
+  };
+
+  ngOnDestroy(): void {
+    AppUtil.releaseSubscriptions(this.subscriptions);
   }
 }
