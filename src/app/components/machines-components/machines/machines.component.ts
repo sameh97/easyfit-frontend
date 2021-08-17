@@ -96,7 +96,7 @@ export class MachinesComponent implements OnInit {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.machinesService.delete(machine.id).subscribe(
+          this.machinesService.delete(machine.serialNumber, machine.gymId).subscribe(
             (res) => {
               console.log(res);
             },

@@ -50,7 +50,9 @@ export class MachinesService {
     return this.http.put<Machine>(`${AppConsts.BASE_URL}/api/machine`, machine);
   };
 
-  public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${AppConsts.BASE_URL}/api/machine?id=${id}`);
+  public delete = (serialNumber: string, gymId: number): Observable<any> => {
+    return this.http.delete(
+      `${AppConsts.BASE_URL}/api/machine?serialNumber=${serialNumber}&gymId=${gymId}`
+    );
   };
 }

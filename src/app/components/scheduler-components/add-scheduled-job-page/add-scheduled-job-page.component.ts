@@ -87,6 +87,8 @@ export class AddScheduledJobPageComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.scheduledJob.jobID = Number(this.scheduledJob.jobID)
+
     this.subscriptions.push(
       this.schedulerService.create(this.scheduledJob).subscribe(
         () => {},

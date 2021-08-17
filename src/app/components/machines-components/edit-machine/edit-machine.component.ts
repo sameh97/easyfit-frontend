@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Machine } from 'src/app/model/machine';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
+import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 
 @Component({
   selector: 'app-edit-machine',
@@ -18,7 +19,8 @@ export class EditMachineComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private machine: Machine,
-    private machinesService: MachinesService
+    private machinesService: MachinesService,
+    private userNotificationsService: UserNotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class EditMachineComponent implements OnInit, OnDestroy {
   }
 
   private buildForm = (): void => {
+    // TODO: delete all notifications for this machine if the serial number is changed, and cancel job
     this.updateMachineForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
       id: [this.machine.id, [Validators.required]],

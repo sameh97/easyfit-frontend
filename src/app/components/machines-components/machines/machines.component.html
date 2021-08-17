@@ -53,14 +53,25 @@
 
                                     </div>
                                     <div class="edit">
-                                        <button mat-flat-button color="primary" (click)="openViewMachineNotificationsDialog(machine)">View
-                      Notifications</button>
 
                                         <button mat-flat-button color="primary" (click)="openUpdateMachineDialog(machine)">Edit</button>
                                     </div>
-                                    <div class="delete"><button mat-raised-button (click)="delete(machine)" color="warn">Delete</button>
+                                    <div class="delete">
+                                        <div class="view-notifications-flex-container">
+                                            <div class="row-one"> <button mat-raised-button (click)="delete(machine)" color="warn">Delete</button></div>
+                                            <div class="row-two"> </div>
+                                            <div class="row-three">
+                                                <button mat-raised-button (click)="openViewMachineNotificationsDialog(machine)">View
+                          Notifications</button>
+
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
+
+
                                 <mat-divider></mat-divider>
                             </mat-list-item>
 
