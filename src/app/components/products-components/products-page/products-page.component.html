@@ -1,0 +1,61 @@
+<app-nav>
+
+    <div class="flex-container">
+        <div>
+            <mat-grid-list cols="6" rowHeight="70px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                    <h2>All Products</h2>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                    <button (click)="openCreateProductDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+            <mat-icon>plus_one</mat-icon>
+          </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+        </div>
+        <div>
+
+            <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
+                <mat-list role="list">
+                    <mat-list-item *cdkVirtualFor="let product of products" class="example-item" role="listitem">
+
+                        <div class="list-element-flex-container">
+                            <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{product.imgUrl}}"></div>
+                            <div class="details">
+                                <h3 matLine>{{product.name}}</h3>
+                                <h4 matLine> Category: {{getCategory(product.categoryID)}}</h4>
+                                <p matLine>
+                                    <span> {{product.description}} </span>
+                                </p>
+                                <p matLine>
+                                    <span> Code: {{product.code}}</span>
+                                </p>
+                                <p matLine>
+                                    <span> Quantity: {{product.quantity}}
+                  </span>
+
+                                </p>
+
+                            </div>
+                            <div class="edit"><button mat-flat-button color="primary" (click)="openUpdateProductDialog(product)">Edit</button></div>
+                            <div class="delete"><button mat-raised-button (click)="delete(product)" color="warn">Delete</button>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </mat-list-item>
+
+                </mat-list>
+
+            </cdk-virtual-scroll-viewport>
+
+        </div>
+        <div>
+
+        </div>
+    </div>
+
+</app-nav>

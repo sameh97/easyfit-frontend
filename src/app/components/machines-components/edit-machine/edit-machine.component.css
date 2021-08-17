@@ -1,0 +1,8 @@
+.wide {
+    width: 430px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
