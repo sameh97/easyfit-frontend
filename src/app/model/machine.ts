@@ -7,6 +7,7 @@ export class Machine {
   public serialNumber: string;
   public productionCompany?: string;
   public price: number;
+  public imgUrl: string;
   public type?: string;
   public gymId: number;
 }

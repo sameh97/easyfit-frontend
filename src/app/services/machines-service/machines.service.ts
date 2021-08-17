@@ -17,9 +17,22 @@ export class MachinesService {
     private authService: AuthenticationService
   ) {}
 
-  public getBySerialNumber = (machineSerialNumber: number): Observable<Machine> => {
+  public getBySerialNumber = (
+    machineSerialNumber: number
+  ): Observable<Machine> => {
     return this.http.get<Machine>(
       `${AppConsts.BASE_URL}/api/machine?serialNumber=${machineSerialNumber}`
+    );
+  };
+
+  public create = (machine: Machine): Observable<any> => {
+    this.initGymID();
+    machine.gymId = this.gymId;
+
+    //TODO: check if query is needed:
+    return this.http.post<Machine>(
+      `${AppConsts.BASE_URL}/api/machine?gymId=${this.gymId}`,
+      machine
     );
   };
 
@@ -31,5 +44,15 @@ export class MachinesService {
   // TODO: make it observable:
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
+  };
+
+  public update = (machine: Machine): Observable<Machine> => {
+    return this.http.put<Machine>(`${AppConsts.BASE_URL}/api/machine`, machine);
+  };
+
+  public delete = (serialNumber: string, gymId: number): Observable<any> => {
+    return this.http.delete(
+      `${AppConsts.BASE_URL}/api/machine?serialNumber=${serialNumber}&gymId=${gymId}`
+    );
   };
 }

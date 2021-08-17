@@ -52,7 +52,6 @@ export class NavigationHelperService {
     } else {
       dialogRef = this.dialog.open(dialog, {
         width: dialogWidth,
-
         data: dialogData,
       });
     }

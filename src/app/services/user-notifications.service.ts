@@ -15,6 +15,7 @@ import { AppConsts } from '../common/consts';
 })
 export class UserNotificationsService extends ClientDataService {
   private currentUser: User;
+  private gymId: number;
   private myNotificationsListSubject = new BehaviorSubject<
     AppNotificationMessage[]
   >([]);
@@ -25,9 +26,42 @@ export class UserNotificationsService extends ClientDataService {
     private authService: AuthenticationService,
     public http: HttpClient
   ) {
-    super(`${AppConsts.BASE_URL}/api/v1/notifications/`, http);
+    super(`${AppConsts.BASE_URL}/api`, http);
+    this.gymId = this.authService.getGymId();
     // this.initNotificationsForCurrentUser();
   }
+
+  public getAll = (): Observable<AppNotificationMessage[]> => {
+    this.gymId = this.authService.getGymId();
+    // return super.getAll(this.gymId);
+
+    return this.http
+      .get<AppNotificationMessage[]>(
+        `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(catchError(AppUtil.handleError));
+  };
+
+  public getByMachineSerialNumber = (
+    machineSerialNumber: string
+  ): Observable<AppNotificationMessage[]> => {
+    this.gymId = this.authService.getGymId();
+    return this.http.get<AppNotificationMessage[]>(
+      `${AppConsts.BASE_URL}/api/machine/notifications?gymId=${this.gymId}&machineSerialNumber=${machineSerialNumber}`
+    );
+  };
+
+  public update = (
+    appNotificationMessage: AppNotificationMessage
+  ): Observable<AppNotificationMessage> => {
+    return this.http.put<AppNotificationMessage>(
+      `${AppConsts.BASE_URL}/api/notification`,
+      appNotificationMessage
+    );
+  };
 
   public initNotificationsForUser(userId: string): void {
     this.resetMyNotifications();
@@ -65,8 +99,8 @@ export class UserNotificationsService extends ClientDataService {
   public addToMyNotifications(
     notificaitonsToAdd: AppNotificationMessage[]
   ): void {
-    const currNotificationData: AppNotificationMessage[] = this
-      .myNotificationsListSubject.value;
+    const currNotificationData: AppNotificationMessage[] =
+      this.myNotificationsListSubject.value;
 
     for (const notificaiton of notificaitonsToAdd) {
       const notificationFromMyList = currNotificationData.find(
@@ -83,8 +117,8 @@ export class UserNotificationsService extends ClientDataService {
   public removeFromMyNotifications(
     notificaitonToRemove: AppNotificationMessage
   ): void {
-    const currNotificationData: AppNotificationMessage[] = this
-      .myNotificationsListSubject.value;
+    const currNotificationData: AppNotificationMessage[] =
+      this.myNotificationsListSubject.value;
 
     const indexOfNotification: number = currNotificationData.findIndex(
       (notification) => notification.id === notificaitonToRemove.id
@@ -114,21 +148,21 @@ export class UserNotificationsService extends ClientDataService {
     this.myNotificationsListSubject.next([]);
   }
 
-  public updateAllMyNotifications(
-    patchRequestObj: Partial<AppNotificationMessage>
-  ): Observable<any> {
-    if (!this.currentUser) {
-      throwError('Cannot update all notifications, please try again later');
-    }
-    patchRequestObj.targetUserIds = [this.currentUser.id];
-    const url = `${this.url}targetUser/${this.currentUser.id}`;
-    return this.http
-      .patch(url, patchRequestObj, {
-        headers: CoreUtil.createAuthorizationHeader(),
-        observe: 'response',
-      })
-      .pipe(catchError(AppUtil.handleError));
-  }
+  // public updateAllMyNotifications(
+  //   patchRequestObj: Partial<AppNotificationMessage>
+  // ): Observable<any> {
+  //   if (!this.currentUser) {
+  //     throwError('Cannot update all notifications, please try again later');
+  //   }
+  //   patchRequestObj.targetUserIds = [this.currentUser.id];
+  //   const url = `${this.url}targetUser/${this.currentUser.id}`;
+  //   return this.http
+  //     .patch(url, patchRequestObj, {
+  //       headers: CoreUtil.createAuthorizationHeader(),
+  //       observe: 'response',
+  //     })
+  //     .pipe(catchError(AppUtil.handleError));
+  // }
 
   private initNotificationsForCurrentUser(): void {
     this.authService.currentUser$.subscribe(

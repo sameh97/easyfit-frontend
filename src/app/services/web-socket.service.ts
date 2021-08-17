@@ -146,7 +146,8 @@ export class WebSocketService implements OnDestroy {
 
     const dataToSendToServer = new AppNotificationMessage(
       currentGymID,
-      SocketTopics.TOPIC_SEND_CLIENT_DATA_TO_SERVER
+      SocketTopics.TOPIC_SEND_CLIENT_DATA_TO_SERVER,
+      currentGymID
     );
 
     this.send(dataToSendToServer);
