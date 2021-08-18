@@ -21,6 +21,8 @@ export class MachinesComponent implements OnInit {
   // scheduledJob: MachineScheduledJob;
   notifications: AppNotificationMessage[];
   machines: Machine[];
+  filteredItems: Machine[];
+  searchValue: string;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -62,6 +64,7 @@ export class MachinesComponent implements OnInit {
     this.subscriptions.push(
       this.machinesService.getAll().subscribe((machines) => {
         this.machines = machines;
+        this.assignCopy();
       })
     );
   }
@@ -96,17 +99,40 @@ export class MachinesComponent implements OnInit {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.machinesService.delete(machine.serialNumber, machine.gymId).subscribe(
-            (res) => {
-              console.log(res);
-            },
-            (err) => {
-              AppUtil.showError(err);
-            }
-          );
+          this.machinesService
+            .delete(machine.serialNumber, machine.gymId)
+            .subscribe(
+              (res) => {
+                console.log(res);
+              },
+              (err) => {
+                AppUtil.showError(err);
+              }
+            );
         }
       });
   };
+
+  assignCopy() {
+    this.filteredItems = Object.assign([], this.machines);
+  }
+
+  filterItem(value) {
+    if (!value) {
+      this.assignCopy();
+    } // when nothing has typed
+    this.filteredItems = Object.assign([], this.machines).filter(
+      (item) =>
+        item.serialNumber.toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
+  }
+
+  isMachinesMachinesEmpty(): boolean {
+    if (!this.filteredItems) {
+      return true
+    }
+    return this.filteredItems.length === 0;
+  }
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);

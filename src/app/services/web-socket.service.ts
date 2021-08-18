@@ -49,11 +49,15 @@ export class WebSocketService implements OnDestroy {
       );
     }
 
-    this.sockectState = new BehaviorSubject<SocketClientState>(
-      SocketClientState.ATTEMPTING
-    );
-    this.initSocketConnection(WebSocketService.URL);
-    this.listenToAllTopics();
+    this.authenticationService.currentUser$
+    .pipe(filter(user => AppUtil.hasValue(user)))
+    .subscribe(user => {
+      this.sockectState = new BehaviorSubject<SocketClientState>(
+        SocketClientState.ATTEMPTING
+      );
+      this.initSocketConnection(WebSocketService.URL);
+      this.listenToAllTopics();
+    })
   }
 
   public send(message: AppNotificationMessage): void {
@@ -179,7 +183,7 @@ export class WebSocketService implements OnDestroy {
     return message;
   }
 
-  private socketFailedToConnectCallback(error: string | Stomp.Frame): void {
+  private socketFailedToConnectCallback(error: string): void {
     this.sockectState.next(SocketClientState.ERROR);
     console.error('Unable to connect to STOMP endpoint, error:', error);
     console.error(

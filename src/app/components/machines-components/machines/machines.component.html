@@ -5,7 +5,7 @@
         <div>
             <mat-grid-list cols="6" rowHeight="70px">
                 <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <!-- <h2>All Machines</h2> -->
+                    <h1 class="mat-h1">Machines Page</h1><br>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
 
@@ -23,11 +23,17 @@
             <mat-card class="dashboard-card">
                 <mat-card-header>
 
+                    <mat-form-field fxFlex="40%">
+                        <input #myInput matInput type="text" placeholder="Search by serial number" [(ngModel)]="name" (input)="filterItem(myInput.value)">
+                    </mat-form-field>
+
+
                 </mat-card-header>
                 <mat-card-content class="dashboard-card-content">
+
                     <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
                         <mat-list role="list">
-                            <mat-list-item *cdkVirtualFor="let machine of machines" class="example-item" role="listitem">
+                            <mat-list-item *cdkVirtualFor="let machine of filteredItems; whenEmpty: emptyMessage" class="example-item" role="listitem">
 
                                 <div class="list-element-flex-container">
                                     <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{machine.imgUrl}}">
@@ -77,6 +83,10 @@
 
                         </mat-list>
 
+                        <div *ngIf="isMachinesMachinesEmpty()">
+                            <h3> No Results</h3>
+                        </div>
+
                     </cdk-virtual-scroll-viewport>
 
 
@@ -93,24 +103,3 @@
     </div>
 
 </app-nav>
-<!--   public id: number;
-  public supplierName?: string;
-  public productionCompany?: string;
-  public price: number;
-  public type?: string;
-  public gymId: number; -->
-
-
-<!-- <mat-tab-group mat-stretch-tabs dynamicHeight="true">
-    <mat-tab label="All Machines">
-</mat-tab>
-<mat-tab label="Running Scheduled jobs">
-    <mat-list role="list">
-        <mat-list-item role="listitem" *ngFor="let notification of notifications">
-            {{notification.content.machineSerialNumber}}</mat-list-item>
-
-    </mat-list>
-
-</mat-tab>
-
-</mat-tab-group> -->

@@ -17,9 +17,9 @@ import { MembersTableComponent } from '../members-table/members-table.component'
   templateUrl: './members-page.component.html',
   styleUrls: ['./members-page.component.css'],
 })
-export class MembersPageComponent implements OnDestroy, AfterViewChecked {
+export class MembersPageComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
-  row: number;
+ 
   @ViewChild(MembersTableComponent)
   membersTableComponent: MembersTableComponent;
   /** Based on the screen size, switch from standard to one column per row */
@@ -37,13 +37,6 @@ export class MembersPageComponent implements OnDestroy, AfterViewChecked {
     private breakpointObserver: BreakpointObserver,
     private navigationService: NavigationHelperService
   ) {}
-
-  ngAfterViewChecked(): void {
-    // TODO: check if the is a good practice:
-    setTimeout(() => {
-      this.row = this.membersTableComponent.getRows();
-    }, 0);
-  }
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
