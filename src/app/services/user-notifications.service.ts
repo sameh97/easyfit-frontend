@@ -6,7 +6,7 @@ import { User } from '../model/user';
 import { AuthenticationService } from './authentication.service';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { map, catchError, take } from 'rxjs/operators';
+import { map, catchError, take, filter, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { AppConsts } from '../common/consts';
 
@@ -27,31 +27,34 @@ export class UserNotificationsService extends ClientDataService {
     public http: HttpClient
   ) {
     super(`${AppConsts.BASE_URL}/api`, http);
-    this.gymId = this.authService.getGymId();
-    // this.initNotificationsForCurrentUser();
   }
 
   public getAll = (): Observable<AppNotificationMessage[]> => {
-    this.gymId = this.authService.getGymId();
-    // return super.getAll(this.gymId);
-
-    return this.http
-      .get<AppNotificationMessage[]>(
-        `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
-        {
-          headers: CoreUtil.createAuthorizationHeader(),
-        }
-      )
-      .pipe(catchError(AppUtil.handleError));
+    return this.authService.currentUser$
+      .pipe(switchMap(user => {
+        return this.http
+        .get<AppNotificationMessage[]>(
+          `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
+          {
+            headers: CoreUtil.createAuthorizationHeader(),
+          }
+        )
+        .pipe(catchError(AppUtil.handleError));
+      }))
   };
 
   public getByMachineSerialNumber = (
     machineSerialNumber: string
   ): Observable<AppNotificationMessage[]> => {
-    this.gymId = this.authService.getGymId();
-    return this.http.get<AppNotificationMessage[]>(
-      `${AppConsts.BASE_URL}/api/machine/notifications?gymId=${this.gymId}&machineSerialNumber=${machineSerialNumber}`
-    );
+    return this.authService.currentUser$
+    .pipe(switchMap(user => {
+      return this.http.get<AppNotificationMessage[]>(
+        `${AppConsts.BASE_URL}/api/machine/notifications?gymId=${this.gymId}&machineSerialNumber=${machineSerialNumber}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      );
+    }))
   };
 
   public update = (
@@ -59,7 +62,10 @@ export class UserNotificationsService extends ClientDataService {
   ): Observable<AppNotificationMessage> => {
     return this.http.put<AppNotificationMessage>(
       `${AppConsts.BASE_URL}/api/notification`,
-      appNotificationMessage
+      appNotificationMessage,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
     );
   };
 

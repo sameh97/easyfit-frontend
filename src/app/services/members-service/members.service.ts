@@ -4,6 +4,7 @@ import { AppConsts } from '../../common/consts';
 import { Observable } from 'rxjs';
 import { Member } from 'src/app/model/member';
 import { AuthenticationService } from './../authentication.service';
+import { CoreUtil } from 'src/app/common/core-util';
 
 @Injectable({
   providedIn: 'root',
@@ -32,19 +33,31 @@ export class MembersService {
     this.initGymID();
     member.gymId = this.gymId;
 
-    return this.http.post<Member>(`${this.addUrl}?gymId=${this.gymId}`, member);
+    return this.http.post<Member>(
+      `${this.addUrl}?gymId=${this.gymId}`,
+      member,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
   };
 
   public getAll = (): Observable<Member[]> => {
     this.initGymID();
-    return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`);
+    return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 
   public update = (member: Member): Observable<Member> => {
-    return this.http.put<Member>(this.updateURL, member);
+    return this.http.put<Member>(this.updateURL, member, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.deleteUrl}?id=${id}`);
+    return this.http.delete(`${this.deleteUrl}?id=${id}`, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 }

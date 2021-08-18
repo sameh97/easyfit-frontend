@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConsts } from 'src/app/common/consts';
+import { CoreUtil } from 'src/app/common/core-util';
 import { Product } from 'src/app/model/product';
 import { AuthenticationService } from '../authentication.service';
 
@@ -22,7 +23,9 @@ export class ProductsService {
   public getAll(): Observable<Product[]> {
     const gymId = this.authService.getGymId();
 
-    return this.http.get<Product[]>(`${this.url}/products?gymId=${gymId}`);
+    return this.http.get<Product[]>(`${this.url}/products?gymId=${gymId}`, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   }
 
   // TODO: make it observable:
@@ -36,15 +39,22 @@ export class ProductsService {
 
     return this.http.post<Product>(
       `${this.url}/add-product?gymId=${this.gymId}`,
-      product
+      product,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
     );
   };
 
   public update = (product: Product): Observable<Product> => {
-    return this.http.put<Product>(`${this.url}/update-product`, product);
+    return this.http.put<Product>(`${this.url}/update-product`, product, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.url}/delete-product?id=${id}`);
+    return this.http.delete(`${this.url}/delete-product?id=${id}`, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 }

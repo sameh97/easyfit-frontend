@@ -58,6 +58,7 @@ import { AddProductComponent } from './components/products-components/add-produc
 import { UpdateProductPageComponent } from './components/products-components/update-product-page/update-product-page.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MachineNotificationsComponent } from './components/machines-components/machine-notifications/machine-notifications.component';
+import { MatInputModule } from '@angular/material/input';
 // import { MatRadioModule } from '@angular/material/radio';
 // import { MatSelectModule } from '@angular/material/select';
 // import {
@@ -147,6 +148,7 @@ const routes: Routes = [
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     MatTabsModule,
+    MatInputModule,
   ],
 
   providers: [],
