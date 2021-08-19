@@ -59,13 +59,10 @@ import { UpdateProductPageComponent } from './components/products-components/upd
 import { MatTabsModule } from '@angular/material/tabs';
 import { MachineNotificationsComponent } from './components/machines-components/machine-notifications/machine-notifications.component';
 import { MatInputModule } from '@angular/material/input';
-// import { MatRadioModule } from '@angular/material/radio';
-// import { MatSelectModule } from '@angular/material/select';
-// import {
-//   MatDatepicker,
-//   MatDatepickerModule,
-// } from '@angular/material/datepicker';
-// import { MatNativeDateModule } from '@angular/material/core';
+import { CatalogPageComponent } from './components/catalog-components/catalog-page/catalog-page.component';
+import { AddCatalogComponent } from './components/catalog-components/add-catalog/add-catalog.component';
+import { UpdateCatalogComponent } from './components/catalog-components/update-catalog/update-catalog.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -85,6 +82,11 @@ const routes: Routes = [
   {
     path: 'scheduler',
     component: SchedulerPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'catalog',
+    component: CatalogPageComponent,
     canActivate: [AuthGuard],
   },
   //TODO: make 404 page
@@ -116,6 +118,9 @@ const routes: Routes = [
     AddProductComponent,
     UpdateProductPageComponent,
     MachineNotificationsComponent,
+    CatalogPageComponent,
+    AddCatalogComponent,
+    UpdateCatalogComponent,
   ],
   imports: [
     BrowserModule,
@@ -149,6 +154,7 @@ const routes: Routes = [
     NgxMatNativeDateModule,
     MatTabsModule,
     MatInputModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
 
   providers: [],

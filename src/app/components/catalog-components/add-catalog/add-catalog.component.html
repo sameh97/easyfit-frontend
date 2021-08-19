@@ -1,0 +1,52 @@
+<div class="center">
+    <h2 mat-dialog-title>Create catalog </h2>
+</div>
+
+<div class="flex-container">
+    <form *ngIf="addCatalogForm && catalog" #theForm="ngForm" [formGroup]="addCatalogForm" (ngSubmit)="create()">
+
+        <div class="row1">
+            <mat-form-field class="duration-days" appearance="fill">
+                <mat-label>Catalog duration days</mat-label>
+                <input type="number" [(ngModel)]="catalog.durationDays" formControlName="durationDays" matInput placeholder="Duration days" value="1">
+            </mat-form-field>
+        </div>
+        <div class="row2">
+            <mat-label>Please choose products to include in the catalog: </mat-label>
+            <!-- <mat-selection-list #products [(ngModel)]="flor" formControlName="products">
+        <mat-list-option *ngFor="let product of strings">
+          {{product}}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <p>
+        Options selected: {{products.selectedOptions.selected.length}}
+      </p> -->
+
+            <!-- <mat-form-field>
+                <mat-select placeholder="Products" formControlName="products" [(ngModel)]="selectedProducts" multiple>
+                    <mat-option *ngFor="let productName of productsNames" [value]="topping">{{productName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <p>
+                {{ show(selectedToppings)}}
+            </p> -->
+
+
+            <!-- <mat-form-field appearance="fill">
+                <mat-label>Products</mat-label>
+                <mat-select formControlName="products" [(ngModel)]="allProducts" multiple>
+                    <mat-option *ngFor="let product of allProducts">{{product.name}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <ng-multiselect-dropdown [placeholder]="'custom placeholder'" formControlName="products" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+
+        </div>
+        <div class="row3">
+            <button id="add-catalog-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Add New Catalog </button>
+        </div>
+    </form>
+</div>

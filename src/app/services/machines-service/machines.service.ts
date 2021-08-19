@@ -22,7 +22,10 @@ export class MachinesService {
     machineSerialNumber: number
   ): Observable<Machine> => {
     return this.http.get<Machine>(
-      `${AppConsts.BASE_URL}/api/machine?serialNumber=${machineSerialNumber}`
+      `${AppConsts.BASE_URL}/api/machine?serialNumber=${machineSerialNumber}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
     );
   };
 
