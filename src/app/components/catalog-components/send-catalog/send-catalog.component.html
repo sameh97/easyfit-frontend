@@ -1,0 +1,37 @@
+<div class="center">
+    <h2 mat-dialog-title>Send catalog </h2>
+</div>
+
+
+<form *ngIf="sendCatalogForm && catalog" #theForm="ngForm" [formGroup]="sendCatalogForm" (ngSubmit)="send()">
+    <div class="flex-container">
+        <div class="row1">
+
+            <mat-form-field class="wide" appearance="fill">
+                <mat-label>Message content</mat-label>
+
+                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" name="message" formControlName="message" [(ngModel)]="message" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" placeholder="Message content"></textarea>
+            </mat-form-field>
+
+        </div>
+
+        <div class="row2">
+            <mat-form-field class="example-chip-list" appearance="fill">
+                <mat-label>Select phone numbers</mat-label>
+                <mat-chip-list #chipList aria-label="Phones selection">
+                    <mat-chip *ngFor="let number of phones" [selectable]="selectable" [removable]="removable" (removed)="remove(number)">
+                        {{number}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                    <input id="d" placeholder="New phone number..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+            </mat-form-field>
+        </div>
+        <div class="row3">
+            <button id="add-catalog-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Send catalog </button>
+        </div>
+    </div>
+
+
+</form>

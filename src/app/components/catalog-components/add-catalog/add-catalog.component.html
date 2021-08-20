@@ -1,0 +1,26 @@
+<div class="center">
+    <h2 mat-dialog-title>Create catalog </h2>
+</div>
+
+<div class="flex-container">
+    <form *ngIf="addCatalogForm && catalog" #theForm="ngForm" [formGroup]="addCatalogForm" (ngSubmit)="create()">
+
+        <div class="row1">
+            <mat-form-field class="duration-days" appearance="fill">
+                <mat-label>Catalog duration days</mat-label>
+                <input type="number" [(ngModel)]="catalog.durationDays" formControlName="durationDays" matInput placeholder="Duration days" value="1">
+            </mat-form-field>
+        </div>
+        <div class="row2">
+            <mat-label>Please choose products to include in the catalog: </mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Choose Products to include in Catalog'" formControlName="products" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelect)="onItemDeSelect($event)">
+            </ng-multiselect-dropdown>
+
+        </div>
+        <div class="row3">
+            <button id="add-catalog-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Add New Catalog </button>
+        </div>
+    </form>
+</div>

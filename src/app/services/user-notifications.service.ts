@@ -27,34 +27,49 @@ export class UserNotificationsService extends ClientDataService {
     public http: HttpClient
   ) {
     super(`${AppConsts.BASE_URL}/api`, http);
+
+    this.authService.currentUser$
+      .pipe(filter((user) => AppUtil.hasValue(user)))
+      .subscribe((user) => {
+        this.gymId = user.gymId;
+      });
+
+    this.initGymID();
   }
 
+  private initGymID = (): void => {
+    this.gymId = this.authService.getGymId();
+  };
+
   public getAll = (): Observable<AppNotificationMessage[]> => {
-    return this.authService.currentUser$
-      .pipe(switchMap(user => {
+    this.initGymID();
+    return this.authService.currentUser$.pipe(
+      switchMap((user) => {
         return this.http
-        .get<AppNotificationMessage[]>(
-          `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
-          {
-            headers: CoreUtil.createAuthorizationHeader(),
-          }
-        )
-        .pipe(catchError(AppUtil.handleError));
-      }))
+          .get<AppNotificationMessage[]>(
+            `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
+            {
+              headers: CoreUtil.createAuthorizationHeader(),
+            }
+          )
+          .pipe(catchError(AppUtil.handleError));
+      })
+    );
   };
 
   public getByMachineSerialNumber = (
     machineSerialNumber: string
   ): Observable<AppNotificationMessage[]> => {
-    return this.authService.currentUser$
-    .pipe(switchMap(user => {
-      return this.http.get<AppNotificationMessage[]>(
-        `${AppConsts.BASE_URL}/api/machine/notifications?gymId=${this.gymId}&machineSerialNumber=${machineSerialNumber}`,
-        {
-          headers: CoreUtil.createAuthorizationHeader(),
-        }
-      );
-    }))
+    return this.authService.currentUser$.pipe(
+      switchMap((user) => {
+        return this.http.get<AppNotificationMessage[]>(
+          `${AppConsts.BASE_URL}/api/machine/notifications?gymId=${this.gymId}&machineSerialNumber=${machineSerialNumber}`,
+          {
+            headers: CoreUtil.createAuthorizationHeader(),
+          }
+        );
+      })
+    );
   };
 
   public update = (

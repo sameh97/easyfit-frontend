@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -20,7 +26,7 @@ import {
   templateUrl: './members-table.component.html',
   styleUrls: ['./members-table.component.css'],
 })
-export class MembersTableComponent implements OnInit, AfterViewInit {
+export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   //TODO: check the other inputs sort button issue
   @ViewChild(MatSort) sort!: MatSort;
@@ -51,12 +57,14 @@ export class MembersTableComponent implements OnInit, AfterViewInit {
   ) {}
 
   private getAll() {
-    this.membersSerive.getAll().subscribe((members) => {
-      this.members = members;
-      this.dataSource = new MatTableDataSource<Member>(this.members);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-    });
+    this.subscriptions.push(
+      this.membersSerive.getAll().subscribe((members) => {
+        this.members = members;
+        this.dataSource = new MatTableDataSource<Member>(this.members);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      })
+    );
   }
 
   ngOnInit(): void {

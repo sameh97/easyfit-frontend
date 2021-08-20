@@ -1,0 +1,40 @@
+.row1 {
+    flex: 4;
+}
+
+.row2 {
+    flex: 4;
+}
+
+.flex-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    flex-direction: column;
+    height: 400px;
+}
+
+.flex-container>div {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+.dashboard-card {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    right: 50px;
+    bottom: 100px;
+    height: 560px;
+}
+
+.dashboard-card-content {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
