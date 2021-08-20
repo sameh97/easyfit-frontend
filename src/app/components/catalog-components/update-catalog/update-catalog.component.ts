@@ -56,9 +56,7 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-    // this.allProducts = this.catalog.products;
-    // this.selectedItems = this.catalog.products;
-
+    
     this.catalog.products.forEach((product) => {
       const item: any = {
         item_id: product.id,
@@ -67,14 +65,6 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
 
       this.selectedItems.push(item);
     });
-
-    // for (let product of this.catalog.products) {
-    //   const item: any = {
-    //     item_id: product.id,
-    //     item_text: product.name,
-    //   };
-    //   this.dropdownList.push(item);
-    // }
 
     this.dropdownList = [...this.dropdownList];
 
