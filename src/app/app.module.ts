@@ -63,6 +63,8 @@ import { CatalogPageComponent } from './components/catalog-components/catalog-pa
 import { AddCatalogComponent } from './components/catalog-components/add-catalog/add-catalog.component';
 import { UpdateCatalogComponent } from './components/catalog-components/update-catalog/update-catalog.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -121,6 +123,7 @@ const routes: Routes = [
     CatalogPageComponent,
     AddCatalogComponent,
     UpdateCatalogComponent,
+    SendCatalogComponent,
   ],
   imports: [
     BrowserModule,
@@ -155,6 +158,8 @@ const routes: Routes = [
     MatTabsModule,
     MatInputModule,
     NgMultiSelectDropDownModule.forRoot(),
+    MatChipsModule,
+
   ],
 
   providers: [],

@@ -9,6 +9,7 @@ import { Catalog } from 'src/app/model/catalog';
 import { CatalogService } from 'src/app/services/catalog-service/catalog.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { AddCatalogComponent } from '../add-catalog/add-catalog.component';
+import { SendCatalogComponent } from '../send-catalog/send-catalog.component';
 import { UpdateCatalogComponent } from '../update-catalog/update-catalog.component';
 
 @Component({
@@ -29,6 +30,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     'link',
     'durationDays',
     'creationTime',
+    'sendOnWhatsApp',
     'update',
     'delete',
   ];
@@ -54,6 +56,14 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       })
     );
   };
+
+  public openSendCatalogDialog(catalog: Catalog) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(SendCatalogComponent, null, catalog, null)
+        .subscribe()
+    );
+  }
 
   public displayLink(uuid: string): string {
     return `http://localhost:3000/api/catalog-url/${uuid}`;

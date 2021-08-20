@@ -45,21 +45,6 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.productsService.getAll().subscribe((products) => {
         this.allProducts = products;
-        // for (let product of this.allProducts) {
-        //   const item: any = {
-        //     item_id: product.id,
-        //     item_text: product.name,
-        //     id: product.id,
-        //     name: product.name,
-        //     description: product.description,
-        //     code: product.code,
-        //     quantity: product.quantity,
-        //     imgUrl: product.imgUrl,
-        //     categoryID: product.categoryID,
-        //     gymId: product.gymId,
-        //   };
-        //   this.dropdownList.push(item);
-        // }
 
         for (let product of this.allProducts) {
           const item: any = {
@@ -92,7 +77,6 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
   }
 
   onItemSelect(item: any) {
-    console.log(item);
     for (let product of this.allProducts) {
       if (item.item_id === product.id) {
         this.catalog.products.push(product);
@@ -100,10 +84,20 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
     }
   }
   onSelectAll(items: any) {
-    console.log(items);
-    for (let product of this.allProducts) {
-      this.catalog.products.push(product);
+    this.catalog.products = this.allProducts;
+  }
+
+  onItemDeSelect(item: any) {
+    for (let i = 0; i < this.catalog.products.length; i++) {
+      if (item.item_id === this.catalog.products[i].id) {
+        this.catalog.products.splice(i, 1);
+        break;
+      }
     }
+  }
+
+  onDeSelectAll(items: any) {
+    this.catalog.products = [];
   }
 
   public create = (): Promise<void> => {
@@ -115,6 +109,8 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
     }
 
     this.catalog.isActive = true;
+    // this.catalog.products = this.selectedItems;
+    this.dropdownList;
 
     this.subscriptions.push(
       this.catalogService.create(this.catalog).subscribe(

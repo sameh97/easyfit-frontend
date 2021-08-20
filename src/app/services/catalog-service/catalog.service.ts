@@ -37,10 +37,30 @@ export class CatalogService {
     });
   };
 
+  public getAllPhones = (): Observable<string[]> => {
+    this.initGymID();
+    return this.http.get<any[]>(
+      `${AppConsts.BASE_URL}/api/members-phones?gymId=${this.gymId}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
+  };
+
   public getAll = (): Observable<Catalog[]> => {
     this.initGymID();
     return this.http.get<Catalog[]>(
       `${AppConsts.BASE_URL}/api/catalog-urls?gymId=${this.gymId}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
+  };
+  // TODO: make message content class
+  public send = (messageContent: any): Observable<any> => {
+    return this.http.post(
+      `${AppConsts.BASE_URL}/api/send-catalog-whatsapp`,
+      messageContent,
       {
         headers: CoreUtil.createAuthorizationHeader(),
       }
