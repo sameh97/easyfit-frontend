@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
+import { Bill } from 'src/app/model/bill';
 import { Product } from 'src/app/model/product';
 import { AuthenticationService } from '../authentication.service';
 
@@ -28,9 +29,23 @@ export class ProductsService {
     });
   }
 
+  public getAllBills(): Observable<Bill[]> {
+    const gymId = this.authService.getGymId();
+
+    return this.http.get<Bill[]>(`${this.url}/bills?gymId=${gymId}`, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
+  }
+
   // TODO: make it observable:
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
+  };
+
+  public sell = (bill: Bill): Observable<Bill> => {
+    return this.http.post<Bill>(`${this.url}/add-bill`, bill, {
+      headers: CoreUtil.createAuthorizationHeader(),
+    });
   };
 
   public create = (product: Product): Observable<any> => {

@@ -65,6 +65,7 @@ import { UpdateCatalogComponent } from './components/catalog-components/update-c
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { SellProductComponent } from './components/products-components/sell-product/sell-product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -124,6 +125,7 @@ const routes: Routes = [
     AddCatalogComponent,
     UpdateCatalogComponent,
     SendCatalogComponent,
+    SellProductComponent,
   ],
   imports: [
     BrowserModule,

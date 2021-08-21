@@ -23,9 +23,10 @@
                         {{number}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
-                    <input id="d" placeholder="New phone number..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                    <input id="d" formControlName="phones" placeholder="New phone number..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
                 </mat-chip-list>
             </mat-form-field>
+            <mat-error *ngIf="phones.length === 0">At least 1 phone number need to be added</mat-error>
         </div>
         <div class="row3">
             <button id="add-catalog-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">

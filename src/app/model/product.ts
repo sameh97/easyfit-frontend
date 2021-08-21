@@ -6,5 +6,6 @@ export class Product {
   public quantity: number;
   public imgUrl: string;
   public categoryID: number;
+  public price: number;
   public gymId: number;
 }
