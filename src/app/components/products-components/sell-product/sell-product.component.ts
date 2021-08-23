@@ -36,6 +36,7 @@ export class SellProductComponent implements OnInit, OnDestroy {
     this.sellProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
       quantity: ['', [Validators.required, Validators.min(1)]],
+      coustomerName: ['', [Validators.required]],
       coustomerPhone: ['', [Validators.required, Validators.minLength(5)]],
       coustomerID: ['', [Validators.required, Validators.minLength(5)]],
     });

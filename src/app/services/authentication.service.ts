@@ -71,6 +71,20 @@ export class AuthenticationService {
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
+  public isAdmin(): boolean {
+    const token: string = window.localStorage.getItem(
+      AppConsts.KEY_USER_TOKEN
+    )!;
+
+    const user: User = this.extractUserFromToken(token);
+
+    if (user.roleId === 2) {
+      return true;
+    }
+
+    return false;
+  }
+
   public setCurrentUser() {
     const token: string = window.localStorage.getItem(
       AppConsts.KEY_USER_TOKEN

@@ -119,8 +119,9 @@
                                     <mat-card>
                                         <div class="bill-list-flex-container">
                                             <div class="details">
-                                                <h3><b>{{getProductName(bill.productID)}} </b></h3>
-                                                <!-- TODO: show customer name -->
+                                                <h3><b>{{bill.productName}} </b></h3>
+
+                                                <p>Coustomer name: {{bill.coustomerName}}</p>
                                                 <p>Coustomer ID: {{bill.coustomerID}}</p>
                                                 <p>Coustomer Phone: {{bill.coustomerPhone}}</p>
                                                 <p>Quantity: {{bill.quantity}}</p>

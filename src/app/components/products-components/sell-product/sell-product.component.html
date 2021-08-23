@@ -5,6 +5,19 @@
 <form *ngIf="sellProductForm" #theForm="ngForm" [formGroup]="sellProductForm" (ngSubmit)="sellProduct()">
 
     <mat-grid-list cols="5" rowHeight="70px">
+        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightblue">
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="3" [rowspan]="1" [style.background]="lightblue">
+            <mat-form-field class="wide" appearance="fill">
+                <mat-label>Customer name</mat-label>
+                <input matInput type="text" name="coustomerName" formControlName="coustomerName" [(ngModel)]="bill.coustomerName" placeholder="Customer name">
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightblue">
+        </mat-grid-tile>
+
 
         <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightblue">
         </mat-grid-tile>
