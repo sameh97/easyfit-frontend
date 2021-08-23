@@ -30,7 +30,7 @@
         <div>
             <mat-label>Please choose gym for this user: </mat-label>
 
-            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gymId" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gym" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
             </ng-multiselect-dropdown>
         </div>
         <div>

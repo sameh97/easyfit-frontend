@@ -38,6 +38,16 @@ export class UpdateUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+
     this.subscriptions.push(
       this.gymsService.getAll().subscribe((gyms) => {
         this.gyms = gyms;
@@ -58,15 +68,6 @@ export class UpdateUserComponent implements OnInit, OnDestroy {
     );
 
     this.buildForm();
-    this.dropdownSettings = {
-      singleSelection: true,
-      idField: 'item_id',
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true,
-    };
   }
 
   private buildForm = (): void => {

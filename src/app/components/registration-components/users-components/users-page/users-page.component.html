@@ -68,7 +68,11 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
                                 <td mat-cell *matCellDef="let row">{{row.address}}</td>
                             </ng-container>
-                            <!-- TODO: check if displaying gym name is needed -->
+
+                            <ng-container matColumnDef="gymName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Gym name</th>
+                                <td mat-cell *matCellDef="let row">{{ showGymName(row.gymId)}}</td>
+                            </ng-container>
 
                             <ng-container matColumnDef="update">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Edit </th>

@@ -58,10 +58,11 @@
                 {{hide ? 'visibility_off' : 'visibility'}}
               </mat-icon>
             </button>
-                        <mat-error *ngIf="!addUserForm.controls['confirmPassword'].valid">
+                        <mat-error *ngIf="addUserForm.controls.confirmPassword.errors?.notSame">
                             Password and confirm password should be same
                         </mat-error>
                     </mat-form-field>
+                    <!-- .errors?.machineNotExist -->
                 </div>
             </div>
         </div>

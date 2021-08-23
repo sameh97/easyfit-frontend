@@ -11,7 +11,9 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { Gym } from 'src/app/model/gym';
 import { User } from 'src/app/model/user';
+import { GymsService } from 'src/app/services/gyms-service/gyms.service';
 import { UsersService } from 'src/app/services/users-service/users.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { AddUserComponent } from '../add-user/add-user.component';
@@ -28,7 +30,7 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<User>;
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-
+  gyms: Gym[] = [];
   users: User[];
   columns: string[] = [
     'firstName',
@@ -37,6 +39,7 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
     'phone',
     'birthDay',
     'address',
+    'gymName',
     'update',
     'delete',
   ];
@@ -44,6 +47,7 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private usersService: UsersService,
+    private gymsService: GymsService,
     private navigationService: NavigationHelperService
   ) {}
 
@@ -60,11 +64,25 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dataSource.paginator = this.paginator;
       })
     );
+
+    this.subscriptions.push(
+      this.gymsService.getAll().subscribe((gyms) => {
+        this.gyms = gyms;
+        // TODO: make api that retreves one gym by its id
+      })
+    );
   }
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
+
+  private showGymName(userGymID: number): string {
+    const gym: Gym = this.gyms.find(({ id }) => id === userGymID);
+
+    return gym.name;
+  }
+
   public openCreateUserDialog() {
     this.subscriptions.push(
       this.navigationService.openDialog(AddUserComponent, '550px').subscribe()
