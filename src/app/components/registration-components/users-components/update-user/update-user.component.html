@@ -1,0 +1,122 @@
+<div class="center">
+    <h2 mat-dialog-title>Edit user </h2>
+</div>
+
+<form *ngIf="updateUserForm" name="updateUserForm" #theForm="ngForm" [formGroup]="updateUserForm" (ngSubmit)="update()">
+    <div class="flex-container">
+
+        <div>
+            <div class="flex-container-inside-row">
+                <div>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>User first name</mat-label>
+                        <input matInput type="text" [(ngModel)]="user.firstName" name="firstName" formControlName="firstName" placeholder="Enter user's first name please">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>User last name</mat-label>
+                        <input matInput type="text" [(ngModel)]="user.lastName" name="lastName" formControlName="lastName" placeholder="Enter user's last name please">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div>
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [(ngModel)]="user.email" name="email" formControlName="email" placeholder="Enter user's email please">
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-label>Please choose gym for this user: </mat-label>
+
+            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gym" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+            </ng-multiselect-dropdown>
+        </div>
+        <div>
+            <div class="flex-container-inside-row">
+                <div>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input formControlName="password" [(ngModel)]="user.password" matInput [type]=" hide ? 'password' : 'text'" required />
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
+              <mat-icon>
+                {{hide ? 'visibility_off' : 'visibility'}}
+              </mat-icon>
+            </button>
+                        <mat-error *ngIf="!updateUserForm.controls['password'].valid">
+                            Password is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Confirm Password</mat-label>
+                        <input formControlName="confirmPassword" ngModel matInput [type]=" hide ? 'password' : 'text'" required />
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
+              <mat-icon>
+                {{hide ? 'visibility_off' : 'visibility'}}
+              </mat-icon>
+            </button>
+                        <mat-error *ngIf="!updateUserForm.controls['confirmPassword'].valid">
+                            Password and confirm password should be same
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flex-container-inside-row">
+                <div>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>User phone</mat-label>
+                        <input matInput type="text" [(ngModel)]="user.phone" name="phone" formControlName="phone" placeholder="Enter user's phone please">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>User birth day</mat-label>
+                        <input formControlName="birthDay" matInput [(ngModel)]="user.birthDay" [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="flex-container-inside-row">
+                <div>
+                    <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-label>User address</mat-label>
+                        <input matInput type="text" [(ngModel)]="user.address" name="address" formControlName="address" placeholder="Enter user's address please">
+                    </mat-form-field>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <div> <button id="create-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Add user </button>
+        </div>
+
+    </div>
+    <!-- <mat-grid-list cols="4" rowHeight="70px">
+
+
+    <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+
+    </mat-grid-tile>
+
+
+    <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">
+
+    </mat-grid-tile>
+
+
+  </mat-grid-list>
+ -->
+
+</form>

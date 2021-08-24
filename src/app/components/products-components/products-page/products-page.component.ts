@@ -7,6 +7,8 @@ import { NavigationHelperService } from 'src/app/shared/services/navigation-help
 import { AddProductComponent } from '../add-product/add-product.component';
 import { tap } from 'rxjs/operators';
 import { UpdateProductPageComponent } from '../update-product-page/update-product-page.component';
+import { SellProductComponent } from '../sell-product/sell-product.component';
+import { Bill } from 'src/app/model/bill';
 
 @Component({
   selector: 'app-products-page',
@@ -15,8 +17,11 @@ import { UpdateProductPageComponent } from '../update-product-page/update-produc
 })
 export class ProductsPageComponent implements OnInit, OnDestroy {
   products: Product[];
+  filteredProducts: Product[];
+  bills: Bill[];
+  filteredBills: Bill[];
   private subscriptions: Subscription[] = [];
-
+  items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
   constructor(
     private productsService: ProductsService,
     private navigationService: NavigationHelperService
@@ -26,7 +31,56 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.productsService.getAll().subscribe((products) => {
         this.products = products;
+        this.assignCopyOfProducts();
       })
+    );
+
+    this.subscriptions.push(
+      this.productsService.getAllBills().subscribe((bills) => {
+        this.bills = bills;
+        this.assignCopy();
+      })
+    );
+  }
+
+  isProductsEmpty() {
+    if (!this.filteredProducts) {
+      return true;
+    }
+    return this.filteredProducts.length === 0;
+  }
+
+  isBillsEmpty() {
+    if (!this.filteredBills) {
+      return true;
+    }
+    return this.filteredBills.length === 0;
+  }
+
+  assignCopy() {
+    this.filteredBills = Object.assign([], this.bills);
+  }
+
+  filterItem(value) {
+    if (!value) {
+      this.assignCopy();
+    } // when nothing has typed
+    this.filteredBills = Object.assign([], this.bills).filter(
+      (item) =>
+        item.coustomerName.toLowerCase().indexOf(value.toLowerCase()) > -1
+    );
+  }
+
+  assignCopyOfProducts() {
+    this.filteredProducts = Object.assign([], this.products);
+  }
+
+  filterProducts(value) {
+    if (!value) {
+      this.assignCopyOfProducts();
+    } // when nothing has typed
+    this.filteredProducts = Object.assign([], this.products).filter(
+      (item) => item.code.toLowerCase().indexOf(value.toLowerCase()) > -1
     );
   }
 
@@ -45,10 +99,24 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
     //TODO: make more categores
   }
 
+  public getProductName(productId: number): string {
+    const product: Product = this.products.find(({ id }) => id === productId);
+
+    return product.name;
+  }
+
   public openUpdateProductDialog(product: Product) {
     this.subscriptions.push(
       this.navigationService
         .openDialog(UpdateProductPageComponent, null, product, null)
+        .subscribe()
+    );
+  }
+
+  public openSellProductDialog(product: Product) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(SellProductComponent, null, product, null)
         .subscribe()
     );
   }

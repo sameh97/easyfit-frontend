@@ -9,7 +9,6 @@ import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './services/auth-guard.service';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 
-import { MembersComponent } from './components/members-components/members/members.component';
 import { SearchfilterPipe } from './searchfilter.pipe';
 import { AddMemberComponent } from './components/members-components/add-member/add-member.component';
 import { UpdateMemberComponent } from './components/members-components/update-member/update-member.component';
@@ -65,6 +64,17 @@ import { UpdateCatalogComponent } from './components/catalog-components/update-c
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { SellProductComponent } from './components/products-components/sell-product/sell-product.component';
+import { RegisterComponent } from './components/registration-components/register/register.component';
+import { CreateGymComponent } from './components/registration-components/create-gym/create-gym.component';
+import { AdminPageComponent } from './components/registration-components/admin-page/admin-page.component';
+import { AdminNavComponent } from './components/registration-components/admin-nav/admin-nav.component';
+import { UpdateGymComponent } from './components/registration-components/update-gym/update-gym.component';
+import { UsersPageComponent } from './components/registration-components/users-components/users-page/users-page.component';
+import { AddUserComponent } from './components/registration-components/users-components/add-user/add-user.component';
+import { UpdateUserComponent } from './components/registration-components/users-components/update-user/update-user.component';
+import { NotificationsDropdownComponent } from './components/notifications/notifications-dropdown.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -91,6 +101,17 @@ const routes: Routes = [
     component: CatalogPageComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'admin',
+    component: AdminPageComponent,
+    canActivate: [AuthGuard], //TODO: add admin guard
+  },
+  {
+    path: 'users',
+    component: UsersPageComponent,
+    canActivate: [AuthGuard], //TODO: add admin guard
+  },
+
   //TODO: make 404 page
 ];
 
@@ -99,7 +120,6 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterPageComponent,
-    MembersComponent,
     SearchfilterPipe,
     AddMemberComponent,
     UpdateMemberComponent,
@@ -124,6 +144,16 @@ const routes: Routes = [
     AddCatalogComponent,
     UpdateCatalogComponent,
     SendCatalogComponent,
+    SellProductComponent,
+    RegisterComponent,
+    CreateGymComponent,
+    AdminPageComponent,
+    AdminNavComponent,
+    UpdateGymComponent,
+    UsersPageComponent,
+    AddUserComponent,
+    UpdateUserComponent,
+    NotificationsDropdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -159,7 +189,7 @@ const routes: Routes = [
     MatInputModule,
     NgMultiSelectDropDownModule.forRoot(),
     MatChipsModule,
-
+    MatBadgeModule,
   ],
 
   providers: [],

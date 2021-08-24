@@ -94,6 +94,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
             .subscribe(
               (res) => {
                 console.log(res);
+                this.catalogs = [...this.catalogs];
               },
               (err) => {
                 AppUtil.showError(err);

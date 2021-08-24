@@ -1,5 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppUtil } from 'src/app/common/app-util';
 import { Catalog } from 'src/app/model/catalog';
@@ -33,18 +39,29 @@ export class SendCatalogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.catalogService.getAllPhones().subscribe((phones) => {
         this.phones = phones;
-        this.message = '';
-        this.buildForm();
       })
     );
+
+    this.message = '';
+    this.buildForm();
   }
 
   private buildForm = (): void => {
     this.sendCatalogForm = this.formBuilder.group({
       message: [this.message, [Validators.required]],
-      phones: [this.phones, [Validators.required]],
+      phones: [this.phones, [this.validatePhones]],
     });
   };
+
+  private validatePhones(phones: AbstractControl): { [key: string]: any } {
+    if (phones.value && phones.value.length === 0) {
+      return {
+        validatePhonesArray: { valid: false },
+      };
+    }
+
+    return null;
+  }
 
   public send = (): Promise<void> => {
     if (!AppUtil.hasValue(this.message)) {

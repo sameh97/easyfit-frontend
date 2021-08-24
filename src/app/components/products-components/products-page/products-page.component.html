@@ -1,61 +1,159 @@
 <app-nav>
+    <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Products">
+            <div class="flex-container">
+                <div>
+                    <mat-grid-list cols="6" rowHeight="70px">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                            <h2>All Products</h2>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
 
-    <div class="flex-container">
-        <div>
-            <mat-grid-list cols="6" rowHeight="70px">
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <h2>All Products</h2>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                            <button (click)="openCreateProductDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+                <mat-icon>plus_one</mat-icon>
+              </button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
 
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <button (click)="openCreateProductDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-            <mat-icon>plus_one</mat-icon>
-          </button>
-                </mat-grid-tile>
-            </mat-grid-list>
+                </div>
 
-        </div>
-        <div>
+                <div>
 
-            <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
-                <mat-list role="list">
-                    <mat-list-item *cdkVirtualFor="let product of products" class="example-item" role="listitem">
+                    <mat-card class="dashboard-card-products">
+                        <mat-card-header>
+                            <mat-form-field fxFlex="40%">
+                                <input #myInput matInput type="text" placeholder="Search by product code" (input)="filterProducts(myInput.value)">
+                            </mat-form-field>
 
-                        <div class="list-element-flex-container">
-                            <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{product.imgUrl}}"></div>
-                            <div class="details">
-                                <h3 matLine>{{product.name}}</h3>
-                                <h4 matLine> Category: {{getCategory(product.categoryID)}}</h4>
-                                <p matLine>
-                                    <span> {{product.description}} </span>
-                                </p>
-                                <p matLine>
-                                    <span> Code: {{product.code}}</span>
-                                </p>
-                                <p matLine>
-                                    <span> Quantity: {{product.quantity}}
-                  </span>
+                        </mat-card-header>
+                        <mat-card-content class="dashboard-card-content-products">
 
-                                </p>
+                            <cdk-virtual-scroll-viewport itemSize="70" class="example-viewport">
+                                <mat-list role="list">
+                                    <mat-list-item *cdkVirtualFor="let product of filteredProducts" class="example-item" role="listitem">
 
-                            </div>
-                            <div class="edit"><button mat-flat-button color="primary" (click)="openUpdateProductDialog(product)">Edit</button></div>
-                            <div class="delete"><button mat-raised-button (click)="delete(product)" color="warn">Delete</button>
-                            </div>
-                        </div>
-                        <mat-divider></mat-divider>
-                    </mat-list-item>
+                                        <div class="list-element-flex-container">
+                                            <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{product.imgUrl}}">
+                                            </div>
+                                            <div class="details">
+                                                <h3 matLine>{{product.name}}</h3>
+                                                <h4 matLine> Category: {{getCategory(product.categoryID)}}</h4>
+                                                <p matLine>
+                                                    <span> {{product.description}} </span>
+                                                </p>
+                                                <p matLine>
+                                                    <span> Code: {{product.code}}</span>
+                                                </p>
+                                                <p matLine>
+                                                    <span> Quantity: {{product.quantity}}
+                          </span>
 
-                </mat-list>
+                                                </p>
+                                                <p matLine>
+                                                    <span> Price: {{product.price}}
+                          </span>
 
-            </cdk-virtual-scroll-viewport>
+                                                </p>
 
-        </div>
-        <div>
+                                            </div>
+                                            <div class="sell"><button mat-raised-button (click)="openSellProductDialog(product)">Sell
+                          <mat-icon>
+                            add_shopping_cart</mat-icon>
+                        </button>
 
-        </div>
-    </div>
+                                            </div>
+                                            <div class="edit"><button mat-flat-button color="primary" (click)="openUpdateProductDialog(product)">Edit</button></div>
+                                            <div class="delete"><button mat-raised-button (click)="delete(product)" color="warn">Delete</button>
+                                            </div>
+                                        </div>
+                                        <mat-divider></mat-divider>
+                                    </mat-list-item>
+
+                                </mat-list>
+                                <div class="center" *ngIf="isProductsEmpty()">
+                                    <h3> No Results</h3>
+                                </div>
+
+                            </cdk-virtual-scroll-viewport>
+
+                        </mat-card-content>
+                    </mat-card>
+
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Bills">
+            <div class="flex-container">
+                <div>
+                    <mat-grid-list cols="6" rowHeight="70px">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                            <h2>All Bills</h2>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+
+                        </mat-grid-tile>
+                    </mat-grid-list>
+
+                </div>
+                <div>
+                    <mat-card class="dashboard-card-bills">
+                        <mat-card-header>
+                            <mat-form-field fxFlex="40%">
+                                <input #myInput matInput type="text" placeholder="Search by customer name" [(ngModel)]="name" (input)="filterItem(myInput.value)">
+                            </mat-form-field>
+
+                        </mat-card-header>
+                        <mat-card-content class="dashboard-card-content-bills">
+                            <cdk-virtual-scroll-viewport itemSize="80" class="viewport-bills">
+                                <div *cdkVirtualFor="let bill of filteredBills" class="bill-item">
+
+
+                                    <mat-card>
+                                        <div class="bill-list-flex-container">
+                                            <div class="details">
+                                                <h3><b>{{bill.productName}} </b></h3>
+
+                                                <p>Coustomer name: {{bill.coustomerName}}</p>
+                                                <p>Coustomer ID: {{bill.coustomerID}}</p>
+                                                <p>Coustomer Phone: {{bill.coustomerPhone}}</p>
+                                                <p>Quantity: {{bill.quantity}}</p>
+                                                <p>Total cost: {{bill.totalCost}}</p>
+                                                <p>Date: {{bill.createdAt | date:'d/M/yy, h:mm a'}}</p>
+
+                                            </div>
+                                            <!-- <div class="done-button">
+                        <button mat-button (click)="onDone(notification)" color="success">Done</button>
+
+                      </div> -->
+                                        </div>
+
+
+
+                                    </mat-card>
+                                </div>
+
+                                <div *ngIf="isBillsEmpty()">
+                                    <h3> No Results</h3>
+                                </div>
+
+                            </cdk-virtual-scroll-viewport>
+                        </mat-card-content>
+
+                    </mat-card>
+                </div>
+                <div></div>
+            </div>
+
+        </mat-tab>
+
+    </mat-tab-group>
 
 </app-nav>

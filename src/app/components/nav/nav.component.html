@@ -16,14 +16,33 @@
             <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-            <span>Easyfit</span>
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-        <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-            <mat-menu #appMenu="matMenu">
-                <button (click)="logout()" mat-menu-item>Log out</button>
-                <!-- <button mat-menu-item>Item 2</button> -->
-            </mat-menu>
+
+            <div class="menu-flex-container">
+                <div> <span>Easyfit</span>
+                </div>
+                <div class="space"></div>
+
+
+                <div class="notification-bell">
+                    <button mat-button (click)="openNotificationsDialog()">
+
+            <mat-icon [matBadge]="getNotificationsLength()" matBadgeColor="warn">notifications</mat-icon>
+          </button>
+
+                </div>
+                <div class="logout-button">
+                    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+            <mat-icon>arrow_drop_down</mat-icon>
+          </button>
+
+                    <mat-menu #appMenu="matMenu">
+                        <button (click)="logout()" mat-menu-item>Log out</button>
+                        <!-- <button mat-menu-item>Item 2</button> -->
+                    </mat-menu>
+
+                </div>
+
+            </div>
         </mat-toolbar>
         <!-- Add Content Here -->
         <ng-content></ng-content>

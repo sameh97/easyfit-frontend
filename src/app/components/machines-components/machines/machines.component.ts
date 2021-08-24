@@ -127,7 +127,7 @@ export class MachinesComponent implements OnInit {
     );
   }
 
-  isMachinesMachinesEmpty(): boolean {
+  isMachinesEmpty(): boolean {
     if (!this.filteredItems) {
       return true
     }

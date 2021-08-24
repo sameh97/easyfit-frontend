@@ -9,7 +9,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Product } from 'src/app/model/product';
-import { ScheduledJob } from 'src/app/model/scheduled-job';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 @Component({
   selector: 'app-update-product-page',

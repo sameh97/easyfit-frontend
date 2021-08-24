@@ -22,7 +22,9 @@ export class AuthenticationService {
     null
   );
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.setCurrentUser();
+  }
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem(AppConsts.KEY_USER_TOKEN);
@@ -69,6 +71,20 @@ export class AuthenticationService {
     localStorage.removeItem(AppConsts.KEY_USER_TOKEN);
     this.currentUserSubject.next(null);
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  public isAdmin(): boolean {
+    const token: string = window.localStorage.getItem(
+      AppConsts.KEY_USER_TOKEN
+    )!;
+
+    const user: User = this.extractUserFromToken(token);
+
+    if (user.roleId === 2) {
+      return true;
+    }
+
+    return false;
   }
 
   public setCurrentUser() {

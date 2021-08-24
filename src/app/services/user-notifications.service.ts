@@ -32,9 +32,10 @@ export class UserNotificationsService extends ClientDataService {
       .pipe(filter((user) => AppUtil.hasValue(user)))
       .subscribe((user) => {
         this.gymId = user.gymId;
+        this.initGymID();
       });
 
-    this.initGymID();
+   
   }
 
   private initGymID = (): void => {

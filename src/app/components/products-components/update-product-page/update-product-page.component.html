@@ -41,7 +41,7 @@
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
             <mat-form-field class="frequency-full-width" appearance="fill">
                 <mat-label>Quantity</mat-label>
-                <input type="number" formControlName="quantity" matInput placeholder="Quantity" value="1">
+                <input type="number" formControlName="quantity" [(ngModel)]="product.quantity" matInput placeholder="Quantity" value="1">
             </mat-form-field>
         </mat-grid-tile>
 
@@ -82,7 +82,7 @@
 
     </mat-grid-list>
 
-    <button id="update-job-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+    <button id="update-product-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
     Update </button>
 
 </form>

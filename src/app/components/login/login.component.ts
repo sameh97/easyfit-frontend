@@ -10,7 +10,6 @@ import { User } from 'src/app/model/user';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent implements OnInit {
   showSpinner: boolean = false;
   hide: boolean = false;
@@ -29,7 +28,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
       this.authService.setCurrentUser();
-      this.router.navigate(['home']);
+      if (this.authService.isAdmin()) {
+        this.router.navigate(['admin']);
+      } else {
+        this.router.navigateByUrl('/home');
+      }
     } else {
       this.router.navigate(['login']);
     }
@@ -52,7 +55,11 @@ export class LoginComponent implements OnInit {
       (res) => {
         console.log(res);
         this.authService.persistTokenFromResponse(res);
-        this.router.navigateByUrl('/home');
+        if (this.authService.isAdmin()) {
+          this.router.navigateByUrl('/admin');
+        } else {
+          this.router.navigateByUrl('/home');
+        }
       },
       (err: Error) => {
         console.log(JSON.stringify(err));

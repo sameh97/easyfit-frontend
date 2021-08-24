@@ -58,6 +58,13 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
     );
   }
 
+  isNotificationsEmpty() {
+    if (!this.notifications) {
+      return true;
+    }
+    return this.notifications.length === 0;
+  }
+
   public onDone = (notification: AppNotificationMessage) => {
     notification.seen = true;
 

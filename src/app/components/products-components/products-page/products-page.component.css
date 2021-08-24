@@ -1,10 +1,14 @@
 .example-viewport {
-    height: 600px;
-    border: 1px solid black;
+    height: 400px;
 }
 
 .example-item {
-    height: 50px;
+    height: 30px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -24,7 +28,7 @@
 
 .flex-container {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     justify-content: space-between;
     flex-wrap: wrap;
     flex: 0 0 100%;
@@ -32,9 +36,8 @@
 }
 
 .flex-container>div {
-    text-align: center;
     font-size: 15px;
-    padding: 10px 0;
+    padding: 1px 0;
 }
 
 
@@ -56,6 +59,10 @@
     flex: 1;
 }
 
+.sell {
+    flex: 1;
+}
+
 .list-element-flex-container {
     display: flex;
     gap: 1rem;
@@ -69,4 +76,58 @@
     text-align: center;
     font-size: 15px;
     padding: 10px 0;
+}
+
+.dashboard-card-bills {
+    margin: 5px;
+    height: 470px;
+}
+
+.dashboard-card-content-bills {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.viewport-bills {
+    height: 380px;
+}
+
+.bill-item {
+    height: 250px;
+}
+
+
+/* *** bill card flex *** */
+
+.details {
+    flex: 6;
+}
+
+.done-button {
+    flex: 1;
+}
+
+.bill-list-flex-container {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    flex-direction: row;
+}
+
+.bill-list-flex-container>div {
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+
+/* **************************************/
+
+.dashboard-card-products {
+    margin: 5px;
+    height: 520px;
+}
+
+.dashboard-card-content-products {
+    font-family: "Times New Roman", Times, serif;
 }
