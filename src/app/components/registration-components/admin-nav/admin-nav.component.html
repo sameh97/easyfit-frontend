@@ -17,22 +17,21 @@
             <div class="menu-flex-container">
 
                 <div><span>Easyfit admin</span></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div> <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <div class="space"></div>
+
+
+                <div class="logout-button"> <button mat-icon-button [matMenuTriggerFor]="appMenu">
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
                     <mat-menu #appMenu="matMenu">
-                        <button (click)="logout()" mat-menu-item>Log out</button>
+                        <button (click)="logout()" mat-menu-item>Log out </button>
                         <!-- <button mat-menu-item>Item 2</button> -->
                     </mat-menu>
                 </div>
 
             </div>
         </mat-toolbar>
-        <!-- Add Content Here -->
+
         <ng-content></ng-content>
     </mat-sidenav-content>
 </mat-sidenav-container>

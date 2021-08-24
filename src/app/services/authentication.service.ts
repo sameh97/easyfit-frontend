@@ -22,7 +22,9 @@ export class AuthenticationService {
     null
   );
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.setCurrentUser();
+  }
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem(AppConsts.KEY_USER_TOKEN);

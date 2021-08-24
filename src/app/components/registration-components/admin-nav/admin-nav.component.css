@@ -16,6 +16,18 @@
     z-index: 1;
 }
 
+.notification-bell {
+    flex: 2;
+}
+
+.logout-button {
+    flex: 2;
+}
+
+.space {
+    flex: 50;
+}
+
 .menu-flex-container {
     display: flex;
     gap: 1rem;

@@ -50,14 +50,14 @@ export class WebSocketService implements OnDestroy {
     }
 
     this.authenticationService.currentUser$
-    .pipe(filter(user => AppUtil.hasValue(user)))
-    .subscribe(user => {
-      this.sockectState = new BehaviorSubject<SocketClientState>(
-        SocketClientState.ATTEMPTING
-      );
-      this.initSocketConnection(WebSocketService.URL);
-      this.listenToAllTopics();
-    })
+      .pipe(filter((user) => AppUtil.hasValue(user)))
+      .subscribe((user) => {
+        this.sockectState = new BehaviorSubject<SocketClientState>(
+          SocketClientState.ATTEMPTING
+        );
+        this.initSocketConnection(WebSocketService.URL);
+        this.listenToAllTopics();
+      });
   }
 
   public send(message: AppNotificationMessage): void {

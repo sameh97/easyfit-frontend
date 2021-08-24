@@ -73,6 +73,8 @@ import { UpdateGymComponent } from './components/registration-components/update-
 import { UsersPageComponent } from './components/registration-components/users-components/users-page/users-page.component';
 import { AddUserComponent } from './components/registration-components/users-components/add-user/add-user.component';
 import { UpdateUserComponent } from './components/registration-components/users-components/update-user/update-user.component';
+import { NotificationsDropdownComponent } from './components/notifications/notifications-dropdown.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -151,6 +153,7 @@ const routes: Routes = [
     UsersPageComponent,
     AddUserComponent,
     UpdateUserComponent,
+    NotificationsDropdownComponent,
   ],
   imports: [
     BrowserModule,
@@ -186,6 +189,7 @@ const routes: Routes = [
     MatInputModule,
     NgMultiSelectDropDownModule.forRoot(),
     MatChipsModule,
+    MatBadgeModule,
   ],
 
   providers: [],

@@ -1,47 +1,43 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppNotificationMessage } from 'src/app/model/app-notification-message';
-import { Machine } from 'src/app/model/machine';
-import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { SocketTopics } from 'src/app/shared/util/socket-util';
 
 @Component({
-  selector: 'app-machine-notifications',
-  templateUrl: './machine-notifications.component.html',
-  styleUrls: ['./machine-notifications.component.css'],
+  selector: 'app-notifications-dropdown',
+  templateUrl: './notifications-dropdown.component.html',
+  styleUrls: ['./notifications-dropdown.component.css'],
 })
-export class MachineNotificationsComponent implements OnInit, OnDestroy {
-  notifications: AppNotificationMessage[];
+export class NotificationsDropdownComponent implements OnInit, OnDestroy {
+  showNotification: boolean;
+  notifications: AppNotificationMessage[] = [];
   private subscriptions: Subscription[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private machine: Machine,
     private userNotificationsService: UserNotificationsService,
     private webSocketService: WebSocketService
   ) {}
 
+  openNotification(state: boolean) {
+    this.showNotification = state;
+  }
+  
   ngOnInit(): void {
     this.subscriptions.push(
-      this.userNotificationsService
-        .getByMachineSerialNumber(this.machine.serialNumber)
-        .subscribe((notifications) => {
-          this.notifications = notifications;
-        })
+      this.userNotificationsService.getAll().subscribe((notifications) => {
+        this.notifications = notifications;
+      })
     );
 
     this.subscriptions.push(
       this.webSocketService
         .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
         .subscribe((job: AppNotificationMessage) => {
-          if (job.content.machineSerialNumber === this.machine.serialNumber) {
-            // this.notifications.push(job);
-            this.notifications.unshift(job);
-            this.notifications = [...this.notifications];
-          }
+          this.notifications.unshift(job);
+          this.notifications = [...this.notifications];
         })
     );
 
@@ -49,11 +45,8 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
       this.webSocketService
         .onMessage(SocketTopics.TOPIC_MACHINE_SERVICE)
         .subscribe((job: AppNotificationMessage) => {
-          if (job.content.machineSerialNumber === this.machine.serialNumber) {
-            // this.notifications.push(job);
-            this.notifications.unshift(job);
-            this.notifications = [...this.notifications];
-          }
+          this.notifications.unshift(job);
+          this.notifications = [...this.notifications];
         })
     );
   }
