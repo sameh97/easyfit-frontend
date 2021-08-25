@@ -1,8 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MembersService } from 'src/app/services/members-service/members.service';
 
 @Component({
@@ -14,10 +22,13 @@ export class AddMemberComponent implements OnInit, OnDestroy {
   addMemberForm: FormGroup;
   member: Member;
   private subscriptions: Subscription[] = [];
+  imageToUpload: File = null;
+  uploadedImageUrl = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private membersService: MembersService
+    private membersService: MembersService,
+    private fileUploadService: FileUploadService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +44,7 @@ export class AddMemberComponent implements OnInit, OnDestroy {
       phone: ['', [Validators.required, Validators.minLength(4)]],
       address: ['', [Validators.required, Validators.minLength(3)]],
       birthDay: ['', [Validators.required]],
-      imageURL: [''],
+      image: [''],
     });
   }
 
@@ -45,17 +56,30 @@ export class AddMemberComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // TODO: remove this link and isactive ... :
-    if (!AppUtil.hasValue(this.member.imageURL)) {
-      this.addImgUrl();
-    }
+    // // TODO: remove this link and isactive ... :
+    // if (!AppUtil.hasValue(this.member.imageURL)) {
+    //   this.addImgUrl();
+    // }
 
     // TODO: make more validations
 
     this.subscriptions.push(
-      this.membersService.create(this.member).subscribe()
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            this.member.imageURL = imgUrl;
+            return this.membersService.create(this.member);
+          })
+        )
+        .subscribe()
     );
   };
+
+  public handleSelectedImage(files: FileList) {
+    this.imageToUpload = files.item(0);
+  }
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
