@@ -7,6 +7,7 @@ import { Chart, registerables } from 'node_modules/chart.js';
 })
 export class MembersChartComponent implements OnInit {
   @Input() canvasId: string = 'membersChart';
+  
   constructor() {
     Chart.register(...registerables);
   }

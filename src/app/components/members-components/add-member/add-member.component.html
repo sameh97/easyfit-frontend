@@ -4,82 +4,159 @@
 
 
 
-<form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm" class="normal-form">
+<form *ngIf="addMemberForm && member" name="addMemberForm" #theForm="ngForm" [formGroup]="addMemberForm" class="normal-form">
 
     <div class="grid-container">
         <div class="first-name">
             <mat-form-field>
                 <mat-label>first name</mat-label>
-                <input [(ngModel)]="member.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <input [(ngModel)]="member.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder" focus>
+                <mat-icon *ngIf="addMemberForm.controls.firstName.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.firstName)" class="validation-err-container">
+
+                <div *ngIf="addMemberForm.controls.firstName.errors.nameNotValid">
+                    <small> First name is not valid.
+          </small>
+                </div>
+
+
+
+            </div>
         </div>
         <div class="last-name">
             <mat-form-field>
                 <mat-label>last name</mat-label>
                 <input [(ngModel)]="member.lastName" name="lastName" formControlName="lastName" matInput placeholder="Last Name">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.lastName.errors === null " matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.lastName)" class="validation-err-container">
 
+                <div *ngIf="addMemberForm.controls.lastName.errors.nameNotValid">
+                    <small> Last name is not valid.
+          </small>
+                </div>
+
+            </div>
         </div>
         <div class="end-date">
             <mat-form-field class="wide">
                 <mat-label>End Date</mat-label>
                 <input [(ngModel)]="member.endOfMembershipDate" type="date" name="endOfMembershipDate" formControlName="endOfMembershipDate" matInput placeholder="End Date">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.endOfMembershipDate.errors === null" matSuffix>sentiment_very_satisfied
+                </mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="checkDate(addMemberForm.controls.endOfMembershipDate)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.endOfMembershipDate.errors.required">
+                    <small> End date is required. </small>
+                </div>
+                <div *ngIf="addMemberForm.controls.endOfMembershipDate.errors.dateNotValid">
+                    <small> End date must be at least tomorrow
+          </small>
+                </div>
+            </div>
 
         </div>
         <div class="email-class">
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input [(ngModel)]="member.email" type="email" name="email" formControlName="email" matInput placeholder="Email">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.email.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.email)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.email.errors.required">
+                    <small> Email is required. </small>
+                </div>
+                <div *ngIf="addMemberForm.controls.email.errors.email">
+                    <small> Email is not valid. </small>
+                </div>
+
+
+            </div>
         </div>
         <div class="address-class">
             <mat-form-field>
                 <mat-label>Address</mat-label>
                 <input [(ngModel)]="member.address" type="text" name="address" formControlName="address" matInput placeholder="Address">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.address.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.address)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.address.errors.required">
+                    <small> Address is required. </small>
+                </div>
+
+            </div>
         </div>
         <div class="phone">
             <mat-form-field>
                 <mat-label>Phone</mat-label>
                 <input [(ngModel)]="member.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.phone.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.phone)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.phone.errors.empty">
+                    <small> Phone number is required. </small>
+                </div>
+                <div *ngIf="addMemberForm.controls.phone.errors.phoneNotValid">
+                    <small> Phone number is not valid
+          </small>
+                </div>
+            </div>
         </div>
         <div class="birthday">
             <mat-form-field>
                 <mat-label>Birth Day</mat-label>
                 <input [(ngModel)]="member.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.birthDay.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.birthDay)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.birthDay.errors.required">
+                    <small> Birth day is required. </small>
+                </div>
+                <div *ngIf="addMemberForm.controls.birthDay.errors.ageUnder">
+                    <small> Member should be at least 16 years old
+          </small>
+                </div>
+            </div>
+
+
         </div>
 
         <div class="join-date">
             <mat-form-field class="wide">
                 <mat-label>join Date</mat-label>
                 <input [(ngModel)]="member.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-icon *ngIf="addMemberForm.controls.joinDate.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.joinDate)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.joinDate.errors.required">
+                    <small> Join date is required. </small>
+                </div>
+            </div>
+
         </div>
 
         <div class="gender">
-            <mat-radio-group [(ngModel)]="member.gender" formControlName="gender" aria-label="Select an option">
+            <mat-radio-group [(ngModel)]="member.gender" formControlName="gender" name="gender" aria-label="Select an option">
                 <mat-radio-button value="1">Male</mat-radio-button>
                 <mat-radio-button value="2">Female</mat-radio-button>
             </mat-radio-group>
+
+            <div *ngIf="isInputValidationFailed(addMemberForm.controls.gender)" class="validation-err-container">
+                <div *ngIf="addMemberForm.controls.gender.errors.required">
+                    <small> Gender is required. </small>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="image">
@@ -107,62 +184,3 @@
     </button>
     </div>
 </form>
-
-
-<!-- 
-<form *ngIf="addMemberForm && member" #theForm="ngForm" [formGroup]="addMemberForm" class="normal-form">
-  <mat-grid-list cols="2" rowHeight="300px">
-    <mat-grid-tile>
-      <div class="controles-container">
-        <input type="hidden" formControlName="$key">
-        <mat-form-field>
-          <input formControlName="fullName" matInput placeholder="Full Name*">
-          <mat-error>This field is mandatory.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input formControlName="email" matInput placeholder="Email">
-          <mat-error>Invalid email address.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input formControlName="mobile" matInput placeholder="Mobile*">
-          <mat-error *ngIf="addMemberForm['mobile'].errors?.required">This field is mandatory.</mat-error>
-          <mat-error *ngIf="addMemberForm['mobile'].errors?.minlength">Minimum 8 charactors needed.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input formControlName="city" matInput placeholder="City">
-        </mat-form-field>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <div class="controles-container">
-        <div class="add-bottom-padding">
-          <mat-radio-group formControlName="gender">
-            <mat-radio-button value="1">Male</mat-radio-button>
-            <mat-radio-button value="2">Female</mat-radio-button>
-            <mat-radio-button value="3">Other</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <mat-form-field>
-          <mat-select formControlName="department" placeholder="Department">
-            <mat-option>None</mat-option>
-            <ng-container *ngFor="let department of departments">
-              <mat-option value="{{department.id}}">{{department.value}}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <input formControlName="hireDate" matInput [matDatepicker]="picker" placeholder="Hire Date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <div class="add-bottom-padding">
-          <mat-checkbox formControlName="isPermanent">Permanent Employee</mat-checkbox>
-        </div>
-        <div class="button-row">
-          <button mat-raised-button color="primary" type="submit" [disabled]="theForm.invalid">Submit</button>
-          <button mat-raised-button color="warn" (click)="onClear()">Clear</button>
-        </div>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-</form> -->
