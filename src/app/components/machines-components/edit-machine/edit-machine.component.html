@@ -2,18 +2,27 @@
     <h2 mat-dialog-title>Edit Machine </h2>
 </div>
 
-<form *ngIf="updateMachineForm" #theForm="ngForm" [formGroup]="updateMachineForm" (ngSubmit)="update(theForm.value)">
+<form *ngIf="updateMachineForm" name="updateMachineForm" #theForm="ngForm" [formGroup]="updateMachineForm" (ngSubmit)="update(theForm.value)">
 
     <mat-grid-list cols="4" rowHeight="70px">
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Machine name</mat-label>
                 <input matInput type="text" [(ngModel)]="machine.name" name="machine" formControlName="name" placeholder="Machine name">
+                <mat-icon *ngIf="updateMachineForm.controls.name.errors === null" matSuffix>sentiment_very_satisfied
+                </mat-icon>
+
             </mat-form-field>
 
         </mat-grid-tile>
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+            <div *ngIf="isInputValidationFailed(updateMachineForm.controls.name)" class="validation-err-container">
 
+                <div *ngIf="updateMachineForm.controls.name.errors.machineNameNotValid">
+                    <small> Machine name is not valid.
+          </small>
+                </div>
+            </div>
         </mat-grid-tile>
 
 
@@ -23,6 +32,9 @@
             <mat-form-field appearance="fill" class="wide">
                 <mat-label>description</mat-label>
                 <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" name="machine" formControlName="description" [(ngModel)]="machine.description" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" placeholder="Machine description"></textarea>
+                <mat-icon *ngIf="updateMachineForm.controls.description.errors === null" matSuffix>sentiment_very_satisfied
+                </mat-icon>
+
             </mat-form-field>
         </mat-grid-tile>
 
@@ -35,6 +47,16 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+            <div *ngIf="isInputValidationFailed(updateMachineForm.controls.productionYear)" class="validation-err-container">
+
+                <div *ngIf="updateMachineForm.controls.productionYear.errors.yearNotValid">
+                    <small> Production year is not valid.
+          </small>
+                </div>
+
+
+
+            </div>
         </mat-grid-tile>
 
 
@@ -54,12 +76,20 @@
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Price</mat-label>
-                <input matInput type="text" [(ngModel)]="machine.price" name="price" formControlName="price" placeholder="Machine price">
+                <input matInput type="number" min="0" [(ngModel)]="machine.price" name="price" formControlName="price" placeholder="Machine price">
+                <mat-icon *ngIf="updateMachineForm.controls.price.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
             </mat-form-field>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+            <div *ngIf="isInputValidationFailed(updateMachineForm.controls.price)" class="validation-err-container">
 
+                <div *ngIf="updateMachineForm.controls.price.errors.priceNotValid">
+                    <small> Price is not valid. </small>
+                </div>
+
+
+            </div>
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">

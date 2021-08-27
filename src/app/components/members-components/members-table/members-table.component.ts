@@ -110,19 +110,11 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
   };
 
   public openUpdateMemberDialog(member: Member) {
-    if (this.navigationService.isMobileMode()) {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(UpdateMemberComponent, '100vw', null, true)
-          .subscribe()
-      );
-    } else {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(UpdateMemberComponent, null, member, null)
-          .subscribe()
-      );
-    }
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(UpdateMemberComponent, null, member, null)
+        .subscribe()
+    );
   }
 
   public doFilter = (value: string) => {

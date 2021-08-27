@@ -73,6 +73,57 @@ export class FormInputComponent implements OnInit {
     return null;
   };
 
+  public validateMachineName = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const regex = new RegExp('^[a-zA-Z][a-zA-Z0-9_ .]*$'); // first char must be character
+
+    if (!inputControl.value.match(regex)) {
+      return { machineNameNotValid: true };
+    }
+    return null;
+  };
+
+  public validateYear = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+    if (isNaN(inputControl.value)) {
+      const regex = new RegExp('^(19|20)d{2}$');
+      if (!inputControl.value.match(regex)) {
+        return { yearNotValid: true };
+      }
+    } else {
+      const input = Number(inputControl.value);
+      if (input < 1980 || input > 2030) {
+        return { yearNotValid: true };
+      }
+    }
+
+    return null;
+  };
+
+  public validateSerialNumber = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const regex = new RegExp('^[\s\da-zA-z\-]+$');
+
+    if (!inputControl.value.match(regex)) {
+      return { serialNumberNotValid: true };
+    }
+    return null;
+  };
+
   public validatePhoneNumber = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {
@@ -84,10 +135,34 @@ export class FormInputComponent implements OnInit {
       return { empty: true };
     }
 
-    let phoneRegx = new RegExp('^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-s./0-9]*$');
+    let phoneRegx = new RegExp('^[0][5][0|2|3|4|5|9]{1}[-]{0,1}[0-9]{7}$');
 
     if (!inputControl.value.match(phoneRegx)) {
       return { phoneNotValid: true };
+    }
+
+    return null;
+  };
+
+  public validatePrice = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+    if (isNaN(inputControl.value)) {
+      let priceRegx = new RegExp(
+        '^[+]?([0-9]+(?:[.][0-9]*)?|.[0-9]+)(?:[eE][+-]?[0-9]+)?$'
+      );
+
+      if (!inputControl.value.match(priceRegx)) {
+        return { priceNotValid: true };
+      }
+    } else {
+      const input = Number(inputControl.value);
+      if (input < 0) {
+        return { priceNotValid: true };
+      }
     }
 
     return null;
@@ -100,7 +175,9 @@ export class FormInputComponent implements OnInit {
       return null;
     }
 
-    let nameRegx = new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
+    // let nameRegx = new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
+
+    let nameRegx = new RegExp('^[a-z\u0590-\u05fe]+$');
 
     if (!inputControl.value.match(nameRegx)) {
       return { nameNotValid: true };
