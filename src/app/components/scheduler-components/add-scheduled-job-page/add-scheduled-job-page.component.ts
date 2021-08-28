@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { AppUtil } from 'src/app/common/app-util';
@@ -12,68 +13,130 @@ import { Subscription } from 'rxjs';
 import { MachinesService } from './../../../services/machines-service/machines.service';
 import { Machine } from 'src/app/model/machine';
 import { filter, switchMap } from 'rxjs/operators';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 @Component({
   selector: 'app-add-scheduled-job-page',
   templateUrl: './add-scheduled-job-page.component.html',
   styleUrls: ['./add-scheduled-job-page.component.css'],
 })
-export class AddScheduledJobPageComponent implements OnInit, OnDestroy {
+export class AddScheduledJobPageComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addScheduledJobForm: FormGroup;
   scheduledJob: ScheduledJob;
+  machines: Machine[] = [];
   private subscriptions: Subscription[] = [];
+
+  dropdownList = [];
+  selectedItems = [];
+  dropdownSettings: IDropdownSettings = {};
 
   constructor(
     private formBuilder: FormBuilder,
     private schedulerService: SchedulerService,
     private machinesService: MachinesService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
+    this.subscriptions.push(
+      this.machinesService.getAll().subscribe((machines) => {
+        this.machines = machines;
+
+        for (let machine of this.machines) {
+          const item: any = {
+            item_id: machine.serialNumber,
+            item_text: machine.name,
+          };
+          this.dropdownList.push(item);
+        }
+
+        this.dropdownList = [...this.dropdownList];
+      })
+    );
+
     this.scheduledJob = new ScheduledJob();
     this.addScheduledJobForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
 
       jobID: ['', [Validators.required]],
-      machineSerialNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(50),
-          this.machineExistValidator,
-        ],
-      ],
+      machineSerialNumber: ['', [Validators.required]],
       startTime: ['', [Validators.required]],
-      endTime: ['', [Validators.required]],
-      daysFrequency: ['', [Validators.required]],
+      endTime: ['', [Validators.required, this.validateEndDate]],
+      daysFrequency: ['', [Validators.required, this.validateFrequency]],
       isActive: ['', [Validators.required]],
     });
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+  }
+  onItemSelect(item: any) {
+    for (let machine of this.machines) {
+      if (item.item_id === machine.serialNumber) {
+        this.scheduledJob.machineSerialNumber = machine.serialNumber;
+      }
+    }
   }
 
-  private machineExistValidator = (
-    control: AbstractControl
-  ): { [key: string]: any } | null => {
-    let machineToCheck: Machine = null;
+  onItemDeSelect(item: any) {
+    this.scheduledJob.machineSerialNumber = null;
+  }
 
-    this.subscriptions.push(
-      this.machinesService
-        .getBySerialNumber(control.value)
-        .pipe(filter((machine) => AppUtil.hasValue(machine)))
-        .subscribe((machine) => {
-          machineToCheck = machine;
-        })
-    );
+  public validateEndDate = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+    let dateNow: Date = new Date();
 
-    // return AppUtil.hasValue(machineToCheck)
-    //    null
-    //   : { machineNotExist: { value: control.value } };
+    let dateFromForm = new Date(inputControl.value);
+
+    if (dateFromForm.getTime() <= dateNow.getTime()) {
+      return { endDateNotValid: true };
+    }
+
+    const startScheduleDate = new Date(this.scheduledJob.startTime);
+
+    if (dateFromForm.getTime() < startScheduleDate.getTime()) {
+      return { endDateBeforeStartDate: true };
+    }
 
     return null;
   };
 
-  // if (!AppUtil.hasValue(machineToCheck)) {
-  //   return { machineNotExist: { value: control.value } };
-  // }
+  public validateFrequency = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const input = Number(inputControl.value);
+
+    if (input < 1) {
+      return { frequencyLowerThanOneDay: true };
+    }
+
+    const start = new Date(this.scheduledJob.startTime);
+
+    const end = new Date(this.scheduledJob.endTime);
+
+    if (AppUtil.daysBetween(start, end) < input) {
+      return { overFrequency: true };
+    }
+
+    return null;
+  };
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
@@ -87,7 +150,7 @@ export class AddScheduledJobPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.scheduledJob.jobID = Number(this.scheduledJob.jobID)
+    this.scheduledJob.jobID = Number(this.scheduledJob.jobID);
 
     this.subscriptions.push(
       this.schedulerService.create(this.scheduledJob).subscribe(

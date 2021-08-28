@@ -10,12 +10,16 @@ import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Product } from 'src/app/model/product';
 import { ProductsService } from 'src/app/services/products-service/products.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 @Component({
   selector: 'app-update-product-page',
   templateUrl: './update-product-page.component.html',
   styleUrls: ['./update-product-page.component.css'],
 })
-export class UpdateProductPageComponent implements OnInit, OnDestroy {
+export class UpdateProductPageComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   updateProductForm: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -23,7 +27,9 @@ export class UpdateProductPageComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private product: Product,
     private productsService: ProductsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -33,9 +39,13 @@ export class UpdateProductPageComponent implements OnInit, OnDestroy {
     this.updateProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
       id: [this.product.id, [Validators.required]],
-      name: [this.product.name, [Validators.required]],
+      price: [
+        this.product.price,
+        [Validators.required, Validators.min(0), this.validatePrice],
+      ],
+      name: [this.product.name, [Validators.required, this.validateProductName]],
       description: [this.product.description, [Validators.required]],
-      code: [this.product.code, [Validators.required]],
+      code: [this.product.code, [Validators.required, this.validateProductCode]],
       quantity: [
         this.product.quantity,
         [Validators.compose([Validators.required, this.nonZero])],
@@ -45,14 +55,6 @@ export class UpdateProductPageComponent implements OnInit, OnDestroy {
       gymId: [this.product.gymId, [Validators.required]],
     });
   };
-
-  public nonZero(control: AbstractControl): { [key: string]: any } {
-    if (Number(control.value) < 0) {
-      return { nonZero: true };
-    } else {
-      return null;
-    }
-  }
 
   public update = (product: Product): Promise<void> => {
     if (!AppUtil.hasValue(product)) {

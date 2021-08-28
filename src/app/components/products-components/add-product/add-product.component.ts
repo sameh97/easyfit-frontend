@@ -9,13 +9,17 @@ import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Product } from 'src/app/model/product';
 import { ProductsService } from 'src/app/services/products-service/products.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.css'],
 })
-export class AddProductComponent implements OnInit, OnDestroy {
+export class AddProductComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addProductForm: FormGroup;
   product: Product;
   private subscriptions: Subscription[] = [];
@@ -23,29 +27,25 @@ export class AddProductComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private productsService: ProductsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.product = new Product();
     this.addProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
 
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, this.validateProductName]],
+      price: ['', [Validators.required, Validators.min(0), this.validatePrice]],
       description: ['', [Validators.required]],
-      code: ['', [Validators.required]],
+      code: ['', [Validators.required, this.validateProductCode]],
       quantity: ['', [Validators.compose([Validators.required, this.nonZero])]],
       imgUrl: ['', [Validators.required]],
       categoryID: ['', [Validators.required]],
     });
   }
 
-  public nonZero(control: AbstractControl): { [key: string]: any } {
-    if (Number(control.value) < 0) {
-      return { nonZero: true };
-    } else {
-      return null;
-    }
-  }
 
   public create = (): Promise<void> => {
     if (!AppUtil.hasValue(this.product)) {

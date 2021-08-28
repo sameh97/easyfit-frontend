@@ -6,6 +6,7 @@ import {
   ValidatorFn,
 } from '@angular/forms';
 import { AppUtil } from 'src/app/common/app-util';
+import isIsraeliIdValid from 'israeli-id-validator';
 
 @Component({
   selector: 'app-form-input',
@@ -38,6 +39,20 @@ export class FormInputComponent implements OnInit {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
     return pass === confirmPass ? null : { notSame: true };
+  };
+
+  public validateID = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    if (!isIsraeliIdValid(inputControl.value)) {
+      return { idNotValid: true };
+    }
+
+    return null;
   };
 
   public checkDate = (
@@ -73,6 +88,14 @@ export class FormInputComponent implements OnInit {
     return null;
   };
 
+  public nonZero(control: AbstractControl): { [key: string]: any } {
+    if (Number(control.value) < 0) {
+      return { nonZero: true };
+    } else {
+      return null;
+    }
+  }
+
   public validateMachineName = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {
@@ -84,6 +107,21 @@ export class FormInputComponent implements OnInit {
 
     if (!inputControl.value.match(regex)) {
       return { machineNameNotValid: true };
+    }
+    return null;
+  };
+
+  public validateProductName = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const regex = new RegExp('^[a-zA-Z\u0590-\u05fe ]+[a-zA-Z0-9_ .]*$'); // first char must be character
+
+    if (!inputControl.value.match(regex)) {
+      return { productNameNotValid: true };
     }
     return null;
   };
@@ -168,6 +206,21 @@ export class FormInputComponent implements OnInit {
     return null;
   };
 
+  public validateProductCode = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+    const regx = new RegExp('^[0-9A-Za-zs-]+$'); // accepts only numbers or chars
+
+    if (!inputControl.value.match(regx)) {
+      return { productCodeNotValid: true };
+    }
+
+    return null;
+  };
+
   public validateName = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {
@@ -177,7 +230,7 @@ export class FormInputComponent implements OnInit {
 
     // let nameRegx = new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
 
-    let nameRegx = new RegExp('^[a-z\u0590-\u05fe]+$');
+    let nameRegx = new RegExp('^[a-z\u0590-\u05fe ]+$');
 
     if (!inputControl.value.match(nameRegx)) {
       return { nameNotValid: true };
@@ -204,6 +257,23 @@ export class FormInputComponent implements OnInit {
       // if the age is less than 16
       return { ageUnder: true };
     }
+    return null;
+  };
+
+  public validateQuantity = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const regex = new RegExp('^+?(0|[1-9]d*)$');
+
+    // TODO: cover number type input case
+    if (!inputControl.value.match(regex)) {
+      return { quantityNotValid: true };
+    }
+
     return null;
   };
 
