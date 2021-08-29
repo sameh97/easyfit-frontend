@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
 import { Machine } from 'src/app/model/machine';
+import { Member } from 'src/app/model/member';
 import { AuthenticationService } from '../authentication.service';
 
 @Injectable({
@@ -13,17 +15,14 @@ import { AuthenticationService } from '../authentication.service';
 export class MachinesService {
   private readonly url = `${AppConsts.BASE_URL}/api/machines`;
   private gymId: number;
-  private addedMachineSubject: BehaviorSubject<Machine> =
-    new BehaviorSubject<Machine>(null);
+  private machineSubject: BehaviorSubject<Machine[]> = new BehaviorSubject<
+    Machine[]
+  >(null);
 
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
   ) {}
-
-  public addedMachineObs = (): Observable<Machine> => {
-    return this.addedMachineSubject.asObservable();
-  };
 
   public getBySerialNumber = (
     machineSerialNumber: number
@@ -51,16 +50,44 @@ export class MachinesService {
       )
       .pipe(
         tap((machine: Machine) => {
-          this.addedMachineSubject.next(machine);
+          AppUtil.addToSubject(this.machineSubject, machine);
         })
       );
   };
 
+  public removeFromSubject(
+    subjectData: BehaviorSubject<any[]>,
+    serialNumber: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    let indexToDelete = -1;
+    for (let i = 0; i < currData.length; i++) {
+      if (String(currData[i].serialNumber) === String(serialNumber)) {
+        indexToDelete = i;
+        break;
+      }
+    }
+    if (indexToDelete >= 0) {
+      currData.splice(indexToDelete, 1);
+    }
+    subjectData.next(currData);
+  }
+
   public getAll = (): Observable<Machine[]> => {
     this.initGymID();
-    return this.http.get<Machine[]>(`${this.url}?gymId=${this.gymId}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .get<Machine[]>(`${this.url}?gymId=${this.gymId}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        switchMap((machines) => {
+          this.machineSubject.next(machines);
+          return this.machineSubject.asObservable();
+        })
+      );
   };
 
   // TODO: make it observable:
@@ -75,17 +102,24 @@ export class MachinesService {
       })
       .pipe(
         tap((machine: Machine) => {
-          this.addedMachineSubject.next(machine);
+          AppUtil.updateInSubject(this.machineSubject, machine);
         })
       );
   };
 
   public delete = (serialNumber: string, gymId: number): Observable<any> => {
-    return this.http.delete(
-      `${AppConsts.BASE_URL}/api/machine?serialNumber=${serialNumber}&gymId=${gymId}`,
-      {
-        headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+    return this.http
+      .delete(
+        `${AppConsts.BASE_URL}/api/machine?serialNumber=${serialNumber}&gymId=${gymId}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(
+        tap(() => {
+          this.removeFromSubject(this.machineSubject, serialNumber);
+        })
+      );
   };
+  //TODO: handle deleting item real time update
 }

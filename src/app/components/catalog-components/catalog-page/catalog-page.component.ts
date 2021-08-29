@@ -91,22 +91,14 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.catalogService
-            .delete(catalog.uuid)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-                this.catalogs = [...this.catalogs];
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.catalogService.delete(catalog.uuid).subscribe(
+            (res) => {
+              this.catalogs = [...this.catalogs];
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };

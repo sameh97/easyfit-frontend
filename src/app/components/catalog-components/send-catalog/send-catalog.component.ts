@@ -56,7 +56,7 @@ export class SendCatalogComponent
   private buildForm = (): void => {
     this.sendCatalogForm = this.formBuilder.group({
       message: [this.message, [Validators.required]],
-      phones: ['', [this.validatePhones, this.validatePhoneNumber]],
+      phones: [this.phones, [this.validatePhones, this.validatePhoneNumber]],
     });
   };
 

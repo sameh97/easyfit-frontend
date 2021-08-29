@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
 import { ScheduledJob } from 'src/app/model/scheduled-job';
@@ -12,8 +13,8 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class SchedulerService {
   private readonly url = `${AppConsts.BASE_URL}/api`;
-  private addedScheduleSubject: BehaviorSubject<ScheduledJob> =
-    new BehaviorSubject<ScheduledJob>(null);
+  private scheduleSubject: BehaviorSubject<ScheduledJob[]> =
+    new BehaviorSubject<ScheduledJob[]>([]);
 
   constructor(
     private http: HttpClient,
@@ -24,9 +25,9 @@ export class SchedulerService {
 
   private gymId: number;
 
-  public addedScheduleObs = (): Observable<ScheduledJob> => {
-    return this.addedScheduleSubject.asObservable();
-  };
+  // public addedScheduleObs = (): Observable<ScheduledJob> => {
+  //   return this.addedScheduleSubject.asObservable();
+  // };
 
   // TODO: make it observable:
   private initGymID = (): void => {
@@ -47,19 +48,23 @@ export class SchedulerService {
       )
       .pipe(
         tap((scheduledJob: ScheduledJob) => {
-          this.addedScheduleSubject.next(scheduledJob);
+          AppUtil.addToSubject(this.scheduleSubject, scheduledJob);
         })
       );
   };
 
   public getAll = (): Observable<ScheduledJob[]> => {
     this.initGymID();
-    return this.http.get<ScheduledJob[]>(
-      `${this.url}/schedules?gymId=${this.gymId}`,
-      {
+    return this.http
+      .get<ScheduledJob[]>(`${this.url}/schedules?gymId=${this.gymId}`, {
         headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+      })
+      .pipe(
+        switchMap((scheduledJob) => {
+          this.scheduleSubject.next(scheduledJob);
+          return this.scheduleSubject.asObservable();
+        })
+      );
   };
 
   public update = (scheduledJob: ScheduledJob): Observable<ScheduledJob> => {
@@ -69,14 +74,20 @@ export class SchedulerService {
       })
       .pipe(
         tap((scheduledJob: ScheduledJob) => {
-          this.addedScheduleSubject.next(scheduledJob);
+          AppUtil.updateInSubject(this.scheduleSubject, scheduledJob);
         })
       );
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.url}/delete-schedule?id=${id}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .delete(`${this.url}/delete-schedule?id=${id}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap(() => {
+          AppUtil.removeFromSubject(this.scheduleSubject, id);
+        })
+      );
   };
 }

@@ -20,6 +20,7 @@ import { CatalogService } from 'src/app/services/catalog-service/catalog.service
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-catalog',
@@ -42,7 +43,8 @@ export class AddCatalogComponent
   constructor(
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<AddCatalogComponent>
   ) {
     super();
   }
@@ -123,7 +125,9 @@ export class AddCatalogComponent
 
     this.subscriptions.push(
       this.catalogService.create(this.catalog).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
           //TODO:  display an appropriate message in the UI
           AppUtil.showError(err);

@@ -44,7 +44,9 @@ export class MembersPageComponent implements OnDestroy {
 
   public openCreateMemberDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(AddMemberComponent).subscribe()
+      this.navigationService
+        .openDialog(AddMemberComponent, null, null, true)
+        .subscribe()
     );
   }
 }

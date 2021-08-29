@@ -15,8 +15,9 @@ import { AuthenticationService } from '../authentication.service';
 export class ProductsService {
   private readonly url = `${AppConsts.BASE_URL}/api`;
   private gymId: number;
-  private productsSubject: BehaviorSubject<Product[]> =
-    new BehaviorSubject<Product[]>([]);
+  private productsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<
+    Product[]
+  >([]);
 
   constructor(
     private http: HttpClient,
@@ -28,13 +29,16 @@ export class ProductsService {
   public getAll(): Observable<Product[]> {
     const gymId = this.authService.getGymId();
 
-    return this.http.get<Product[]>(`${this.url}/products?gymId=${gymId}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    })
-    .pipe(switchMap((products) => {
-      this.productsSubject.next(products);
-      return this.productsSubject.asObservable();
-    }));
+    return this.http
+      .get<Product[]>(`${this.url}/products?gymId=${gymId}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        switchMap((products) => {
+          this.productsSubject.next(products);
+          return this.productsSubject.asObservable();
+        })
+      );
   }
 
   public getAllBills(): Observable<Bill[]> {
@@ -84,10 +88,14 @@ export class ProductsService {
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.url}/delete-product?id=${id}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    }).pipe(tap(() => {
-      AppUtil.removeFromSubject(this.productsSubject, id);
-    }));
+    return this.http
+      .delete(`${this.url}/delete-product?id=${id}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap(() => {
+          AppUtil.removeFromSubject(this.productsSubject, id);
+        })
+      );
   };
 }

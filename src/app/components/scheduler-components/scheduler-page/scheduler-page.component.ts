@@ -23,7 +23,8 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   constructor(
     private schedulerService: SchedulerService,
     private machineService: MachinesService,
-    private navigationService: NavigationHelperService
+    private navigationService: NavigationHelperService,
+
   ) {}
 
   ngOnInit(): void {
@@ -38,13 +39,8 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.schedulerService.getAll().subscribe((scheduledJobs) => {
         this.scheduledJobs = scheduledJobs;
-      })
-    );
-
-    this.subscriptions.push(
-      this.schedulerService.addedScheduleObs().subscribe((scheduledJob) => {
-        this.scheduledJobs.push(scheduledJob);
         this.scheduledJobs = [...this.scheduledJobs];
+        console.log(scheduledJobs);
       })
     );
   };
@@ -99,21 +95,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  // public splitTime(numberOfHours) {
-  //   var Days = Math.floor(numberOfHours / 24);
-  //   var Remainder = numberOfHours % 24;
-  //   var Hours = Math.floor(Remainder);
-  //   var Minutes = Math.floor(60 * (Remainder - Hours));
-  //   return { Days: Days, Hours: Hours, Minutes: Minutes };
-  // }
-
-  // public timeResult = (numberOfHours) => {
-  //   const res = this.splitTime(numberOfHours);
-  //   return res;
-  // };
-
   public delete = (scheduledJob: ScheduledJob) => {
-    //TODO: make the message show the machine's details:
     const message = `Are you sure you want to delete the Scheduled job for the machine with serial number:
     ${scheduledJob.machineSerialNumber}?`;
 

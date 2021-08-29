@@ -131,7 +131,7 @@
         </div>
 
         <div class="join-date">
-            <mat-form-field appearance="fill" class="wide">
+            <mat-form-field appearance="fill">
                 <mat-label>join Date</mat-label>
                 <input [(ngModel)]="member.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
                 <mat-icon *ngIf="addMemberForm.controls.joinDate.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>

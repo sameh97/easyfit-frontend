@@ -21,7 +21,7 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
   bills: Bill[];
   filteredBills: Bill[];
   private subscriptions: Subscription[] = [];
-  items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
+  
   constructor(
     private productsService: ProductsService,
     private navigationService: NavigationHelperService

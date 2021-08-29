@@ -14,8 +14,9 @@ import { AuthenticationService } from '../authentication.service';
 export class CatalogService {
   private readonly url = `${AppConsts.BASE_URL}/api/catalog-url`;
   gymId: number;
-  private addedCatalogSubject: BehaviorSubject<Catalog> =
-    new BehaviorSubject<Catalog>(null);
+  private catalogSubject: BehaviorSubject<Catalog[]> = new BehaviorSubject<
+    Catalog[]
+  >(null);
 
   constructor(
     private http: HttpClient,
@@ -28,9 +29,9 @@ export class CatalogService {
       });
   }
 
-  public addedScheduleObs = (): Observable<Catalog> => {
-    return this.addedCatalogSubject.asObservable();
-  };
+  // public addedScheduleObs = (): Observable<Catalog> => {
+  //   return this.addedCatalogSubject.asObservable();
+  // };
 
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
@@ -44,8 +45,8 @@ export class CatalogService {
         headers: CoreUtil.createAuthorizationHeader(),
       })
       .pipe(
-        tap((catalog) => {
-          this.addedCatalogSubject.next(catalog);
+        tap((catalog: Catalog) => {
+          AppUtil.addToSubject(this.catalogSubject, catalog);
         })
       );
   };
@@ -62,12 +63,19 @@ export class CatalogService {
 
   public getAll = (): Observable<Catalog[]> => {
     this.initGymID();
-    return this.http.get<Catalog[]>(
-      `${AppConsts.BASE_URL}/api/catalog-urls?gymId=${this.gymId}`,
-      {
-        headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+    return this.http
+      .get<Catalog[]>(
+        `${AppConsts.BASE_URL}/api/catalog-urls?gymId=${this.gymId}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(
+        switchMap((catalogs) => {
+          this.catalogSubject.next(catalogs);
+          return this.catalogSubject.asObservable();
+        })
+      );
   };
   // TODO: make message content class
   public send = (messageContent: any): Observable<any> => {
@@ -80,21 +88,48 @@ export class CatalogService {
     );
   };
 
+  public removeFromSubject(
+    subjectData: BehaviorSubject<any[]>,
+    uuid: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    let indexToDelete = -1;
+    for (let i = 0; i < currData.length; i++) {
+      if (String(currData[i].uuid) === String(uuid)) {
+        indexToDelete = i;
+        break;
+      }
+    }
+    if (indexToDelete >= 0) {
+      currData.splice(indexToDelete, 1);
+    }
+    subjectData.next(currData);
+  }
+
   public update = (catalog: Catalog): Observable<Catalog> => {
     return this.http
       .put<Catalog>(`${this.url}`, catalog, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
       .pipe(
-        tap((catalog) => {
-          this.addedCatalogSubject.next(catalog);
+        tap((catalog: Catalog) => {
+          AppUtil.updateInSubject(this.catalogSubject, catalog);
         })
       );
   };
 
   public delete = (uuid: string): Observable<any> => {
-    return this.http.delete(`${this.url}?uuid=${uuid}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .delete(`${this.url}?uuid=${uuid}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap(() => {
+          this.removeFromSubject(this.catalogSubject, uuid);
+        })
+      );
   };
 }

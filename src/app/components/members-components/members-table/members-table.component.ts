@@ -69,12 +69,6 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
       })
     );
-
-    this.subscriptions.push(
-      this.membersSerive.addedMemberObs().subscribe((member: Member) => {
-        this.members.push(member);
-      })
-    );
   }
 
   ngOnInit(): void {

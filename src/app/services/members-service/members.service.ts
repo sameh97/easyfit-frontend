@@ -5,7 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Member } from 'src/app/model/member';
 import { AuthenticationService } from './../authentication.service';
 import { CoreUtil } from 'src/app/common/core-util';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
+import { AppUtil } from 'src/app/common/app-util';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,9 @@ export class MembersService {
   private readonly addUrl = `${AppConsts.BASE_URL}/api/add-member`;
   private readonly deleteUrl = `${AppConsts.BASE_URL}/api/member`;
   private readonly updateURL = `${AppConsts.BASE_URL}/api/update-member`;
-  private addedMemberSubject: BehaviorSubject<Member> =
-    new BehaviorSubject<Member>(null);
+  private membersSubject: BehaviorSubject<Member[]> = new BehaviorSubject<
+    Member[]
+  >(null);
 
   private gymId: number;
 
@@ -32,10 +34,6 @@ export class MembersService {
     this.gymId = this.authService.getGymId();
   };
 
-  public addedMemberObs = (): Observable<Member> => {
-    return this.addedMemberSubject.asObservable();
-  };
-
   public create = (member: Member): Observable<any> => {
     this.initGymID();
     member.gymId = this.gymId;
@@ -46,16 +44,23 @@ export class MembersService {
       })
       .pipe(
         tap((member: Member) => {
-          this.addedMemberSubject.next(member);
+          AppUtil.addToSubject(this.membersSubject, member);
         })
       );
   };
 
   public getAll = (): Observable<Member[]> => {
     this.initGymID();
-    return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .get<Member[]>(`${this.url}?gymId=${this.gymId}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        switchMap((members) => {
+          this.membersSubject.next(members);
+          return this.membersSubject.asObservable();
+        })
+      );
   };
 
   public update = (member: Member): Observable<Member> => {
@@ -65,14 +70,20 @@ export class MembersService {
       })
       .pipe(
         tap((member: Member) => {
-          this.addedMemberSubject.next(member);
+          AppUtil.updateInSubject(this.membersSubject, member);
         })
       );
   };
 
   public delete = (id: number): Observable<any> => {
-    return this.http.delete(`${this.deleteUrl}?id=${id}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .delete(`${this.deleteUrl}?id=${id}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap(() => {
+          AppUtil.removeFromSubject(this.membersSubject, id);
+        })
+      );
   };
 }

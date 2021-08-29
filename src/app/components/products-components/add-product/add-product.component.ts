@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Product } from 'src/app/model/product';
@@ -26,7 +27,8 @@ export class AddProductComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<AddProductComponent>
   ) {
     super();
   }
@@ -46,7 +48,6 @@ export class AddProductComponent
     });
   }
 
-
   public create = (): Promise<void> => {
     if (!AppUtil.hasValue(this.product)) {
       AppUtil.showWarningMessage(
@@ -57,7 +58,9 @@ export class AddProductComponent
 
     this.subscriptions.push(
       this.productsService.create(this.product).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
           //TODO:  display an appropriate message in the UI
           AppUtil.showError(err);
