@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
 import { Bill } from 'src/app/model/bill';
@@ -13,6 +15,8 @@ import { AuthenticationService } from '../authentication.service';
 export class ProductsService {
   private readonly url = `${AppConsts.BASE_URL}/api`;
   private gymId: number;
+  private productsSubject: BehaviorSubject<Product[]> =
+    new BehaviorSubject<Product[]>([]);
 
   constructor(
     private http: HttpClient,
@@ -26,7 +30,11 @@ export class ProductsService {
 
     return this.http.get<Product[]>(`${this.url}/products?gymId=${gymId}`, {
       headers: CoreUtil.createAuthorizationHeader(),
-    });
+    })
+    .pipe(switchMap((products) => {
+      this.productsSubject.next(products);
+      return this.productsSubject.asObservable();
+    }));
   }
 
   public getAllBills(): Observable<Bill[]> {
@@ -48,28 +56,38 @@ export class ProductsService {
     });
   };
 
-  public create = (product: Product): Observable<any> => {
+  public create = (product: Product): Observable<Product> => {
     this.initGymID();
     product.gymId = this.gymId;
 
-    return this.http.post<Product>(
-      `${this.url}/add-product?gymId=${this.gymId}`,
-      product,
-      {
+    return this.http
+      .post<Product>(`${this.url}/add-product?gymId=${this.gymId}`, product, {
         headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+      })
+      .pipe(
+        tap((product: Product) => {
+          AppUtil.addToSubject(this.productsSubject, product);
+        })
+      );
   };
 
   public update = (product: Product): Observable<Product> => {
-    return this.http.put<Product>(`${this.url}/update-product`, product, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .put<Product>(`${this.url}/update-product`, product, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap((product: Product) => {
+          AppUtil.updateInSubject(this.productsSubject, product);
+        })
+      );
   };
 
   public delete = (id: number): Observable<any> => {
     return this.http.delete(`${this.url}/delete-product?id=${id}`, {
       headers: CoreUtil.createAuthorizationHeader(),
-    });
+    }).pipe(tap(() => {
+      AppUtil.removeFromSubject(this.productsSubject, id);
+    }));
   };
 }

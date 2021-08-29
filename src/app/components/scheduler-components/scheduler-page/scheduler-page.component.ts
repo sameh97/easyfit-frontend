@@ -40,6 +40,13 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
         this.scheduledJobs = scheduledJobs;
       })
     );
+
+    this.subscriptions.push(
+      this.schedulerService.addedScheduleObs().subscribe((scheduledJob) => {
+        this.scheduledJobs.push(scheduledJob);
+        this.scheduledJobs = [...this.scheduledJobs];
+      })
+    );
   };
 
   public getJob = (jobID: number): string => {

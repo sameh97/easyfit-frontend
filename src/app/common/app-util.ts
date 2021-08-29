@@ -7,6 +7,7 @@ import { NotFoundError } from '../exceptions/not-found-error';
 import { AccessDeniedError } from '../exceptions/access-denied-error';
 import { AppConsts } from './consts';
 import { User } from '../model/user';
+import { BehaviorSubject } from 'rxjs';
 
 export class AppUtil {
   private static getHttpErrorMessage(errorResponse: HttpErrorResponse): string {
@@ -115,5 +116,46 @@ export class AppUtil {
       return;
     }
     user.password = '';
+  }
+
+  public static addToSubject(subjectData: BehaviorSubject<any[]>, toAdd: any): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    currData.push(toAdd);
+    subjectData.next(currData);
+  }
+
+  public static updateInSubject(subjectData: BehaviorSubject<any[]>, toUpdate: any): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    for(let i = 0; i < currData.length; i++) {
+      if (String(currData[i].id) === String(toUpdate.id)) {
+        currData[i] = toUpdate;
+        subjectData.next(currData);
+      }
+    }
+  }
+
+
+  public static removeFromSubject(subjectData: BehaviorSubject<any[]>, id: any): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    let indexToDelete = -1;
+    for(let i = 0; i < currData.length; i++) {
+      if (String(currData[i].id) === String(id)) {
+        indexToDelete = i;
+        break;
+      }
+    }
+    if (indexToDelete >= 0) {
+      currData.splice(indexToDelete, 1);
+    }
+    subjectData.next(currData);
   }
 }

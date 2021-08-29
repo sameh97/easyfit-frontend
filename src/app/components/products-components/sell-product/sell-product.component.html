@@ -45,10 +45,14 @@
                 <input matInput type="text" name="coustomerPhone" formControlName="coustomerPhone" [(ngModel)]="bill.coustomerPhone" placeholder="Customer phone">
                 <mat-icon *ngIf="sellProductForm.controls.coustomerPhone.errors === null" matSuffix>sentiment_very_satisfied
                 </mat-icon>
+                <!-- <mat-hint><small>Phone number should consist of 10 digits and start with '05'</small></mat-hint> -->
             </mat-form-field>
+            <br>
+
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
+
             <div *ngIf="isInputValidationFailed(sellProductForm.controls.coustomerPhone)" class="validation-err-container">
 
                 <div *ngIf="sellProductForm.controls.coustomerPhone.errors.phoneNotValid">

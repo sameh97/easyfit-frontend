@@ -42,6 +42,15 @@ export class MachinesComponent implements OnInit {
     );
 
     this.subscriptions.push(
+      this.machinesService
+        .addedMachineObs()
+        .subscribe((notification: Machine) => {
+          this.machines.push(notification);
+          this.assignCopy();
+        })
+    );
+
+    this.subscriptions.push(
       this.webSocketService
         .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
         .subscribe((job: AppNotificationMessage) => {
@@ -129,7 +138,7 @@ export class MachinesComponent implements OnInit {
 
   isMachinesEmpty(): boolean {
     if (!this.filteredItems) {
-      return true
+      return true;
     }
     return this.filteredItems.length === 0;
   }

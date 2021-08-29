@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Machine } from 'src/app/model/machine';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
@@ -21,7 +23,8 @@ export class CreateMachineComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private machineService: MachinesService
+    private machineService: MachinesService,
+    private fileUploadService: FileUploadService
   ) {
     super();
   }
@@ -42,10 +45,7 @@ export class CreateMachineComponent
           this.validateSerialNumber,
         ],
       ],
-      price: [
-        '',
-        [Validators.required, Validators.min(0), this.validatePrice],
-      ],
+      price: ['', [Validators.required, Validators.min(0), this.validatePrice]],
       imgUrl: ['', [Validators.required]],
     });
   }
@@ -59,13 +59,22 @@ export class CreateMachineComponent
     }
 
     this.subscriptions.push(
-      this.machineService.create(this.machine).subscribe(
-        () => {},
-        (err: Error) => {
-          //TODO:  display an appropriate message in the UI
-          AppUtil.showError(err);
-        }
-      )
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            this.machine.imgUrl = imgUrl;
+            return this.machineService.create(this.machine);
+          })
+        )
+        .subscribe(
+          () => {},
+          (err: Error) => {
+            //TODO:  display an appropriate message in the UI
+            AppUtil.showError(err);
+          }
+        )
     );
   };
 

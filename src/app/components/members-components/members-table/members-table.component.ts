@@ -13,7 +13,7 @@ import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { UpdateMemberComponent } from '../update-member/update-member.component';
 
 import {
@@ -32,6 +32,10 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<Member>;
   dataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>();
+
+  //   private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(
+  //   null
+  // );
 
   members: Member[];
   columns: string[] = [
@@ -63,6 +67,12 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource = new MatTableDataSource<Member>(this.members);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+      })
+    );
+
+    this.subscriptions.push(
+      this.membersSerive.addedMemberObs().subscribe((member: Member) => {
+        this.members.push(member);
       })
     );
   }

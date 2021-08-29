@@ -107,7 +107,7 @@
                     <mat-card class="dashboard-card-bills">
                         <mat-card-header>
                             <mat-form-field fxFlex="40%">
-                                <input #myInput matInput type="text" placeholder="Search by customer name" [(ngModel)]="name" (input)="filterItem(myInput.value)">
+                                <input #billsFilter matInput type="text" placeholder="Search by customer name" (input)="filterItem(billsFilter.value)">
                             </mat-form-field>
 
                         </mat-card-header>

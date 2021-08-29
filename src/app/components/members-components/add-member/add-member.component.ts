@@ -26,8 +26,6 @@ export class AddMemberComponent
   addMemberForm: FormGroup;
   member: Member;
   private subscriptions: Subscription[] = [];
-  imageToUpload: File = null;
-  uploadedImageUrl = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,6 +56,8 @@ export class AddMemberComponent
       birthDay: ['', [Validators.required, this.validateBirthDay]],
       image: [''],
     });
+
+
   }
 
   public create = (): Promise<void> => {
@@ -69,11 +69,9 @@ export class AddMemberComponent
     }
 
     // // TODO: remove this link and isactive ... :
-    // if (!AppUtil.hasValue(this.member.imageURL)) {
-    //   this.addImgUrl();
+    // if (!AppUtil.hasValue(this.imageToUpload)) {
+    //   this.addMemberAvatar();
     // }
-
-    // TODO: make more validations
 
     this.subscriptions.push(
       this.fileUploadService
@@ -89,17 +87,13 @@ export class AddMemberComponent
     );
   };
 
-  public handleSelectedImage(files: FileList) {
-    this.imageToUpload = files.item(0);
-  }
-
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
   }
 
   //TODO: change with icon
-  private addImgUrl() {
+  private addMemberAvatar() {
     this.member.imageURL =
-      'https://cdn4.iconfinder.com/data/icons/diversity-v2-0-volume-05/64/fitness-trainer-black-male-512.png';
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ0Ovwvg3qzdD37Gir30mn8nG5yra8TYzan0RL_rnONAvsAjUtamuE74TrjBZHpl9FH7g&usqp=CAU';
   }
 }

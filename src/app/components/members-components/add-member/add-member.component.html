@@ -161,13 +161,7 @@
         </div>
 
         <div class="image">
-            <!-- <mat-form-field class="wide">
-        <mat-label>Image - <small>Optional</small></mat-label>
-        <input [(ngModel)]="member.imageURL" type="text" name="imageURL" formControlName="imageURL" matInput
-          placeholder="Image">
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-        
-      </mat-form-field> -->
+
             <label for="image">Image</label>
             <input type="file" formControlName="image" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
 

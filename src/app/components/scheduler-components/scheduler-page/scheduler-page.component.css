@@ -25,7 +25,6 @@
 
 .example-viewport {
     height: 600px;
-    border: 2px solid gray;
 }
 
 .example-item {
@@ -59,4 +58,23 @@
     /* margin: 10px;
   height: 100px;
   width: 100px; */
+}
+
+.dashboard-card {
+    position: absolute;
+    top: 200px;
+    left: 50px;
+    right: 50px;
+    bottom: 100px;
+    height: 700px;
+}
+
+.more-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+
+.dashboard-card-content {
+    text-align: center;
 }

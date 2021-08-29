@@ -13,9 +13,17 @@ import isIsraeliIdValid from 'israeli-id-validator';
   template: ``,
 })
 export class FormInputComponent implements OnInit {
+  imageToUpload: File = null;
+  uploadedImageUrl = null;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  public handleSelectedImage(files: FileList) {
+    this.imageToUpload = files.item(0);
+  }
+
 
   public isInputValidationFailed(inputControl: AbstractControl): boolean {
     if (!inputControl) {

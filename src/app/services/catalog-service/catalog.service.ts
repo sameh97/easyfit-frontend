@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -14,6 +14,9 @@ import { AuthenticationService } from '../authentication.service';
 export class CatalogService {
   private readonly url = `${AppConsts.BASE_URL}/api/catalog-url`;
   gymId: number;
+  private addedCatalogSubject: BehaviorSubject<Catalog> =
+    new BehaviorSubject<Catalog>(null);
+
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
@@ -25,16 +28,26 @@ export class CatalogService {
       });
   }
 
+  public addedScheduleObs = (): Observable<Catalog> => {
+    return this.addedCatalogSubject.asObservable();
+  };
+
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
   };
 
-  public create = (catalog: Catalog): Observable<any> => {
+  public create = (catalog: Catalog): Observable<Catalog> => {
     catalog.gymId = this.gymId;
 
-    return this.http.post<Catalog>(this.url, catalog, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .post<Catalog>(this.url, catalog, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap((catalog) => {
+          this.addedCatalogSubject.next(catalog);
+        })
+      );
   };
 
   public getAllPhones = (): Observable<string[]> => {
@@ -68,9 +81,15 @@ export class CatalogService {
   };
 
   public update = (catalog: Catalog): Observable<Catalog> => {
-    return this.http.put<Catalog>(`${this.url}`, catalog, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .put<Catalog>(`${this.url}`, catalog, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap((catalog) => {
+          this.addedCatalogSubject.next(catalog);
+        })
+      );
   };
 
   public delete = (uuid: string): Observable<any> => {

@@ -160,12 +160,10 @@
             </div>
 
             <div class="image">
-                <mat-form-field class="wide">
-                    <mat-label>Image</mat-label>
-                    <input type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                    <mat-hint>Hint</mat-hint>
-                </mat-form-field>
+
+                <label for="image">Image</label>
+                <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
+
             </div>
 
             <div class="gender">

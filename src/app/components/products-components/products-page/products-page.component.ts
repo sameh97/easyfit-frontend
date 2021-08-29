@@ -16,7 +16,7 @@ import { Bill } from 'src/app/model/bill';
   styleUrls: ['./products-page.component.css'],
 })
 export class ProductsPageComponent implements OnInit, OnDestroy {
-  products: Product[];
+  products: Product[] = [];
   filteredProducts: Product[];
   bills: Bill[];
   filteredBills: Bill[];

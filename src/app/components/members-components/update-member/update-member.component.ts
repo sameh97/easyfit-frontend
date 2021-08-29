@@ -7,8 +7,10 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
@@ -27,7 +29,8 @@ export class UpdateMemberComponent
   constructor(
     private formBuilder: FormBuilder,
     private membersService: MembersService,
-    @Inject(MAT_DIALOG_DATA) private member: Member
+    @Inject(MAT_DIALOG_DATA) private member: Member,
+    private fileUploadService: FileUploadService
   ) {
     super();
   }
@@ -75,7 +78,18 @@ export class UpdateMemberComponent
       return;
     }
 
-    this.subscriptions.push(this.membersService.update(member).subscribe());
+    this.subscriptions.push(
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, this.member.imageURL)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            member.imageURL = imgUrl;
+            return this.membersService.update(member);
+          })
+        )
+        .subscribe()
+    );
   };
 
   get form(): { [key: string]: AbstractControl } {

@@ -34,12 +34,26 @@ export class UserNotificationsService extends ClientDataService {
         this.gymId = user.gymId;
         this.initGymID();
       });
-
-   
   }
 
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
+  };
+
+  public getAllGrouped = (): Observable<AppNotificationMessage[]> => {
+    this.initGymID();
+    return this.authService.currentUser$.pipe(
+      switchMap((user) => {
+        return this.http
+          .get<any[]>(
+            `${AppConsts.BASE_URL}/api/machine/all-notifications?gymId=${this.gymId}`,
+            {
+              headers: CoreUtil.createAuthorizationHeader(),
+            }
+          )
+          .pipe(catchError(AppUtil.handleError));
+      })
+    );
   };
 
   public getAll = (): Observable<AppNotificationMessage[]> => {
@@ -47,7 +61,7 @@ export class UserNotificationsService extends ClientDataService {
     return this.authService.currentUser$.pipe(
       switchMap((user) => {
         return this.http
-          .get<AppNotificationMessage[]>(
+          .get<any[]>(
             `${AppConsts.BASE_URL}/api/notifications?gymId=${this.gymId}`,
             {
               headers: CoreUtil.createAuthorizationHeader(),

@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -13,13 +12,17 @@ import { CatalogService } from 'src/app/services/catalog-service/catalog.service
 import { Subscription } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-send-catalog',
   templateUrl: './send-catalog.component.html',
   styleUrls: ['./send-catalog.component.css'],
 })
-export class SendCatalogComponent implements OnInit, OnDestroy {
+export class SendCatalogComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   selectable = true;
   removable = true;
   addOnBlur = true;
@@ -33,25 +36,37 @@ export class SendCatalogComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
     @Inject(MAT_DIALOG_DATA) private catalog: Catalog
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
       this.catalogService.getAllPhones().subscribe((phones) => {
         this.phones = phones;
+        for (let i = 0; i < this.phones.length; i++) {
+          this.phones[i] = this.addPrefixToNumber(phones[i]);
+        }
+        this.message = '';
+        this.buildForm();
       })
     );
-
-    this.message = '';
-    this.buildForm();
   }
 
   private buildForm = (): void => {
     this.sendCatalogForm = this.formBuilder.group({
       message: [this.message, [Validators.required]],
-      phones: [this.phones, [this.validatePhones]],
+      phones: ['', [this.validatePhones, this.validatePhoneNumber]],
     });
   };
+
+  public isPhonesEmpty(): boolean {
+    if (!this.phones) {
+      return false;
+    }
+
+    return this.phones.length === 0;
+  }
 
   private validatePhones(phones: AbstractControl): { [key: string]: any } {
     if (phones.value && phones.value.length === 0) {
@@ -71,13 +86,6 @@ export class SendCatalogComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const israeliNumberPrefix: string = `+972`;
-
-    for (let i = 0; i < this.phones.length; i++) {
-      this.phones[i] = this.phones[i].substring(1);
-      this.phones[i] = `${israeliNumberPrefix}${this.phones[i]}`;
-    }
-
     const messageContent: any = {
       message: `${this.message} Open the Link: ${this.getLink()}`,
       phones: this.phones,
@@ -94,14 +102,27 @@ export class SendCatalogComponent implements OnInit, OnDestroy {
   };
 
   add(event: MatChipInputEvent): void {
+    if (AppUtil.hasValue(this.sendCatalogForm.controls.phones.errors)) {
+      if (this.sendCatalogForm.controls.phones.errors.phoneNotValid) {
+        return;
+      }
+    }
     const value = (event.value || '').trim();
 
     if (value) {
-      this.phones.push(value);
+      let phoneNum: string = this.addPrefixToNumber(value);
+      this.phones.push(phoneNum);
     }
 
-    // Clear the input value
-    //TODO: event.chipInput!.clear();
+    event.input.value = '';
+  }
+
+  private addPrefixToNumber(phoneNum: string): string {
+    const israeliNumberPrefix: string = `+972`;
+    phoneNum = phoneNum.substring(1);
+    phoneNum = `${israeliNumberPrefix}${phoneNum}`;
+
+    return phoneNum;
   }
 
   remove(number: string): void {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
 import { Machine } from 'src/app/model/machine';
@@ -12,11 +13,17 @@ import { AuthenticationService } from '../authentication.service';
 export class MachinesService {
   private readonly url = `${AppConsts.BASE_URL}/api/machines`;
   private gymId: number;
+  private addedMachineSubject: BehaviorSubject<Machine> =
+    new BehaviorSubject<Machine>(null);
 
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
   ) {}
+
+  public addedMachineObs = (): Observable<Machine> => {
+    return this.addedMachineSubject.asObservable();
+  };
 
   public getBySerialNumber = (
     machineSerialNumber: number
@@ -34,13 +41,19 @@ export class MachinesService {
     machine.gymId = this.gymId;
 
     //TODO: check if query is needed:
-    return this.http.post<Machine>(
-      `${AppConsts.BASE_URL}/api/machine?gymId=${this.gymId}`,
-      machine,
-      {
-        headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+    return this.http
+      .post<Machine>(
+        `${AppConsts.BASE_URL}/api/machine?gymId=${this.gymId}`,
+        machine,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(
+        tap((machine: Machine) => {
+          this.addedMachineSubject.next(machine);
+        })
+      );
   };
 
   public getAll = (): Observable<Machine[]> => {
@@ -56,13 +69,15 @@ export class MachinesService {
   };
 
   public update = (machine: Machine): Observable<Machine> => {
-    return this.http.put<Machine>(
-      `${AppConsts.BASE_URL}/api/machine`,
-      machine,
-      {
+    return this.http
+      .put<Machine>(`${AppConsts.BASE_URL}/api/machine`, machine, {
         headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+      })
+      .pipe(
+        tap((machine: Machine) => {
+          this.addedMachineSubject.next(machine);
+        })
+      );
   };
 
   public delete = (serialNumber: string, gymId: number): Observable<any> => {
