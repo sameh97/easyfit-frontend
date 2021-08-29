@@ -6,7 +6,7 @@
 
     <mat-grid-list cols="4" rowHeight="70px">
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Machine name</mat-label>
                 <input matInput type="text" [(ngModel)]="machine.name" name="machine" formControlName="name" placeholder="Machine name">
                 <mat-icon *ngIf="createMachineForm.controls.name.errors === null" matSuffix>sentiment_very_satisfied
@@ -43,7 +43,7 @@
 
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field appearance="fill" class="example-full-width">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Production Year</mat-label>
                 <input matInput type="number" id="productionYear" [(ngModel)]="machine.productionYear" formControlName="productionYear" min="1900" max="2099" step="1" placeholder="Production Year" />
                 <mat-icon *ngIf="createMachineForm.controls.productionYear.errors === null" matSuffix>sentiment_very_satisfied
@@ -68,7 +68,7 @@
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
 
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Machine serial number</mat-label>
                 <input matInput type="text" [(ngModel)]="machine.serialNumber" name="serialNumber" formControlName="serialNumber" placeholder="Machine serial number">
                 <mat-icon *ngIf="createMachineForm.controls.serialNumber.errors === null" matSuffix>sentiment_very_satisfied
@@ -98,7 +98,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Price</mat-label>
                 <input matInput type="number" min="0" [(ngModel)]="machine.price" name="price" formControlName="price" placeholder="Machine price">
                 <mat-icon *ngIf="createMachineForm.controls.price.errors === null" matSuffix>sentiment_very_satisfied

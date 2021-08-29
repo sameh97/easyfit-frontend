@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -56,7 +57,7 @@ export class SendCatalogComponent
   private buildForm = (): void => {
     this.sendCatalogForm = this.formBuilder.group({
       message: [this.message, [Validators.required]],
-      phones: [this.phones, [this.validatePhones, this.validatePhoneNumber]],
+      phones: ['', [this.validatePhones, Validators.required]],
     });
   };
 
@@ -77,6 +78,36 @@ export class SendCatalogComponent
 
     return null;
   }
+
+  // public validatePhoneNumber = (
+  //   inputControl: AbstractControl
+  // ): ValidationErrors | null => {
+  //   if (!inputControl) {
+  //     return null;
+  //   }
+
+  //   let phoneRegx = new RegExp('^[0][5][0|2|3|4|5|9]{1}[-]{0,1}[0-9]{7}$');
+
+  //   let phoneNumbersArray: string[] = [];
+
+  //   for (let number of inputControl.value) {
+  //     number = number.substring(4);
+  //     number = `0${number}`;
+  //     phoneNumbersArray.push(number);
+  //   }
+
+  //   for (const number of phoneNumbersArray) {
+  //     if (number === '') {
+  //       return { empty: true };
+  //     }
+
+  //     if (!number.match(phoneRegx)) {
+  //       return { phoneNotValid: true };
+  //     }
+  //   }
+
+  //   return null;
+  // };
 
   public send = (): Promise<void> => {
     if (!AppUtil.hasValue(this.message)) {

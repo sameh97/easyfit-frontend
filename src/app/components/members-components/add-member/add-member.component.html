@@ -8,7 +8,7 @@
 
     <div class="grid-container">
         <div class="first-name">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>first name</mat-label>
                 <input [(ngModel)]="member.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder" focus>
                 <mat-icon *ngIf="addMemberForm.controls.firstName.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="last-name">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>last name</mat-label>
                 <input [(ngModel)]="member.lastName" name="lastName" formControlName="lastName" matInput placeholder="Last Name">
                 <mat-icon *ngIf="addMemberForm.controls.lastName.errors === null " matSuffix>sentiment_very_satisfied</mat-icon>
@@ -61,7 +61,7 @@
 
         </div>
         <div class="email-class">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Email</mat-label>
                 <input [(ngModel)]="member.email" type="email" name="email" formControlName="email" matInput placeholder="Email">
                 <mat-icon *ngIf="addMemberForm.controls.email.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="address-class">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Address</mat-label>
                 <input [(ngModel)]="member.address" type="text" name="address" formControlName="address" matInput placeholder="Address">
                 <mat-icon *ngIf="addMemberForm.controls.address.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="phone">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Phone number</mat-label>
                 <input [(ngModel)]="member.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
                 <mat-icon *ngIf="addMemberForm.controls.phone.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="birthday">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Birth Day</mat-label>
                 <input [(ngModel)]="member.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
                 <mat-icon *ngIf="addMemberForm.controls.birthDay.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -131,7 +131,7 @@
         </div>
 
         <div class="join-date">
-            <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>join Date</mat-label>
                 <input [(ngModel)]="member.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
                 <mat-icon *ngIf="addMemberForm.controls.joinDate.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>

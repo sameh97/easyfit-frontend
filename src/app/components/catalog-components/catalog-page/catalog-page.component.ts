@@ -67,7 +67,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   public openSendCatalogDialog(catalog: Catalog) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(SendCatalogComponent, null, catalog, null)
+        .openDialog(SendCatalogComponent, null, catalog, true)
         .subscribe()
     );
   }
@@ -78,7 +78,9 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
   public openCreateCatalogDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(AddCatalogComponent).subscribe()
+      this.navigationService
+        .openDialog(AddCatalogComponent, null, null, true)
+        .subscribe()
     );
   }
 
@@ -106,7 +108,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   public openUpdateCatalogDialog(catalog: Catalog) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateCatalogComponent, null, catalog, null)
+        .openDialog(UpdateCatalogComponent, null, catalog, true)
         .subscribe()
     );
   }

@@ -116,7 +116,7 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public openUpdateMemberDialog(member: Member) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateMemberComponent, null, member, null)
+        .openDialog(UpdateMemberComponent, null, member, true)
         .subscribe()
     );
   }

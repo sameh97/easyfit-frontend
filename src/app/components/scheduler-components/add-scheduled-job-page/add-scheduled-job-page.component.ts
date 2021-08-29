@@ -81,6 +81,7 @@ export class AddScheduledJobPageComponent
       allowSearchFilter: true,
     };
   }
+  
   onItemSelect(item: any) {
     for (let machine of this.machines) {
       if (item.item_id === machine.serialNumber) {

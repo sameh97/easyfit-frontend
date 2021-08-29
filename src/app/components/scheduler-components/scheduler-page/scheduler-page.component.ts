@@ -23,8 +23,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   constructor(
     private schedulerService: SchedulerService,
     private machineService: MachinesService,
-    private navigationService: NavigationHelperService,
-
+    private navigationService: NavigationHelperService
   ) {}
 
   ngOnInit(): void {
@@ -125,7 +124,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   public openUpdateScheduledJobDialog(scheduledJob: ScheduledJob) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateScheduledJobComponent, null, scheduledJob, null)
+        .openDialog(UpdateScheduledJobComponent, null, scheduledJob, true)
         .subscribe()
     );
   }
@@ -133,7 +132,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   public openCreateScheduledJobDialog() {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(AddScheduledJobPageComponent)
+        .openDialog(AddScheduledJobPageComponent, null, null, true)
         .subscribe()
     );
   }

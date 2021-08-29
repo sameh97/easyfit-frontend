@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
@@ -24,7 +25,8 @@ export class CreateMachineComponent
   constructor(
     private formBuilder: FormBuilder,
     private machineService: MachinesService,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    public dialogRef: MatDialogRef<CreateMachineComponent>
   ) {
     super();
   }
@@ -69,7 +71,9 @@ export class CreateMachineComponent
           })
         )
         .subscribe(
-          () => {},
+          () => {
+            this.dialogRef.close();
+          },
           (err: Error) => {
             //TODO:  display an appropriate message in the UI
             AppUtil.showError(err);

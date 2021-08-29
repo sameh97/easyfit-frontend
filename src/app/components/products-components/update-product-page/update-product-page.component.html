@@ -6,7 +6,7 @@
 
     <mat-grid-list cols="4" rowHeight="70px">
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Product name</mat-label>
                 <input matInput type="text" [(ngModel)]="product.name" name="name" formControlName="name" placeholder="Product name">
                 <mat-icon *ngIf="updateProductForm.controls.name.errors === null" matSuffix>sentiment_very_satisfied</mat-icon>
@@ -32,7 +32,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field class="example-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Price</mat-label>
                 <input matInput type="number" min="0" [(ngModel)]="product.price" name="price" formControlName="price" placeholder="Machine price">
                 <mat-icon *ngIf="updateProductForm.controls.price.errors === null" matSuffix>sentiment_very_satisfied
@@ -70,8 +70,9 @@
         </mat-grid-tile>
 
 
+
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Code</mat-label>
                 <input matInput type="text" name="code" formControlName="code" [(ngModel)]="product.code" placeholder="Product Code">
                 <mat-icon *ngIf="updateProductForm.controls.code.errors === null" matSuffix>sentiment_very_satisfied
@@ -101,7 +102,7 @@
 
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field class="frequency-full-width" appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Quantity</mat-label>
                 <input type="number" formControlName="quantity" [(ngModel)]="product.quantity" matInput placeholder="Quantity" value="1">
                 <mat-icon *ngIf="updateProductForm.controls.quantity.errors === null" matSuffix>sentiment_very_satisfied
@@ -129,7 +130,7 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field appearance="fill">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Category</mat-label>
                 <mat-select formControlName="categoryID" [(ngModel)]="product.categoryID">
                     <mat-option value="1">protein</mat-option>

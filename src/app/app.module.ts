@@ -75,6 +75,9 @@ import { AddUserComponent } from './components/registration-components/users-com
 import { UpdateUserComponent } from './components/registration-components/users-components/update-user/update-user.component';
 import { NotificationsDropdownComponent } from './components/notifications/notifications-dropdown.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer.component';
+import { TrainersComponent } from './components/trainers-components/trainers/trainers.component';
+import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -89,6 +92,11 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'trainers',
+    component: TrainersComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -154,6 +162,9 @@ const routes: Routes = [
     AddUserComponent,
     UpdateUserComponent,
     NotificationsDropdownComponent,
+    AddTrainerComponent,
+    TrainersComponent,
+    UpdateTrainerComponent,
   ],
   imports: [
     BrowserModule,

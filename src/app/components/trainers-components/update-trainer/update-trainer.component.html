@@ -1,0 +1,94 @@
+<div class="center">
+    <h2 mat-dialog-title>Update Trainer </h2>
+</div>
+
+<div class="center">
+
+    <form *ngIf="updateTrainerForm" #theForm="ngForm" [formGroup]="updateTrainerForm" (ngSubmit)="update(theForm.value)">
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>first name</mat-label>
+                <input [(ngModel)]="trainer.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>last name</mat-label>
+                <input [(ngModel)]="trainer.lastName" name="lastName" formControlName="lastName" matInput placeholder="Last Name">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input [(ngModel)]="trainer.email" type="email" name="email" formControlName="email" matInput placeholder="Email">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>join Date</mat-label>
+                <input [(ngModel)]="trainer.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>certificationDate</mat-label>
+                <input [(ngModel)]="trainer.certificationDate" type="date" name="certificationDate" formControlName="certificationDate" matInput placeholder="certificationDate">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Phone</mat-label>
+                <input [(ngModel)]="trainer.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Address</mat-label>
+                <input [(ngModel)]="trainer.address" type="text" name="address" formControlName="address" matInput placeholder="Address">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>BirthDay</mat-label>
+                <input [(ngModel)]="trainer.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Image - <small>Optional</small></mat-label>
+                <input [(ngModel)]="trainer.imageURL" type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </p>
+
+        <button id="add-trainer-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+      Update
+    </button>
+    </form>
+</div>
