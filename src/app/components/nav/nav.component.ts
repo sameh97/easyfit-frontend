@@ -26,20 +26,6 @@ export class NavComponent implements OnInit, OnDestroy {
   notifications: AppNotificationMessage[] = [];
   notificationNumber: number = 0;
   private subscriptions: Subscription[] = [];
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
-
-  getNotificationsLength() {
-    return this.notificationNumber;
-  }
-
-  logout() {
-    this.authService.logout();
-  }
 
   constructor(
     private authService: AuthenticationService,
@@ -68,6 +54,21 @@ export class NavComponent implements OnInit, OnDestroy {
           this.notificationNumber = sum;
         })
     );
+  }
+
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+
+  getNotificationsLength() {
+    return this.notificationNumber;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   public openNotificationsDialog() {

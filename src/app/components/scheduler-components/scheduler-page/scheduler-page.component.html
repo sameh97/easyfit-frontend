@@ -34,16 +34,16 @@
                                 <div class="flex-container-list-item">
                                     <div class="details">
 
-                                        <h3 matLine>{{getJob(scheduledjob.jobID)}} Job</h3>
-                                        <h4 matLine> Status: {{getJobStatus(scheduledjob.isActive)}}</h4>
+                                        <h2 matLine><b>{{getJob(scheduledjob.jobID)}} Job</b></h2>
+                                        <h4 matLine> <b>Status:</b> {{getJobStatus(scheduledjob.isActive)}}</h4>
                                         <p matLine>
-                                            <span> Start time: {{scheduledjob.startTime | date}} </span>
+                                            <span> <b>Start time:</b> {{scheduledjob.startTime | date}} </span>
                                         </p>
                                         <p matLine>
-                                            <span> End time: {{scheduledjob.endTime | date}}</span>
+                                            <span><b>End time:</b> {{scheduledjob.endTime | date}}</span>
                                         </p>
                                         <p matLine>
-                                            <span> Runs Every: {{scheduledjob.daysFrequency}} days
+                                            <span><b>Runs Every:</b> {{scheduledjob.daysFrequency}} days
                       </span>
 
                                         </p>

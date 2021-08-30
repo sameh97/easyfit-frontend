@@ -1,45 +1,34 @@
-<app-nav>
-    <div class="example-button-container">
-        <button type="button" (click)="openCreateTrainerDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-    <mat-icon>plus_one</mat-icon>
-  </button>
+<app-nav><br>
+    <div class="grid-container">
+        <h1 class="mat-h1">Trainers Page</h1>
+        <mat-grid-list cols="2" rowHeight="350px">
+            <mat-grid-tile [colspan]="2" [rowspan]="row">
+                <mat-card class="dashboard-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            All Trainers
+                            <!-- TODO: deal with this (more button) -->
+                            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+
+                            <button class="add-button" type="button" (click)="openCreateTrainerDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+                <mat-icon>plus_one</mat-icon>
+              </button>
+
+                            <mat-menu #menu="matMenu" xPosition="before">
+                                <button mat-menu-item>Expand</button>
+                                <button mat-menu-item>Remove</button>
+                            </mat-menu>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="dashboard-card-content">
+
+                        <app-trainers-table></app-trainers-table>
+                    </mat-card-content>
+                </mat-card>
+            </mat-grid-tile>
+
+        </mat-grid-list>
     </div>
-
-    <input class="form-control mr-sm-2" [(ngModel)]="searchValue" name="searchInTrainers" type="search" placeholder="Search" aria-label="Search">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Image</th>
-                <th scope="col">first name</th>
-                <th scope="col">last name</th>
-                <th scope="col">birthDay</th>
-                <th scope="col">email</th>
-                <th scope="col">address</th>
-                <th scope="col">status</th>
-                <th scope="col">Join date</th>
-                <th scope="col">action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr *ngFor="let trainer of trainers$ | searchfilter:searchValue | async ">
-                <td> </td>
-                <td><img style="height: 60px; width: 60px;" src="{{trainer.imageURL }}"></td>
-                <td>{{trainer.firstName }}</td>
-                <td>{{trainer.lastName }}</td>
-                <td>{{trainer.birthDay | date }}</td>
-                <td>{{trainer.email }}</td>
-                <td>{{trainer.address }}</td>
-                <td [ngClass]="{'btn btn-success' : trainer.isActive,
-      'btn btn-danger' : !trainer.isActive}">{{getActiveDisplayString(trainer)}}</td>
-                <td>{{trainer.joinDate | date }}</td>
-                <td><button (click)="delete(trainer.id, trainer)" type="button" class="btn btn-danger">Delete</button>
-                    <button (click)="openUpdateTrainerDialog(trainer)" style="margin-left: 10px;" mat-raised-button color="primary">Edit</button>
-                </td>
-
-            </tr>
-        </tbody>
-    </table>
-
 </app-nav>

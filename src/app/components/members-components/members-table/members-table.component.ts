@@ -13,13 +13,8 @@ import { AppUtil } from 'src/app/common/app-util';
 import { Member } from 'src/app/model/member';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UpdateMemberComponent } from '../update-member/update-member.component';
-
-import {
-  MembersTableDataSource,
-  MembersTableItem,
-} from './members-table-datasource';
 
 @Component({
   selector: 'app-members-table',

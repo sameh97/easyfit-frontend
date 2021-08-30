@@ -44,7 +44,7 @@
 /* *** list element flex *** */
 
 .img {
-    flex: 6;
+    flex: 2;
 }
 
 .details {
@@ -73,7 +73,6 @@
 }
 
 .list-element-flex-container>div {
-    text-align: center;
     font-size: 15px;
     padding: 10px 0;
 }

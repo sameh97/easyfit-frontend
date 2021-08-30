@@ -26,8 +26,9 @@
 
                 <div class="notification-bell">
                     <button mat-button (click)="openNotificationsDialog()">
-
-            <mat-icon [matBadge]="getNotificationsLength()" matBadgeColor="warn">notifications</mat-icon>
+            <mat-icon [matBadgeHidden]="getNotificationsLength() === 0" [matBadge]="getNotificationsLength()"
+              matBadgeColor="warn">
+              notifications</mat-icon>
           </button>
 
                 </div>

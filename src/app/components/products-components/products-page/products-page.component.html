@@ -38,21 +38,21 @@
                                             <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{product.imgUrl}}">
                                             </div>
                                             <div class="details">
-                                                <h3 matLine>{{product.name}}</h3>
-                                                <h4 matLine> Category: {{getCategory(product.categoryID)}}</h4>
+                                                <h2 matLine>{{product.name}}</h2>
+                                                <h4 matLine><b>Category:</b> {{getCategory(product.categoryID)}}</h4>
                                                 <p matLine>
-                                                    <span> {{product.description}} </span>
+                                                    <span><b>description:</b> {{product.description}} </span>
                                                 </p>
                                                 <p matLine>
-                                                    <span> Code: {{product.code}}</span>
+                                                    <span><b>Code:</b> {{product.code}}</span>
                                                 </p>
                                                 <p matLine>
-                                                    <span> Quantity: {{product.quantity}}
+                                                    <span><b>Quantity:</b> {{product.quantity}}
                           </span>
 
                                                 </p>
                                                 <p matLine>
-                                                    <span> Price: {{product.price}}
+                                                    <span><b>Price:</b> {{product.price}}
                           </span>
 
                                                 </p>
@@ -119,20 +119,17 @@
                                     <mat-card>
                                         <div class="bill-list-flex-container">
                                             <div class="details">
-                                                <h3><b>{{bill.productName}} </b></h3>
+                                                <h2>{{bill.productName}}</h2>
 
-                                                <p>Coustomer name: {{bill.coustomerName}}</p>
-                                                <p>Coustomer ID: {{bill.coustomerID}}</p>
-                                                <p>Coustomer Phone: {{bill.coustomerPhone}}</p>
-                                                <p>Quantity: {{bill.quantity}}</p>
-                                                <p>Total cost: {{bill.totalCost}}</p>
-                                                <p>Date: {{bill.createdAt | date:'d/M/yy, h:mm a'}}</p>
+                                                <p><b>Coustomer name:</b> {{bill.coustomerName}}</p>
+                                                <p><b>Coustomer ID:</b> {{bill.coustomerID}}</p>
+                                                <p><b>Coustomer Phone:</b> {{bill.coustomerPhone}}</p>
+                                                <p><b>Quantity:</b> {{bill.quantity}}</p>
+                                                <p><b>Total cost:</b> {{bill.totalCost}}</p>
+                                                <p><b>Date:</b> {{bill.createdAt | date:'d/M/yy, h:mm a'}}</p>
 
                                             </div>
-                                            <!-- <div class="done-button">
-                        <button mat-button (click)="onDone(notification)" color="success">Done</button>
 
-                      </div> -->
                                         </div>
 
 
@@ -143,7 +140,7 @@
                                 <div *ngIf="isBillsEmpty()">
                                     <h3> No Results</h3>
                                 </div>
-
+                                <mat-divider></mat-divider>
                             </cdk-virtual-scroll-viewport>
                         </mat-card-content>
 

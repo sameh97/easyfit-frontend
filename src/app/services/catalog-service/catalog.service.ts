@@ -29,10 +29,6 @@ export class CatalogService {
       });
   }
 
-  // public addedScheduleObs = (): Observable<Catalog> => {
-  //   return this.addedCatalogSubject.asObservable();
-  // };
-
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
   };

@@ -69,7 +69,7 @@ export class AddScheduledJobPageComponent
       startTime: ['', [Validators.required]],
       endTime: ['', [Validators.required, this.validateEndDate]],
       daysFrequency: ['', [Validators.required, this.validateFrequency]],
-      isActive: ['', [Validators.required]],
+     
     });
     this.dropdownSettings = {
       singleSelection: true,
@@ -81,7 +81,7 @@ export class AddScheduledJobPageComponent
       allowSearchFilter: true,
     };
   }
-  
+
   onItemSelect(item: any) {
     for (let machine of this.machines) {
       if (item.item_id === machine.serialNumber) {
@@ -152,6 +152,8 @@ export class AddScheduledJobPageComponent
       );
       return;
     }
+
+    this.scheduledJob.isActive = true; // TODO: remove is active form scheduledJob db table
 
     this.scheduledJob.jobID = Number(this.scheduledJob.jobID);
 

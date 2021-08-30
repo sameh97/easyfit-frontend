@@ -1,5 +1,20 @@
 <h2 style="text-align: center;">All Notifications</h2><br>
-<h3>Machine with Serial Number: {{machine.serialNumber}}</h3>
+
+
+<mat-grid-list cols="4" rowHeight="70px">
+    <mat-grid-tile [colspan]="2" [rowspan]="1">
+        <h3><b>Machine with Serial Number:</b> {{machine.serialNumber}}</h3>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+        <button (click)="deleteByMachineSerialNumber(machine.serialNumber)" mat-raised-button>Clear
+      all</button>
+
+    </mat-grid-tile>
+</mat-grid-list>
+
 <mat-card class="dashboard-card">
     <mat-card-header>
 

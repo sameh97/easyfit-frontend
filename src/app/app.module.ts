@@ -77,6 +77,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer.component';
 import { TrainersComponent } from './components/trainers-components/trainers/trainers.component';
 import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
+import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -163,6 +164,7 @@ const routes: Routes = [
     AddTrainerComponent,
     TrainersComponent,
     UpdateTrainerComponent,
+    TrainersTableComponent,
   ],
   imports: [
     BrowserModule,

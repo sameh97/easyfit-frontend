@@ -36,24 +36,24 @@
                             <mat-list-item *cdkVirtualFor="let machine of filteredItems; whenEmpty: emptyMessage" class="example-item" role="listitem">
 
                                 <div class="list-element-flex-container">
-                                    <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="null">
+                                    <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{machine.imgUrl}}">
                                     </div>
                                     <!-- http://localhost:3000/api/storage/{{machine.imgUrl}} -->
                                     <div class="details">
-                                        <h3 matLine>{{machine.name}}</h3>
-                                        <h4 matLine> Serial Number: {{machine.serialNumber}}</h4>
+                                        <h3 matLine><b>name:</b> {{machine.name}}</h3>
+                                        <h4 matLine> <b>Serial Number:</b> {{machine.serialNumber}}</h4>
                                         <p matLine>
-                                            <span> Description: {{machine.description}} </span>
+                                            <span><b> Description:</b> {{machine.description}} </span>
                                         </p>
 
                                         <p matLine>
-                                            <span> Production Year: {{machine.productionYear}}
+                                            <span> <b> Production Year:</b> {{machine.productionYear}}
                       </span>
 
                                         </p>
 
                                         <p matLine>
-                                            <span> price: {{machine.price | currency:'ILS'}}
+                                            <span> <b>price:</b> {{machine.price | currency:'ILS'}}
                       </span>
 
                                         </p>

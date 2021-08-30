@@ -1,6 +1,5 @@
 .example-viewport {
     height: 600px;
-    /* border: 1px solid black; */
 }
 
 .example-item {
@@ -33,7 +32,6 @@
 }
 
 .flex-container>div {
-    text-align: center;
     font-size: 15px;
     padding: 10px 0;
 }
@@ -59,15 +57,15 @@
 
 .list-element-flex-container {
     display: flex;
-    gap: 1rem;
-    justify-content: space-between;
+    gap: 1px;
+    /* justify-content: space-between; */
     flex-wrap: wrap;
     flex: 0 0 100%;
     flex-direction: row;
 }
 
 .list-element-flex-container>div {
-    text-align: center;
+    margin: 10px;
     font-size: 15px;
     padding: 10px 0;
 }
@@ -90,9 +88,8 @@
     right: 10px;
 }
 
-.dashboard-card-content {
-    text-align: center;
-}
+
+/* .dashboard-card-content {} */
 
 
 /* mat tab */

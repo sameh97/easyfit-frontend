@@ -95,7 +95,6 @@ export class UpdateScheduledJobComponent
         this.scheduledJob.daysFrequency,
         [Validators.required, this.validateFrequency],
       ],
-      isActive: [this.scheduledJob.isActive, [Validators.required]],
       gymId: [this.scheduledJob.gymId, [Validators.required]],
     });
   };
@@ -166,6 +165,9 @@ export class UpdateScheduledJobComponent
       );
       return;
     }
+
+    scheduledJob.isActive = true; // TODO: remove is active form scheduledJob db table
+
 
     const jobToUpdate: ScheduledJob = {
       id: scheduledJob.id,

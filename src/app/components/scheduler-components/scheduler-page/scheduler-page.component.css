@@ -40,9 +40,10 @@
     text-align: left;
 }
 
-.edit {}
 
-.delete {}
+/* .edit {}
+
+.delete {} */
 
 .flex-container-list-item {
     display: flex;

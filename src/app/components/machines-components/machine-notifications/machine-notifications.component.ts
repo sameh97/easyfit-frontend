@@ -38,7 +38,6 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
         .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
         .subscribe((job: AppNotificationMessage) => {
           if (job.content.machineSerialNumber === this.machine.serialNumber) {
-            // this.notifications.push(job);
             this.notifications.unshift(job);
             this.notifications = [...this.notifications];
           }
@@ -50,11 +49,25 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
         .onMessage(SocketTopics.TOPIC_MACHINE_SERVICE)
         .subscribe((job: AppNotificationMessage) => {
           if (job.content.machineSerialNumber === this.machine.serialNumber) {
-            // this.notifications.push(job);
             this.notifications.unshift(job);
             this.notifications = [...this.notifications];
           }
         })
+    );
+  }
+
+  public deleteByMachineSerialNumber(machineSerialNumber: string): void {
+    this.subscriptions.push(
+      this.userNotificationsService
+        .deleteByTargetObjectId(machineSerialNumber)
+        .subscribe(
+          () => {
+            this.notifications = [...this.notifications];
+          },
+          (error: Error) => {
+            AppUtil.showWarningMessage(error.message);
+          }
+        )
     );
   }
 

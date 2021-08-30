@@ -228,7 +228,7 @@ export class FormInputComponent implements OnInit {
   public validatePrice = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {
-    if (!inputControl) {
+    if (!inputControl || !inputControl.value) {
       return null;
     }
     if (isNaN(inputControl.value)) {
