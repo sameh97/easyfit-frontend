@@ -65,7 +65,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { SellProductComponent } from './components/products-components/sell-product/sell-product.component';
-import { RegisterComponent } from './components/registration-components/register/register.component';
 import { CreateGymComponent } from './components/registration-components/create-gym/create-gym.component';
 import { AdminPageComponent } from './components/registration-components/admin-page/admin-page.component';
 import { AdminNavComponent } from './components/registration-components/admin-nav/admin-nav.component';
@@ -153,7 +152,6 @@ const routes: Routes = [
     UpdateCatalogComponent,
     SendCatalogComponent,
     SellProductComponent,
-    RegisterComponent,
     CreateGymComponent,
     AdminPageComponent,
     AdminNavComponent,

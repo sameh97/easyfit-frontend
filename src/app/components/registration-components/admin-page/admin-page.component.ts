@@ -56,7 +56,9 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public openCreateGymDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(CreateGymComponent).subscribe()
+      this.navigationService
+        .openDialog(CreateGymComponent, null, null, true)
+        .subscribe()
     );
   }
 
@@ -90,7 +92,7 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public openUpdateGymDialog(gym: Gym) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateGymComponent, null, gym, null)
+        .openDialog(UpdateGymComponent, null, gym, true)
         .subscribe()
     );
   }

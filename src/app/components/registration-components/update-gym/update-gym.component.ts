@@ -5,13 +5,17 @@ import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Gym } from 'src/app/model/gym';
 import { GymsService } from 'src/app/services/gyms-service/gyms.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-update-gym',
   templateUrl: './update-gym.component.html',
   styleUrls: ['./update-gym.component.css'],
 })
-export class UpdateGymComponent implements OnInit, OnDestroy {
+export class UpdateGymComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   updateGymForm: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -19,7 +23,9 @@ export class UpdateGymComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private gym: Gym,
     private gymsService: GymsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -28,8 +34,8 @@ export class UpdateGymComponent implements OnInit, OnDestroy {
   private buildForm = (): void => {
     this.updateGymForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      name: [this.gym.name, [Validators.required]],
-      phone: [this.gym.phone, [Validators.required]],
+      name: [this.gym.name, [Validators.required, this.validateGymName]],
+      phone: [this.gym.phone, [Validators.required, this.validateIsraeliPhoneNumber]],
       address: [this.gym.address, [Validators.required]],
     });
   };

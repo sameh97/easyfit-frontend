@@ -4,13 +4,17 @@ import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Gym } from 'src/app/model/gym';
 import { GymsService } from 'src/app/services/gyms-service/gyms.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-create-gym',
   templateUrl: './create-gym.component.html',
   styleUrls: ['./create-gym.component.css'],
 })
-export class CreateGymComponent implements OnInit, OnDestroy {
+export class CreateGymComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addGymForm: FormGroup;
   gym: Gym;
   private subscriptions: Subscription[] = [];
@@ -18,14 +22,16 @@ export class CreateGymComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private gymsService: GymsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.gym = new Gym();
     this.addGymForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      name: ['', [Validators.required]],
-      phone: ['', [Validators.required]],
+      name: ['', [Validators.required, this.validateGymName]],
+      phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],
       address: ['', [Validators.required]],
     });
   }

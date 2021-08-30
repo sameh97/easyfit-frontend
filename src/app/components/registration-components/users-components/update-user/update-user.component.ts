@@ -15,13 +15,17 @@ import { Gym } from 'src/app/model/gym';
 import { User } from 'src/app/model/user';
 import { GymsService } from 'src/app/services/gyms-service/gyms.service';
 import { UsersService } from 'src/app/services/users-service/users.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.css'],
 })
-export class UpdateUserComponent implements OnInit, OnDestroy {
+export class UpdateUserComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   updateUserForm: FormGroup;
   private subscriptions: Subscription[] = [];
   gyms: Gym[];
@@ -35,7 +39,9 @@ export class UpdateUserComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) private user: User,
     private gymsService: GymsService,
     private usersService: UsersService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.dropdownSettings = {
@@ -58,31 +64,54 @@ export class UpdateUserComponent implements OnInit, OnDestroy {
             item_text: gym.name,
           };
           this.dropdownList.push(item);
+        }
+
+        for (let gym of this.gyms) {
+          const item: any = {
+            item_id: gym.id,
+            item_text: gym.name,
+          };
+
           if (gym.id === this.user.gymId) {
             this.selectedItems.push(item);
+            break;
           }
         }
 
         this.dropdownList = [...this.dropdownList];
+        this.buildForm();
       })
     );
-
-    this.buildForm();
   }
 
   private buildForm = (): void => {
     this.updateUserForm = this.formBuilder.group(
       {
         // TODO: make the validators more relevant:
-        firstName: [this.user.firstName, [Validators.required]],
-        lastName: [this.user.lastName, [Validators.required]],
+        firstName: [
+          this.user.firstName,
+          [Validators.required, this.validateName],
+        ],
+        lastName: [
+          this.user.lastName,
+          [Validators.required, this.validateName],
+        ],
         email: [this.user.email, [Validators.required, Validators.email]],
-        password: [this.user.password, [Validators.required]],
+        password: [
+          this.user.password,
+          [Validators.required, Validators.minLength(3)],
+        ],
         confirmPassword: ['', [Validators.required]],
-        phone: [this.user.phone, [Validators.required]],
-        birthDay: [this.user.birthDay, [Validators.required]],
+        phone: [
+          this.user.phone,
+          [Validators.required, this.validateIsraeliPhoneNumber],
+        ],
+        birthDay: [
+          this.user.birthDay,
+          [Validators.required, this.validateBirthDay],
+        ],
         address: [this.user.address, [Validators.required]],
-        gymId: [this.user.gymId, [Validators.required]],
+        gymId: ['', [Validators.required]],
       },
       { validators: this.checkPasswords }
     );
@@ -109,14 +138,6 @@ export class UpdateUserComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(this.usersService.update(this.user).subscribe());
-  };
-
-  public checkPasswords: ValidatorFn = (
-    group: AbstractControl
-  ): ValidationErrors | null => {
-    let pass = group.get('password').value;
-    let confirmPass = group.get('confirmPassword').value;
-    return pass === confirmPass ? null : { notSame: true };
   };
 
   ngOnDestroy(): void {

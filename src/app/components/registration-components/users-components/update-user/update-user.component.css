@@ -28,7 +28,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     flex: 0 0 100%;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .flex-container-inside-row>div {

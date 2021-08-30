@@ -14,13 +14,17 @@ import { Gym } from 'src/app/model/gym';
 import { User } from 'src/app/model/user';
 import { GymsService } from 'src/app/services/gyms-service/gyms.service';
 import { UsersService } from 'src/app/services/users-service/users.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.css'],
 })
-export class AddUserComponent implements OnInit, OnDestroy {
+export class AddUserComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addUserForm: FormGroup;
   user: User;
   gyms: Gym[];
@@ -34,7 +38,9 @@ export class AddUserComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private gymsService: GymsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -57,13 +63,13 @@ export class AddUserComponent implements OnInit, OnDestroy {
     this.addUserForm = this.formBuilder.group(
       {
         // TODO: make the validators more relevant:
-        firstName: ['', [Validators.required]],
-        lastName: ['', [Validators.required]],
+        firstName: ['', [Validators.required, this.validateName]],
+        lastName: ['', [Validators.required, this.validateName]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required]],
+        password: ['', [Validators.required, Validators.minLength(3)]],
         confirmPassword: ['', [Validators.required]],
-        phone: ['', [Validators.required]],
-        birthDay: ['', [Validators.required]],
+        phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],
+        birthDay: ['', [Validators.required, this.validateBirthDay]],
         address: ['', [Validators.required]],
         gymId: ['', [Validators.required]],
       },
@@ -80,17 +86,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
       allowSearchFilter: true,
     };
   }
-
-  // public id: string;
-  // public firstName: string;
-  // public lastName: string;
-  // public email: string;
-  // public password: string;
-  // public roleId: number;
-  // public phone: string;
-  // public birthDay: Date;
-  // public address: string;
-  // public gymId: number;
 
   onItemSelect(item: any) {
     for (let gym of this.gyms) {
@@ -123,14 +118,6 @@ export class AddUserComponent implements OnInit, OnDestroy {
         }
       )
     );
-  };
-
-  public checkPasswords: ValidatorFn = (
-    group: AbstractControl
-  ): ValidationErrors | null => {
-    let pass = group.get('password').value;
-    let confirmPass = group.get('confirmPassword').value;
-    return pass === confirmPass ? null : { notSame: true };
   };
 
   ngOnDestroy(): void {

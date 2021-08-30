@@ -24,7 +24,6 @@ export class FormInputComponent implements OnInit {
     this.imageToUpload = files.item(0);
   }
 
-
   public isInputValidationFailed(inputControl: AbstractControl): boolean {
     if (!inputControl) {
       return false;
@@ -80,6 +79,42 @@ export class FormInputComponent implements OnInit {
     return null;
   };
 
+  public validateGymName = (inputControl: AbstractControl): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    let gymNameRegx = new RegExp("^[a-zA-Z\u0590-\u05fe ]+[a-zA-Z0-9_ .]*$");
+
+    
+
+    if (!inputControl.value.match(gymNameRegx)) {
+      return { gymNotValid: true };
+    }
+
+    return null;
+  };
+
+  public validateIsraeliPhoneNumber = (inputControl: AbstractControl): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    let gymPhoneRegx = new RegExp('^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$');
+   
+
+
+    if (!inputControl.value.match(gymPhoneRegx)) {
+      return { gymPhoneNotValid: true };
+    }
+
+    return null;
+  };
+
+
+
+
+ 
   public vallidateAddress = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {
@@ -162,7 +197,7 @@ export class FormInputComponent implements OnInit {
       return null;
     }
 
-    const regex = new RegExp('^[\s\da-zA-z\-]+$');
+    const regex = new RegExp('^[sda-zA-z-]+$');
 
     if (!inputControl.value.match(regex)) {
       return { serialNumberNotValid: true };
@@ -236,9 +271,8 @@ export class FormInputComponent implements OnInit {
       return null;
     }
 
-    // let nameRegx = new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
 
-    let nameRegx = new RegExp('^[a-z\u0590-\u05fe ]+$');
+    let nameRegx = new RegExp('^[A-Za-z\u0590-\u05fe ]+$');
 
     if (!inputControl.value.match(nameRegx)) {
       return { nameNotValid: true };
@@ -296,4 +330,13 @@ export class FormInputComponent implements OnInit {
 
     return true;
   }
+
+  public checkPasswords: ValidatorFn = (
+    group: AbstractControl
+  ): ValidationErrors | null => {
+    let pass = group.get('password').value;
+    let confirmPass = group.get('confirmPassword').value;
+    return pass === confirmPass ? null : { notSame: true };
+  };
+
 }
