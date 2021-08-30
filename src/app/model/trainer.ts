@@ -7,6 +7,7 @@ export class Trainer {
   public email: string;
   public address: string;
   public isActive: boolean;
+  public gender: number;
   public certificationDate: Date;
   public joinDate: Date;
   public imageURL: string;

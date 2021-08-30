@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -25,11 +25,6 @@ export class SchedulerService {
 
   private gymId: number;
 
-  // public addedScheduleObs = (): Observable<ScheduledJob> => {
-  //   return this.addedScheduleSubject.asObservable();
-  // };
-
-  // TODO: make it observable:
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
   };
@@ -50,7 +45,8 @@ export class SchedulerService {
         tap((scheduledJob: ScheduledJob) => {
           AppUtil.addToSubject(this.scheduleSubject, scheduledJob);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public getAll = (): Observable<ScheduledJob[]> => {
@@ -64,7 +60,8 @@ export class SchedulerService {
           this.scheduleSubject.next(scheduledJob);
           return this.scheduleSubject.asObservable();
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public update = (scheduledJob: ScheduledJob): Observable<ScheduledJob> => {
@@ -76,7 +73,8 @@ export class SchedulerService {
         tap((scheduledJob: ScheduledJob) => {
           AppUtil.updateInSubject(this.scheduleSubject, scheduledJob);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public delete = (id: number): Observable<any> => {
@@ -88,6 +86,7 @@ export class SchedulerService {
         tap(() => {
           AppUtil.removeFromSubject(this.scheduleSubject, id);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 }

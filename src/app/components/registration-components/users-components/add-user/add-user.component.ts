@@ -113,7 +113,7 @@ export class AddUserComponent
       this.usersService.create(this.user).subscribe(
         () => {},
         (err: Error) => {
-          //TODO:  display an appropriate message in the UI
+          
           AppUtil.showError(err);
         }
       )

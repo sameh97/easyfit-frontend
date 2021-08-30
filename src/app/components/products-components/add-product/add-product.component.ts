@@ -7,8 +7,10 @@ import {
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Product } from 'src/app/model/product';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
@@ -28,7 +30,8 @@ export class AddProductComponent
   constructor(
     private formBuilder: FormBuilder,
     private productsService: ProductsService,
-    public dialogRef: MatDialogRef<AddProductComponent>
+    public dialogRef: MatDialogRef<AddProductComponent>,
+    private fileUploadService: FileUploadService
   ) {
     super();
   }
@@ -57,15 +60,23 @@ export class AddProductComponent
     }
 
     this.subscriptions.push(
-      this.productsService.create(this.product).subscribe(
-        () => {
-          this.dialogRef.close();
-        },
-        (err: Error) => {
-          //TODO:  display an appropriate message in the UI
-          AppUtil.showError(err);
-        }
-      )
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            this.product.imgUrl = imgUrl;
+            return this.productsService.create(this.product);
+          })
+        )
+        .subscribe(
+          (product) => {
+            this.dialogRef.close();
+          },
+          (err: Error) => {
+            AppUtil.showError(err);
+          }
+        )
     );
   };
 

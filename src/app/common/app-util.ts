@@ -118,7 +118,10 @@ export class AppUtil {
     user.password = '';
   }
 
-  public static addToSubject(subjectData: BehaviorSubject<any[]>, toAdd: any): void {
+  public static addToSubject(
+    subjectData: BehaviorSubject<any[]>,
+    toAdd: any
+  ): void {
     var currData: any[] = subjectData.value;
     if (!currData) {
       currData = [];
@@ -127,12 +130,15 @@ export class AppUtil {
     subjectData.next(currData);
   }
 
-  public static updateInSubject(subjectData: BehaviorSubject<any[]>, toUpdate: any): void {
+  public static updateInSubject(
+    subjectData: BehaviorSubject<any[]>,
+    toUpdate: any
+  ): void {
     var currData: any[] = subjectData.value;
     if (!currData) {
       currData = [];
     }
-    for(let i = 0; i < currData.length; i++) {
+    for (let i = 0; i < currData.length; i++) {
       if (String(currData[i].id) === String(toUpdate.id)) {
         currData[i] = toUpdate;
         subjectData.next(currData);
@@ -140,14 +146,16 @@ export class AppUtil {
     }
   }
 
-
-  public static removeFromSubject(subjectData: BehaviorSubject<any[]>, id: any): void {
+  public static removeFromSubject(
+    subjectData: BehaviorSubject<any[]>,
+    id: any
+  ): void {
     var currData: any[] = subjectData.value;
     if (!currData) {
       currData = [];
     }
     let indexToDelete = -1;
-    for(let i = 0; i < currData.length; i++) {
+    for (let i = 0; i < currData.length; i++) {
       if (String(currData[i].id) === String(id)) {
         indexToDelete = i;
         break;

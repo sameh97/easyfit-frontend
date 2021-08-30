@@ -89,21 +89,14 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.membersSerive
-            .delete(id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.membersSerive.delete(id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };

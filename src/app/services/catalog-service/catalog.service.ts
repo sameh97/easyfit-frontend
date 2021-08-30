@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -44,17 +44,20 @@ export class CatalogService {
         tap((catalog: Catalog) => {
           AppUtil.addToSubject(this.catalogSubject, catalog);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public getAllPhones = (): Observable<string[]> => {
     this.initGymID();
-    return this.http.get<any[]>(
-      `${AppConsts.BASE_URL}/api/members-phones?gymId=${this.gymId}`,
-      {
-        headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+    return this.http
+      .get<any[]>(
+        `${AppConsts.BASE_URL}/api/members-phones?gymId=${this.gymId}`,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public getAll = (): Observable<Catalog[]> => {
@@ -71,17 +74,16 @@ export class CatalogService {
           this.catalogSubject.next(catalogs);
           return this.catalogSubject.asObservable();
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
   // TODO: make message content class
   public send = (messageContent: any): Observable<any> => {
-    return this.http.post(
-      `${AppConsts.BASE_URL}/api/send-catalog-whatsapp`,
-      messageContent,
-      {
+    return this.http
+      .post(`${AppConsts.BASE_URL}/api/send-catalog-whatsapp`, messageContent, {
         headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+      })
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public removeFromSubject(
@@ -114,7 +116,8 @@ export class CatalogService {
         tap((catalog: Catalog) => {
           AppUtil.updateInSubject(this.catalogSubject, catalog);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public delete = (uuid: string): Observable<any> => {
@@ -126,6 +129,7 @@ export class CatalogService {
         tap(() => {
           this.removeFromSubject(this.catalogSubject, uuid);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 }

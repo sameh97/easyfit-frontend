@@ -1,32 +1,40 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  EmailValidator,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Trainer } from 'src/app/model/trainer';
-import { TrainersService } from 'src/app/services/trainers-service/trainers.service';
-import { TrainersComponent } from '../trainers/trainers.component';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { TrainersService } from './../../../services/trainers-service/trainers.service';
 
 @Component({
   selector: 'app-update-trainer',
   templateUrl: './update-trainer.component.html',
   styleUrls: ['./update-trainer.component.css'],
 })
-export class UpdateTrainerComponent implements OnInit {
+export class UpdateTrainerComponent
+  extends FormInputComponent
+  implements OnInit
+{
   updateTrainerForm: FormGroup;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private trainerService: TrainersService,
-    @Inject(MAT_DIALOG_DATA) private trainer: Trainer
-  ) {}
+    @Inject(MAT_DIALOG_DATA) private trainer: Trainer,
+    public dialogRef: MatDialogRef<UpdateTrainerComponent>,
+    private fileUploadService: FileUploadService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -54,8 +62,9 @@ export class UpdateTrainerComponent implements OnInit {
         this.trainer.address,
         [Validators.required, Validators.minLength(3)],
       ],
+      gender: [this.trainer.gender, Validators.required],
       birthDay: [this.trainer.birthDay, [Validators.required]],
-      imageURL: [this.trainer.imageURL],
+      imageURL: [this.trainer.imageURL, [Validators.required]],
     });
   };
 
@@ -67,7 +76,25 @@ export class UpdateTrainerComponent implements OnInit {
       return;
     }
 
-    this.subscriptions.push(this.trainerService.update(trainer).subscribe());
+    this.subscriptions.push(
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, this.trainer.imageURL)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            trainer.imageURL = imgUrl;
+            return this.trainerService.update(trainer);
+          })
+        )
+        .subscribe(
+          () => {
+            this.dialogRef.close();
+          },
+          (error: Error) => {
+            AppUtil.showError(error);
+          }
+        )
+    );
   };
 
   get form(): { [key: string]: AbstractControl } {

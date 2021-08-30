@@ -2,93 +2,102 @@
     <h2 mat-dialog-title>Update Trainer </h2>
 </div>
 
-<div class="center">
 
-    <form *ngIf="updateTrainerForm" #theForm="ngForm" [formGroup]="updateTrainerForm" (ngSubmit)="update(theForm.value)">
-        <p>
-            <mat-form-field appearance="standard">
+<form *ngIf="updateTrainerForm" #theForm="ngForm" [formGroup]="updateTrainerForm" (ngSubmit)="update(theForm.value)">
+    <div class="grid-container">
+        <div class="first-name">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>first name</mat-label>
-                <input [(ngModel)]="trainer.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
+                <input name="firstName" [(ngModel)]="trainer.firstName" formControlName="firstName" matInput placeholder="Placeholder">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
+        </div>
 
-        <p>
-            <mat-form-field appearance="standard">
+        <div class="last-name">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>last name</mat-label>
-                <input [(ngModel)]="trainer.lastName" name="lastName" formControlName="lastName" matInput placeholder="Last Name">
+                <input name="lastName" [(ngModel)]="trainer.lastName" formControlName="lastName" matInput placeholder="Last Name">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
+        </div>
 
-        <p>
-            <mat-form-field appearance="standard">
+
+        <div class="certificationDate">
+            <!-- TODO: fix the date display problem -->
+            <mat-form-field class="wide" appearance="fill">
+                <mat-label>certificationDate </mat-label>
+                <input type="date" [(ngModel)]="trainer.certificationDate" name="certificationDate" formControlName="certificationDate" matInput placeholder="End Date">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+
+        </div>
+        <div class="email-class">
+
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Email</mat-label>
-                <input [(ngModel)]="trainer.email" type="email" name="email" formControlName="email" matInput placeholder="Email">
+                <input type="email" [(ngModel)]="trainer.email" name="email" formControlName="email" matInput placeholder="Email">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
+        </div>
 
-        <p>
-            <mat-form-field appearance="standard">
-                <mat-label>join Date</mat-label>
-                <input [(ngModel)]="trainer.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-            </mat-form-field>
-        </p>
-
-        <p>
-            <mat-form-field appearance="standard">
-                <mat-label>certificationDate</mat-label>
-                <input [(ngModel)]="trainer.certificationDate" type="date" name="certificationDate" formControlName="certificationDate" matInput placeholder="certificationDate">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-            </mat-form-field>
-        </p>
-
-
-        <p>
-            <mat-form-field appearance="standard">
-                <mat-label>Phone</mat-label>
-                <input [(ngModel)]="trainer.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-            </mat-form-field>
-        </p>
-
-        <p>
-            <mat-form-field appearance="standard">
+        <div class="address-class">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>Address</mat-label>
-                <input [(ngModel)]="trainer.address" type="text" name="address" formControlName="address" matInput placeholder="Address">
+                <input type="text" [(ngModel)]="trainer.address" name="address" formControlName="address" matInput placeholder="Address">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
+        </div>
 
-        <p>
-            <mat-form-field appearance="standard">
+        <div class="phone">
+            <mat-form-field class="wide" appearance="fill">
+                <mat-label>Phone</mat-label>
+                <input name="phone" [(ngModel)]="trainer.phone" formControlName="phone" matInput placeholder="Phone">
+                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+        </div>
+        <!-- TODO: fix the date display problem -->
+        <div class="birthday">
+            <mat-form-field class="wide" appearance="fill">
                 <mat-label>BirthDay</mat-label>
-                <input [(ngModel)]="trainer.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
+                <input type="date" name="birthDay" formControlName="birthDay" format="longDate" mask="dd-MM-y" [(ngModel)]="trainer.birthDay" matInput placeholder="Birth Day">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
 
-        <p>
-            <mat-form-field appearance="standard">
-                <mat-label>Image - <small>Optional</small></mat-label>
-                <input [(ngModel)]="trainer.imageURL" type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
+
+        </div>
+        <!-- TODO: fix the date display problem -->
+        <div class="join-date">
+            <mat-form-field class="wide" appearance="fill">
+                <mat-label>join Date</mat-label>
+                <input type="date" [(ngModel)]="trainer.joinDate" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
                 <mat-hint>Hint</mat-hint>
             </mat-form-field>
-        </p>
+
+        </div>
+
+        <div class="image">
+            <label for="image">Image</label>
+            <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
+
+        </div>
+
+        <div class="gender">
+            <mat-radio-group [(ngModel)]="trainer.gender" formControlName="gender" aria-label="Select an option">
+                <mat-radio-button value="1">Male</mat-radio-button>
+                <mat-radio-button value="2">Female</mat-radio-button>
+            </mat-radio-group>
+        </div>
+
 
         <button id="add-trainer-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
-      Update
-    </button>
-    </form>
-</div>
+      Update </button>
+    </div>
+</form>

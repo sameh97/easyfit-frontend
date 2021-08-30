@@ -37,10 +37,15 @@ export class NavComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.userNotificationsService.getAll().subscribe((notifications) => {
-        this.notificationNumber = notifications.length;
-        // TODO: make a function that retreves only the count of the notifications
-      })
+      this.userNotificationsService.getAll().subscribe(
+        (notifications) => {
+          this.notificationNumber = notifications.length;
+          // TODO: make a function that retreves only the count of the notifications
+        },
+        (error: Error) => {
+          AppUtil.showError(error);
+        }
+      )
     );
 
     this.subscriptions.push(

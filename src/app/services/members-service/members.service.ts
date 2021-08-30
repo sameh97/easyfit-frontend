@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Member } from 'src/app/model/member';
 import { AuthenticationService } from './../authentication.service';
 import { CoreUtil } from 'src/app/common/core-util';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 
 @Injectable({
@@ -46,7 +46,8 @@ export class MembersService {
         tap((member: Member) => {
           AppUtil.addToSubject(this.membersSubject, member);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public getAll = (): Observable<Member[]> => {
@@ -60,7 +61,8 @@ export class MembersService {
           this.membersSubject.next(members);
           return this.membersSubject.asObservable();
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public update = (member: Member): Observable<Member> => {
@@ -72,7 +74,8 @@ export class MembersService {
         tap((member: Member) => {
           AppUtil.updateInSubject(this.membersSubject, member);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public delete = (id: number): Observable<any> => {
@@ -84,6 +87,7 @@ export class MembersService {
         tap(() => {
           AppUtil.removeFromSubject(this.membersSubject, id);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 }

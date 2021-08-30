@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -52,7 +52,8 @@ export class MachinesService {
         tap((machine: Machine) => {
           AppUtil.addToSubject(this.machineSubject, machine);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public removeFromSubject(
@@ -87,7 +88,8 @@ export class MachinesService {
           this.machineSubject.next(machines);
           return this.machineSubject.asObservable();
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   // TODO: make it observable:
@@ -104,7 +106,8 @@ export class MachinesService {
         tap((machine: Machine) => {
           AppUtil.updateInSubject(this.machineSubject, machine);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public delete = (serialNumber: string, gymId: number): Observable<any> => {
@@ -119,7 +122,8 @@ export class MachinesService {
         tap(() => {
           this.removeFromSubject(this.machineSubject, serialNumber);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
   //TODO: handle deleting item real time update
 }

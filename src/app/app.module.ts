@@ -75,7 +75,7 @@ import { UpdateUserComponent } from './components/registration-components/users-
 import { NotificationsDropdownComponent } from './components/notifications/notifications-dropdown.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer.component';
-import { TrainersComponent } from './components/trainers-components/trainers/trainers.component';
+import { TrainersPageComponent } from './components/trainers-components/trainers/trainers.component';
 import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
 import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table.component';
 
@@ -96,7 +96,7 @@ const routes: Routes = [
   },
   {
     path: 'trainers',
-    component: TrainersComponent,
+    component: TrainersPageComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -162,7 +162,7 @@ const routes: Routes = [
     UpdateUserComponent,
     NotificationsDropdownComponent,
     AddTrainerComponent,
-    TrainersComponent,
+    TrainersPageComponent,
     UpdateTrainerComponent,
     TrainersTableComponent,
   ],

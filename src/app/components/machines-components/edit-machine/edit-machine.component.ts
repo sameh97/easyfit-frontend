@@ -1,9 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Machine } from 'src/app/model/machine';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
@@ -24,7 +26,9 @@ export class EditMachineComponent
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private machine: Machine,
     private machinesService: MachinesService,
-    private userNotificationsService: UserNotificationsService
+    private fileUploadService: FileUploadService,
+    private userNotificationsService: UserNotificationsService,
+    public dialogRef: MatDialogRef<EditMachineComponent>
   ) {
     super();
   }
@@ -76,7 +80,25 @@ export class EditMachineComponent
       return;
     }
 
-    this.subscriptions.push(this.machinesService.update(machine).subscribe());
+    this.subscriptions.push(
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            machine.imgUrl = imgUrl;
+            return this.machinesService.update(machine);
+          })
+        )
+        .subscribe(
+          () => {
+            this.dialogRef.close();
+          },
+          (err: Error) => {
+            AppUtil.showError(err);
+          }
+        )
+    );
   };
 
   ngOnDestroy(): void {

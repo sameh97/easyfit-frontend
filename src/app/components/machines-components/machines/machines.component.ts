@@ -66,7 +66,7 @@ export class MachinesComponent implements OnInit {
         .subscribe((job: AppNotificationMessage) => {
           console.log(`Got the message from server: ${JSON.stringify(job)}`);
           this.notifications.push(job);
-          // this.scheduledJob = job.content as MachineScheduledJob;
+         
         })
     );
 

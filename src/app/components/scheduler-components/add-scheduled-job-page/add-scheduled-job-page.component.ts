@@ -163,7 +163,7 @@ export class AddScheduledJobPageComponent
           this.dialogRef.close();
         },
         (err: Error) => {
-          //TODO:  display an appropriate message in the UI
+        
           AppUtil.showError(err);
         }
       )

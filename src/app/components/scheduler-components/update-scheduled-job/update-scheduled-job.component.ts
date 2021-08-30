@@ -168,7 +168,6 @@ export class UpdateScheduledJobComponent
 
     scheduledJob.isActive = true; // TODO: remove is active form scheduledJob db table
 
-
     const jobToUpdate: ScheduledJob = {
       id: scheduledJob.id,
       startTime: scheduledJob.startTime,
@@ -181,7 +180,12 @@ export class UpdateScheduledJobComponent
     } as ScheduledJob;
 
     this.subscriptions.push(
-      this.schedulerService.update(jobToUpdate).subscribe()
+      this.schedulerService.update(jobToUpdate).subscribe(
+        () => {},
+        (error: Error) => {
+          AppUtil.showError(error);
+        }
+      )
     );
   };
 

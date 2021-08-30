@@ -48,7 +48,6 @@ export class CreateGymComponent
       this.gymsService.create(this.gym).subscribe(
         () => {},
         (err: Error) => {
-          //TODO:  display an appropriate message in the UI
           AppUtil.showError(err);
         }
       )

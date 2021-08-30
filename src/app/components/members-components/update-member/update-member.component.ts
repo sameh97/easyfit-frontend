@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
@@ -30,7 +30,8 @@ export class UpdateMemberComponent
     private formBuilder: FormBuilder,
     private membersService: MembersService,
     @Inject(MAT_DIALOG_DATA) private member: Member,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    public dialogRef: MatDialogRef<UpdateMemberComponent>
   ) {
     super();
   }
@@ -88,7 +89,14 @@ export class UpdateMemberComponent
             return this.membersService.update(member);
           })
         )
-        .subscribe()
+        .subscribe(
+          () => {
+            this.dialogRef.close();
+          },
+          (error: Error) => {
+            AppUtil.showError(error);
+          }
+        )
     );
   };
 

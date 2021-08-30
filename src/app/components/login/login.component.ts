@@ -68,10 +68,10 @@ export class LoginComponent extends FormInputComponent implements OnInit {
         }
       },
       (err: Error) => {
-        if (err instanceof NotFoundError) {
-          this.invalidLogin = true;
-          return;
-        }
+        // if (err instanceof NotFoundError) {
+        //   this.invalidLogin = true;
+        //   return;
+        // }
         AppUtil.showError(err);
       }
     );

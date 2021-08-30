@@ -104,11 +104,6 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
         if (res) {
           this.schedulerService
             .delete(scheduledJob.id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
             .subscribe(
               (res) => {
                 console.log(res);

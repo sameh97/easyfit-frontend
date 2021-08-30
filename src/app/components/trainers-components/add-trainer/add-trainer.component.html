@@ -8,7 +8,7 @@
 
     <div class="grid-container">
         <div class="first-name">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>first name</mat-label>
                 <input [(ngModel)]="trainer.firstName" name="firstName" formControlName="firstName" matInput placeholder="Placeholder">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -16,7 +16,7 @@
             </mat-form-field>
         </div>
         <div class="last-name">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>last name</mat-label>
                 <input [(ngModel)]="trainer.lastName" name="lastName" formControlName="lastName" matInput placeholder="Last Name">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -25,7 +25,7 @@
 
         </div>
         <div class="certificationDate">
-            <mat-form-field class="wide">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>certification Date</mat-label>
                 <input [(ngModel)]="trainer.certificationDate" type="date" name="certificationDate" formControlName="certificationDate" matInput placeholder="certification Date">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="email-class">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Email</mat-label>
                 <input [(ngModel)]="trainer.email" type="email" name="email" formControlName="email" matInput placeholder="Email">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -42,7 +42,7 @@
             </mat-form-field>
         </div>
         <div class="address-class">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Address</mat-label>
                 <input [(ngModel)]="trainer.address" type="text" name="address" formControlName="address" matInput placeholder="Address">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -50,7 +50,7 @@
             </mat-form-field>
         </div>
         <div class="phone">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Phone</mat-label>
                 <input [(ngModel)]="trainer.phone" name="phone" formControlName="phone" matInput placeholder="Phone">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -58,7 +58,7 @@
             </mat-form-field>
         </div>
         <div class="birthday">
-            <mat-form-field>
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>Birth Day</mat-label>
                 <input [(ngModel)]="trainer.birthDay" type="date" name="birthDay" formControlName="birthDay" matInput placeholder="BirthDay">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="join-date">
-            <mat-form-field class="wide">
+            <mat-form-field appearance="fill" class="wide">
                 <mat-label>join Date</mat-label>
                 <input [(ngModel)]="trainer.joinDate" type="date" name="joinDate" formControlName="joinDate" matInput placeholder="join time">
                 <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -83,12 +83,9 @@
         </div>
 
         <div class="image">
-            <mat-form-field class="wide">
-                <mat-label>Image - <small>Optional</small></mat-label>
-                <input [(ngModel)]="trainer.imageURL" type="text" name="imageURL" formControlName="imageURL" matInput placeholder="Image">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-            </mat-form-field>
+            <label for="image">Image</label>
+            <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
+
         </div>
 
     </div>

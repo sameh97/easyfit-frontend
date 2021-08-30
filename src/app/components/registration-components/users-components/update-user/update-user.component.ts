@@ -137,7 +137,14 @@ export class UpdateUserComponent
       return;
     }
 
-    this.subscriptions.push(this.usersService.update(this.user).subscribe());
+    this.subscriptions.push(
+      this.usersService.update(this.user).subscribe(
+        () => {},
+        (error: Error) => {
+          AppUtil.showError(error);
+        }
+      )
+    );
   };
 
   ngOnDestroy(): void {

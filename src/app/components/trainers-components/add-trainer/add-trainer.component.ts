@@ -1,24 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Trainer } from 'src/app/model/trainer';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { TrainersService } from 'src/app/services/trainers-service/trainers.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-add-trainer',
   templateUrl: './add-trainer.component.html',
   styleUrls: ['./add-trainer.component.css'],
 })
-export class AddTrainerComponent implements OnInit, OnDestroy {
+export class AddTrainerComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addTrainerForm: FormGroup;
   trainer: Trainer;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
-    private trainersService: TrainersService
-  ) {}
+    private trainersService: TrainersService,
+    public dialogRef: MatDialogRef<AddTrainerComponent>,
+    private fileUploadService: FileUploadService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.trainer = new Trainer();
@@ -31,7 +42,7 @@ export class AddTrainerComponent implements OnInit, OnDestroy {
       phone: ['', [Validators.required, Validators.minLength(4)]],
       address: ['', [Validators.required, Validators.minLength(3)]],
       birthDay: ['', [Validators.required]],
-      imageURL: [''],
+      imageURL: ['',[Validators.required]],
     });
   }
 
@@ -43,12 +54,26 @@ export class AddTrainerComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!AppUtil.hasValue(this.trainer.imageURL)) {
-      this.addImgUrl();
-    }
+    this.trainer.isActive = true; // TODO: remove from database
 
     this.subscriptions.push(
-      this.trainersService.create(this.trainer).subscribe()
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            this.trainer.imageURL = imgUrl;
+            return this.trainersService.create(this.trainer);
+          })
+        )
+        .subscribe(
+          (trainer) => {
+            this.dialogRef.close();
+          },
+          (err: Error) => {
+            AppUtil.showError(err);
+          }
+        )
     );
   };
 

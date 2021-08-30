@@ -168,12 +168,8 @@
         </mat-grid-tile>
 
         <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">
-            <mat-form-field appearance="fill" class="wide">
-                <mat-label>Image - <small>Optional</small></mat-label>
-                <input [(ngModel)]="product.imgUrl" type="text" name="imgUrl" formControlName="imgUrl" matInput placeholder="Image">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-            </mat-form-field>
+            <label for="image">Image</label>
+            <input type="file" formControlName="imgUrl" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
 
 
         </mat-grid-tile>

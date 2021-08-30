@@ -62,7 +62,7 @@ export class SellProductComponent
       this.productsService.sell(this.bill).subscribe(
         (res) => {},
         (error) => {
-          AppUtil.showErrorMessage(error);
+          AppUtil.showError(error);
         }
       )
     );

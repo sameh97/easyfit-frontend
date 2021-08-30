@@ -122,7 +122,12 @@ export class UpdateCatalogComponent
     }
 
     this.subscriptions.push(
-      this.catalogService.update(this.catalog).subscribe()
+      this.catalogService.update(this.catalog).subscribe(
+        (catalog) => {},
+        (err: Error) => {
+          AppUtil.showError(err);
+        }
+      )
     );
   };
 

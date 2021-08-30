@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -38,15 +38,18 @@ export class ProductsService {
           this.productsSubject.next(products);
           return this.productsSubject.asObservable();
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   }
 
   public getAllBills(): Observable<Bill[]> {
     const gymId = this.authService.getGymId();
 
-    return this.http.get<Bill[]>(`${this.url}/bills?gymId=${gymId}`, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .get<Bill[]>(`${this.url}/bills?gymId=${gymId}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(catchError(AppUtil.handleError));
   }
 
   // TODO: make it observable:
@@ -55,9 +58,11 @@ export class ProductsService {
   };
 
   public sell = (bill: Bill): Observable<Bill> => {
-    return this.http.post<Bill>(`${this.url}/add-bill`, bill, {
-      headers: CoreUtil.createAuthorizationHeader(),
-    });
+    return this.http
+      .post<Bill>(`${this.url}/add-bill`, bill, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public create = (product: Product): Observable<Product> => {
@@ -72,7 +77,8 @@ export class ProductsService {
         tap((product: Product) => {
           AppUtil.addToSubject(this.productsSubject, product);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public update = (product: Product): Observable<Product> => {
@@ -84,7 +90,8 @@ export class ProductsService {
         tap((product: Product) => {
           AppUtil.updateInSubject(this.productsSubject, product);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public delete = (id: number): Observable<any> => {
@@ -96,6 +103,7 @@ export class ProductsService {
         tap(() => {
           AppUtil.removeFromSubject(this.productsSubject, id);
         })
-      );
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 }

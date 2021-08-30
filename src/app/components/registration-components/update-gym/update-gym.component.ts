@@ -35,7 +35,10 @@ export class UpdateGymComponent
     this.updateGymForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
       name: [this.gym.name, [Validators.required, this.validateGymName]],
-      phone: [this.gym.phone, [Validators.required, this.validateIsraeliPhoneNumber]],
+      phone: [
+        this.gym.phone,
+        [Validators.required, this.validateIsraeliPhoneNumber],
+      ],
       address: [this.gym.address, [Validators.required]],
     });
   };
@@ -48,7 +51,14 @@ export class UpdateGymComponent
       return;
     }
 
-    this.subscriptions.push(this.gymsService.update(this.gym).subscribe());
+    this.subscriptions.push(
+      this.gymsService.update(this.gym).subscribe(
+        () => {},
+        (error: Error) => {
+          AppUtil.showError(error);
+        }
+      )
+    );
   };
 
   ngOnDestroy(): void {

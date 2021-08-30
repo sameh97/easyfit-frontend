@@ -35,8 +35,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     'delete',
   ];
 
-  // dataSource = ELEMENT_DATA;
-
   constructor(
     private navigationService: NavigationHelperService,
     private catalogService: CatalogService
