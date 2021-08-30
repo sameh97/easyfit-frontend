@@ -30,3 +30,16 @@
 #main div {
   flex: 1;
 }
+
+.flex-container {
+  display: flex;
+  background-color: white;
+}
+
+.flex-container > div {
+  color: white;
+  width: 500px;
+  margin-left: 50px;;
+  line-height: 75px;
+  font-size: 30px;
+}

@@ -6,7 +6,7 @@
     </mat-card-header>
     <mat-card-content class="dashboard-card-content">
         <p *ngIf="notifications.length === 0">No Notifications Found</p>
-        <!-- TODO: display (No Notifications Found) better && fix length unndefined problem-->
+        <!-- TODO: display (No Notifications Found) better && fix lengdefineth unnd problem-->
         <cdk-virtual-scroll-viewport appendOnly itemSize="100" class="example-viewport">
             <div *cdkVirtualFor="let notification of notifications" class="example-item">
                 <mat-card>

@@ -14,6 +14,8 @@ export class MembersService {
   private readonly addUrl = `${AppConsts.BASE_URL}/api/add-member`;
   private readonly deleteUrl = `${AppConsts.BASE_URL}/api/member`;
   private readonly updateURL = `${AppConsts.BASE_URL}/api/update-member`;
+  private readonly getGenders = `${AppConsts.BASE_URL}/api/getGenders`;
+  private readonly getMembersInMonth = `${AppConsts.BASE_URL}/api/getMembersInMonth`;
 
   private gymId: number;
 
@@ -42,6 +44,8 @@ export class MembersService {
     );
   };
 
+  
+
   public getAll = (): Observable<Member[]> => {
     this.initGymID();
     return this.http.get<Member[]>(`${this.url}?gymId=${this.gymId}`, {
@@ -60,4 +64,22 @@ export class MembersService {
       headers: CoreUtil.createAuthorizationHeader(),
     });
   };
+
+
+  public getGender = (): Observable<any[]> => {
+    this.initGymID();
+    return this.http.get<any[]>(`${this.getGenders}?gymId=${this.gymId}`, {
+      headers : CoreUtil.createAuthorizationHeader() ,
+    });
+  };
+
+  public getMmebersInMonth = (): Observable<Member[]> => {
+    this.initGymID();
+    return this.http.get<Member[]>(`${this.getMembersInMonth}?gymId=${this.gymId}`, {
+      headers : CoreUtil.createAuthorizationHeader(),
+    });
+  }
+    
 }
+
+

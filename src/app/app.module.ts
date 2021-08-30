@@ -35,7 +35,7 @@ import { HomeComponent } from './components/home/home.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
-import { MembersChartComponent } from './components/members-chart/members-chart.component';
+import { MembersChartComponent } from './components/members-charts/members-chart/members-chart.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MembersPageComponent } from './components/members-components/members-page/members-page.component';
 import { MembersTableComponent } from './components/members-components/members-table/members-table.component';
@@ -46,11 +46,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MachineDetailsComponent } from './components/scheduler-components/machine-details/machine-details.component';
 import { UpdateScheduledJobComponent } from './components/scheduler-components/update-scheduled-job/update-scheduled-job.component';
 import { MatDividerModule } from '@angular/material/divider';
-import {
-  NgxMatDatetimePickerModule,
-  NgxMatTimepickerModule,
-  NgxMatNativeDateModule,
-} from '@angular-material-components/datetime-picker';
+import {NgxMatDatetimePickerModule,NgxMatTimepickerModule,NgxMatNativeDateModule,} from '@angular-material-components/datetime-picker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AddScheduledJobPageComponent } from './components/scheduler-components/add-scheduled-job-page/add-scheduled-job-page.component';
 import { ProductsPageComponent } from './components/products-components/products-page/products-page.component';
@@ -65,7 +61,11 @@ import { UpdateCatalogComponent } from './components/catalog-components/update-c
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { TrainersPageComponent } from './components/trainers-components/trainers-page/trainers-page/trainers-page.component';
+import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table/trainers-table.component';
+import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer/update-trainer.component';
+import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer/add-trainer.component';
+import { DoughnutChartComponent } from "./components/members-charts/doughnut-chart/doughnut-chart.component"
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -75,6 +75,14 @@ const routes: Routes = [
     component: MembersPageComponent,
     canActivate: [AuthGuard],
   },
+
+  {
+    path: 'trainers',
+    component: TrainersPageComponent,
+    canActivate: [AuthGuard],
+  },
+
+  
   { path: 'machines', component: MachinesComponent, canActivate: [AuthGuard] },
   {
     path: 'products',
@@ -124,6 +132,11 @@ const routes: Routes = [
     AddCatalogComponent,
     UpdateCatalogComponent,
     SendCatalogComponent,
+    TrainersPageComponent,
+    TrainersTableComponent,
+    UpdateTrainerComponent,
+    AddTrainerComponent,
+    DoughnutChartComponent
   ],
   imports: [
     BrowserModule,
