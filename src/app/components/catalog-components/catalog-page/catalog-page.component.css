@@ -53,3 +53,7 @@ th {
     display: flex;
     justify-content: center;
 }
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
+}

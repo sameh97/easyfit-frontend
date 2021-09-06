@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -38,7 +38,8 @@ export class UpdateUserComponent
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private user: User,
     private gymsService: GymsService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    public dialogRef: MatDialogRef<UpdateUserComponent>
   ) {
     super();
   }
@@ -139,7 +140,9 @@ export class UpdateUserComponent
 
     this.subscriptions.push(
       this.usersService.update(this.user).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (error: Error) => {
           AppUtil.showError(error);
         }

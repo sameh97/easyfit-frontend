@@ -78,6 +78,7 @@ import { AddTrainerComponent } from './components/trainers-components/add-traine
 import { TrainersPageComponent } from './components/trainers-components/trainers/trainers.component';
 import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
 import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table.component';
+import { DoughnutChartComponent } from './components/members-components/doughnut-chart/doughnut-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -165,6 +166,7 @@ const routes: Routes = [
     TrainersPageComponent,
     UpdateTrainerComponent,
     TrainersTableComponent,
+    DoughnutChartComponent,
   ],
   imports: [
     BrowserModule,

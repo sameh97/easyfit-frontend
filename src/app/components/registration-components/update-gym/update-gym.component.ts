@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Gym } from 'src/app/model/gym';
@@ -22,7 +22,8 @@ export class UpdateGymComponent
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private gym: Gym,
-    private gymsService: GymsService
+    private gymsService: GymsService,
+    public dialogRef: MatDialogRef<UpdateGymComponent>
   ) {
     super();
   }
@@ -53,7 +54,9 @@ export class UpdateGymComponent
 
     this.subscriptions.push(
       this.gymsService.update(this.gym).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (error: Error) => {
           AppUtil.showError(error);
         }

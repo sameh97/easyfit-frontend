@@ -1,15 +1,18 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Chart, registerables } from 'node_modules/chart.js';
+import { Input, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Chart, registerables } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { MembersService } from 'src/app/services/members-service/members.service';
+
 @Component({
-  selector: 'app-members-chart',
-  templateUrl: './members-chart.component.html',
-  styleUrls: ['./members-chart.component.css'],
+  selector: 'app-doughnut-chart',
+  templateUrl: './doughnut-chart.component.html',
+  styleUrls: ['./doughnut-chart.component.css'],
 })
-export class MembersChartComponent implements OnInit, OnDestroy {
+export class DoughnutChartComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
+  private genders: number[] = [];
 
   constructor(private membersService: MembersService) {
     Chart.register(...registerables);
@@ -17,28 +20,17 @@ export class MembersChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.membersService.getMembersGraphData().subscribe((data) => {
-        var myChart = new Chart('membersChart', {
-          type: 'bar',
+      this.membersService.getGendersCount().subscribe((data) => {
+        this.genders[0] = data[0];
+        this.genders[1] = data[1];
+        var myChart = new Chart('myChart', {
+          type: 'doughnut',
           data: {
-            labels: [
-              'January',
-              'February',
-              'March',
-              'April',
-              'May',
-              'June',
-              'July',
-              'August',
-              'September',
-              'October',
-              'November',
-              'December',
-            ],
+            labels: ['Males', 'Females'],
             datasets: [
               {
-                label: 'Members number',
-                data: data,
+                label: '# of genders',
+                data: [this.genders[0], this.genders[1]],
                 backgroundColor: [
                   'rgb(255, 99, 132)',
                   'rgb(54, 162, 235)',
@@ -60,12 +52,8 @@ export class MembersChartComponent implements OnInit, OnDestroy {
             scales: {
               y: {
                 beginAtZero: true,
-                ticks: {
-                  stepSize: 1,
-                },
               },
             },
-            
           },
         });
       })

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -20,7 +20,12 @@ export class SchedulerService {
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
-    this.initGymID();
+    this.authService.currentUser$
+      .pipe(filter((user) => AppUtil.hasValue(user)))
+      .subscribe((user) => {
+        this.gymId = user.gymId;
+        this.initGymID();
+      });
   }
 
   private gymId: number;

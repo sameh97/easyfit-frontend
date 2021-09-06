@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -12,6 +12,9 @@ import { User } from 'src/app/model/user';
 })
 export class UsersService {
   private readonly url = `${AppConsts.BASE_URL}/api`;
+  private usersSubject: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(
+    null
+  );
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +23,12 @@ export class UsersService {
       .get<User[]>(`${this.url}/users`, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        switchMap((users) => {
+          this.usersSubject.next(users);
+          return this.usersSubject.asObservable();
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   };
 
@@ -28,6 +37,11 @@ export class UsersService {
       .post<User>(`${this.url}/register`, user, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        tap((user: User) => {
+          AppUtil.addToSubject(this.usersSubject, user);
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   };
 
@@ -36,6 +50,11 @@ export class UsersService {
       .put<User>(`${this.url}/user`, user, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        tap((user: User) => {
+          AppUtil.updateInSubject(this.usersSubject, user);
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   };
 
@@ -44,6 +63,11 @@ export class UsersService {
       .delete(`${this.url}/user?id=${id}`, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        tap(() => {
+          AppUtil.removeFromSubject(this.usersSubject, id);
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   };
 }

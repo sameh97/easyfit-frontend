@@ -6,7 +6,7 @@
     <div class="flex-container">
         <div>
 
-            <mat-label>Please choose gym for this user: </mat-label>
+            <mat-label>Please select the targeted machine: </mat-label>
 
             <ng-multiselect-dropdown [placeholder]="'Choose machine for this scheduled job'" formControlName="machineSerialNumber" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
             </ng-multiselect-dropdown>
@@ -30,18 +30,17 @@
                     </mat-form-field>
                 </div>
 
-
-                <div>
-                    <div *ngIf="isInputValidationFailed(addScheduledJobForm.controls.jobID)" class="validation-err-container">
-                        <div *ngIf="addScheduledJobForm.controls.jobID.errors.required" class="validation-err-container">
-                            <small> Mission is required. </small>
-                        </div>
-                    </div>
-
-                </div>
             </div>
+            <div>
+                <div *ngIf="isInputValidationFailed(addScheduledJobForm.controls.jobID)" class="validation-err-container">
+                    <div *ngIf="addScheduledJobForm.controls.jobID.errors.required" class="validation-err-container">
+                        <small> Mission is required. </small>
+                    </div>
+                </div>
 
+            </div>
         </div>
+
         <div>
             <mat-form-field class="wide">
                 <input matInput [ngxMatDatetimePicker]="startTimePicker" placeholder="Choose start time" [(ngModel)]="scheduledJob.startTime" formControlName="startTime" [min]="minDate" [max]="maxDate" [disabled]="disabled">

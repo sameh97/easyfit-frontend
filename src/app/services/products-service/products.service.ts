@@ -23,6 +23,7 @@ export class ProductsService {
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
+    
     this.initGymID();
   }
 

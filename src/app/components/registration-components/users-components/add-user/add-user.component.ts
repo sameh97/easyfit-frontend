@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -37,7 +38,8 @@ export class AddUserComponent
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
-    private gymsService: GymsService
+    private gymsService: GymsService,
+    public dialogRef: MatDialogRef<AddUserComponent>
   ) {
     super();
   }
@@ -111,9 +113,10 @@ export class AddUserComponent
 
     this.subscriptions.push(
       this.usersService.create(this.user).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
-          
           AppUtil.showError(err);
         }
       )

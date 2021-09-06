@@ -70,21 +70,14 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.gymService
-            .delete(gym.id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.gymService.delete(gym.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };

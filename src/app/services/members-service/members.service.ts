@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Member } from 'src/app/model/member';
 import { AuthenticationService } from './../authentication.service';
 import { CoreUtil } from 'src/app/common/core-util';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 
 @Injectable({
@@ -26,12 +26,26 @@ export class MembersService {
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
-    this.initGymID();
+    this.authService.currentUser$
+      .pipe(filter((user) => AppUtil.hasValue(user)))
+      .subscribe((user) => {
+        this.gymId = user.gymId;
+        this.initGymID();
+      });
   }
 
   // TODO: make it observable:
   private initGymID = (): void => {
     this.gymId = this.authService.getGymId();
+  };
+
+  public getMembersGraphData = (): Observable<number[]> => {
+    return this.http.get<number[]>(
+      `${AppConsts.BASE_URL}/api/members-count?gymId=${this.gymId}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
   };
 
   public create = (member: Member): Observable<any> => {
@@ -48,6 +62,15 @@ export class MembersService {
         })
       )
       .pipe(catchError(AppUtil.handleError));
+  };
+
+  public getGendersCount = (): Observable<number[]> => {
+    return this.http.get<number[]>(
+      `${AppConsts.BASE_URL}/api/genders?gymId=${this.gymId}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
   };
 
   public getAll = (): Observable<Member[]> => {

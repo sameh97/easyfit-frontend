@@ -82,7 +82,7 @@ export class EditMachineComponent
 
     this.subscriptions.push(
       this.fileUploadService
-        .uploadImage(this.imageToUpload, null)
+        .uploadImage(this.imageToUpload, this.machine.imgUrl)
         .pipe(
           switchMap((imgUrl) => {
             this.uploadedImageUrl = imgUrl;

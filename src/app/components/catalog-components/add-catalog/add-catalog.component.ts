@@ -94,6 +94,7 @@ export class AddCatalogComponent
       }
     }
   }
+  
   onSelectAll(items: any) {
     this.catalog.products = this.allProducts;
   }

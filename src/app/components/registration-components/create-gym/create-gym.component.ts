@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Gym } from 'src/app/model/gym';
@@ -21,7 +22,8 @@ export class CreateGymComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private gymsService: GymsService
+    private gymsService: GymsService,
+    public dialogRef: MatDialogRef<CreateGymComponent>
   ) {
     super();
   }
@@ -46,7 +48,9 @@ export class CreateGymComponent
 
     this.subscriptions.push(
       this.gymsService.create(this.gym).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
           AppUtil.showError(err);
         }
