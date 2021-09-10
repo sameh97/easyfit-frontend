@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -31,7 +31,8 @@ export class UpdateCatalogComponent
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
     @Inject(MAT_DIALOG_DATA) private catalog: Catalog,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<UpdateCatalogComponent>
   ) {
     super();
   }
@@ -123,7 +124,9 @@ export class UpdateCatalogComponent
 
     this.subscriptions.push(
       this.catalogService.update(this.catalog).subscribe(
-        (catalog) => {},
+        (catalog) => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
           AppUtil.showError(err);
         }

@@ -40,32 +40,38 @@
 /* *** list element flex *** */
 
 .img {
-    flex: 6;
+    flex: 0;
 }
 
 .details {
-    flex: 20;
+    flex: 1;
+}
+
+.view-notifications {
+    flex: 0;
 }
 
 .edit {
-    flex: 1;
+    flex: 0;
 }
 
 .delete {
-    flex: 1;
+    flex: 0;
+}
+
+.machine-details {
+    width: 500px;
+    word-wrap: break-word;
 }
 
 .list-element-flex-container {
     display: flex;
-    gap: 1px;
-    /* justify-content: space-between; */
-    flex-wrap: wrap;
+    gap: 8px;
     flex: 0 0 100%;
     flex-direction: row;
 }
 
 .list-element-flex-container>div {
-    margin: 10px;
     font-size: 15px;
     padding: 10px 0;
 }
@@ -82,12 +88,6 @@
     height: 700px;
 }
 
-.more-button {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-}
-
 
 /* .dashboard-card-content {} */
 
@@ -100,32 +100,6 @@
 
 
 /* ***** view notifications flex ***** */
-
-.row-one {
-    flex: 2;
-}
-
-.row-two {
-    flex: 15;
-}
-
-.row-three {
-    flex: 2;
-}
-
-.view-notifications-flex-container {
-    display: flex;
-    gap: 3rem;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    flex: 0 0 100%;
-    flex-direction: column;
-}
-
-.view-notifications-flex-container>div {
-    text-align: center;
-    font-size: 15px;
-}
 
 h1 {
     font-family: 'Trebuchet MS', sans-serif;

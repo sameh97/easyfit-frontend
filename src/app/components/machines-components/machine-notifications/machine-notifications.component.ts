@@ -102,12 +102,7 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
   };
 
   public getJob = (jobID: number): string => {
-    switch (jobID) {
-      case 1:
-        return `Cleaning`;
-      case 2:
-        return `Service`;
-    }
+    return AppUtil.getJob(jobID);
   };
 
   ngOnDestroy(): void {

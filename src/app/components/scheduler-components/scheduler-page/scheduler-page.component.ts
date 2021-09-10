@@ -45,13 +45,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   };
 
   public getJob = (jobID: number): string => {
-    if (jobID === 1) {
-      return 'clean';
-    } else if (jobID === 2) {
-      return 'Machine Service';
-    } else {
-      return 'Not defined';
-    }
+    return AppUtil.getJob(jobID);
   };
 
   public getJobStatus = (isActive: boolean): string => {
@@ -102,16 +96,14 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.schedulerService
-            .delete(scheduledJob.id)
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.schedulerService.delete(scheduledJob.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };

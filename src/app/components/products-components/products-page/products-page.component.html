@@ -40,9 +40,13 @@
                                             <div class="details">
                                                 <h2 matLine>{{product.name}}</h2>
                                                 <h4 matLine><b>Category:</b> {{getCategory(product.categoryID)}}</h4>
-                                                <p matLine>
-                                                    <span><b>description:</b> {{product.description}} </span>
-                                                </p>
+                                                <div class="product-description">
+                                                    <p>
+
+                                                        <span><b>description:</b> {{product.description}} </span>
+                                                    </p>
+                                                </div>
+
                                                 <p matLine>
                                                     <span><b>Code:</b> {{product.code}}</span>
                                                 </p>
@@ -64,8 +68,14 @@
                         </button>
 
                                             </div>
-                                            <div class="edit"><button mat-flat-button color="primary" (click)="openUpdateProductDialog(product)">Edit</button></div>
-                                            <div class="delete"><button mat-raised-button (click)="delete(product)" color="warn">Delete</button>
+                                            <div class="edit"><button mat-flat-button color="primary" (click)="openUpdateProductDialog(product)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+
+                                            </div>
+                                            <div class="delete"><button mat-raised-button (click)="delete(product)" color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
                                             </div>
                                         </div>
                                         <mat-divider></mat-divider>

@@ -146,6 +146,17 @@ export class AppUtil {
     }
   }
 
+  public static getJob = (jobID: number): string => {
+    if (jobID === 1) {
+      return 'clean';
+    } else if (jobID === 2) {
+      return 'Machine Service';
+    } else {
+      return 'Not defined';
+    }
+  };
+
+
   public static removeFromSubject(
     subjectData: BehaviorSubject<any[]>,
     id: any

@@ -114,7 +114,7 @@ export class CatalogService {
       })
       .pipe(
         tap((catalog: Catalog) => {
-          AppUtil.updateInSubject(this.catalogSubject, catalog);
+          this.updateInSubject(this.catalogSubject, catalog);
         })
       )
       .pipe(catchError(AppUtil.handleError));
@@ -132,4 +132,20 @@ export class CatalogService {
       )
       .pipe(catchError(AppUtil.handleError));
   };
+
+  private updateInSubject(
+    subjectData: BehaviorSubject<any[]>,
+    toUpdate: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    for (let i = 0; i < currData.length; i++) {
+      if (String(currData[i].uuid) === String(toUpdate.uuid)) {
+        currData[i] = toUpdate;
+        subjectData.next(currData);
+      }
+    }
+  }
 }

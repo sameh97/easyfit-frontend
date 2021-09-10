@@ -1,5 +1,3 @@
-import { ROUTE_NAMES } from './../../common/consts';
-
 export enum SocketClientState {
   ATTEMPTING,
   CONNECTED,
