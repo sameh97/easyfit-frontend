@@ -1,32 +1,62 @@
 .grid-container {
-  margin: 20px;
+    margin: 20px;
 }
 
 .dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
 }
 
 .more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
 }
 
 .dashboard-card-content {
-  text-align: center;
+    text-align: center;
 }
 
 #main {
-  /* width: 220px;
+    /* width: 220px;
   height: 300px; */
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 #main div {
-  flex: 1;
+    flex: 1;
+}
+
+#main1 {
+    display: flex;
+    align-items: center;
+}
+
+#main1 div {
+    flex: 1;
+}
+
+.flex-container {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+}
+
+.flex-container>div {
+    width: 500px;
+    margin-left: 50px;
+    line-height: 75px;
+    font-size: 30px;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+h2 {
+    font-family: 'Trebuchet MS', sans-serif;
 }

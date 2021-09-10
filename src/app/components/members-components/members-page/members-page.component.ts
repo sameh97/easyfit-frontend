@@ -19,7 +19,7 @@ import { MembersTableComponent } from '../members-table/members-table.component'
 })
 export class MembersPageComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
- 
+
   @ViewChild(MembersTableComponent)
   membersTableComponent: MembersTableComponent;
   /** Based on the screen size, switch from standard to one column per row */
@@ -43,16 +43,10 @@ export class MembersPageComponent implements OnDestroy {
   }
 
   public openCreateMemberDialog() {
-    if (this.navigationService.isMobileMode()) {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(AddMemberComponent, '100px', null, true)
-          .subscribe()
-      );
-    } else {
-      this.subscriptions.push(
-        this.navigationService.openDialog(AddMemberComponent).subscribe()
-      );
-    }
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(AddMemberComponent, null, null, true)
+        .subscribe()
+    );
   }
 }

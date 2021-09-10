@@ -38,18 +38,14 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.schedulerService.getAll().subscribe((scheduledJobs) => {
         this.scheduledJobs = scheduledJobs;
+        this.scheduledJobs = [...this.scheduledJobs];
+        console.log(scheduledJobs);
       })
     );
   };
 
   public getJob = (jobID: number): string => {
-    if (jobID === 1) {
-      return 'clean';
-    } else if (jobID === 2) {
-      return 'Machine Service';
-    } else {
-      return 'Not defined';
-    }
+    return AppUtil.getJob(jobID);
   };
 
   public getJobStatus = (isActive: boolean): string => {
@@ -92,21 +88,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  // public splitTime(numberOfHours) {
-  //   var Days = Math.floor(numberOfHours / 24);
-  //   var Remainder = numberOfHours % 24;
-  //   var Hours = Math.floor(Remainder);
-  //   var Minutes = Math.floor(60 * (Remainder - Hours));
-  //   return { Days: Days, Hours: Hours, Minutes: Minutes };
-  // }
-
-  // public timeResult = (numberOfHours) => {
-  //   const res = this.splitTime(numberOfHours);
-  //   return res;
-  // };
-
   public delete = (scheduledJob: ScheduledJob) => {
-    //TODO: make the message show the machine's details:
     const message = `Are you sure you want to delete the Scheduled job for the machine with serial number:
     ${scheduledJob.machineSerialNumber}?`;
 
@@ -114,21 +96,14 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.schedulerService
-            .delete(scheduledJob.id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.schedulerService.delete(scheduledJob.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };
@@ -136,7 +111,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   public openUpdateScheduledJobDialog(scheduledJob: ScheduledJob) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateScheduledJobComponent, null, scheduledJob, null)
+        .openDialog(UpdateScheduledJobComponent, null, scheduledJob, true)
         .subscribe()
     );
   }
@@ -144,7 +119,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
   public openCreateScheduledJobDialog() {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(AddScheduledJobPageComponent)
+        .openDialog(AddScheduledJobPageComponent, null, null, true)
         .subscribe()
     );
   }

@@ -41,6 +41,15 @@ export class MachinesComponent implements OnInit {
         })
     );
 
+    // this.subscriptions.push(
+    //   this.machinesService
+    //     .addedMachineObs()
+    //     .subscribe((notification: Machine) => {
+    //       this.machines.push(notification);
+    //       this.assignCopy();
+    //     })
+    // );
+
     this.subscriptions.push(
       this.webSocketService
         .onMessage(SocketTopics.TOPIC_CLEAN_MACHINE)
@@ -57,7 +66,7 @@ export class MachinesComponent implements OnInit {
         .subscribe((job: AppNotificationMessage) => {
           console.log(`Got the message from server: ${JSON.stringify(job)}`);
           this.notifications.push(job);
-          // this.scheduledJob = job.content as MachineScheduledJob;
+         
         })
     );
 
@@ -72,21 +81,23 @@ export class MachinesComponent implements OnInit {
   public openViewMachineNotificationsDialog(machine: Machine) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(MachineNotificationsComponent, '900px', machine, null)
+        .openDialog(MachineNotificationsComponent, '900px', machine, true)
         .subscribe()
     );
   }
 
   public openCreateMachineDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(CreateMachineComponent).subscribe()
+      this.navigationService
+        .openDialog(CreateMachineComponent, null, null, true)
+        .subscribe()
     );
   }
 
   public openUpdateMachineDialog(machine: Machine) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(EditMachineComponent, null, machine, null)
+        .openDialog(EditMachineComponent, null, machine, true)
         .subscribe()
     );
   }
@@ -129,7 +140,7 @@ export class MachinesComponent implements OnInit {
 
   isMachinesEmpty(): boolean {
     if (!this.filteredItems) {
-      return true
+      return true;
     }
     return this.filteredItems.length === 0;
   }

@@ -38,43 +38,46 @@
                                 <div class="list-element-flex-container">
                                     <div class="img"><img style="width: 250px; height: 250px; margin: 4px;" src="{{machine.imgUrl}}">
                                     </div>
+
                                     <div class="details">
-                                        <h3 matLine>{{machine.name}}</h3>
-                                        <h4 matLine> Serial Number: {{machine.serialNumber}}</h4>
-                                        <p matLine>
-                                            <span> Description: {{machine.description}} </span>
-                                        </p>
+                                        <div class="machine-details">
+                                            <h3 matLine><b>name:</b> {{machine.name}}</h3>
+                                            <h4 matLine> <b>Serial Number:</b> {{machine.serialNumber}}</h4>
+                                            <p>
+                                                <span><b> Description:</b> {{machine.description}} </span>
+                                            </p>
 
-                                        <p matLine>
-                                            <span> Production Year: {{machine.productionYear}}
-                      </span>
+                                            <p matLine>
+                                                <span> <b> Production Year:</b> {{machine.productionYear}}
+                        </span>
 
-                                        </p>
+                                            </p>
 
-                                        <p matLine>
-                                            <span> price: {{machine.price | currency:'ILS'}}
-                      </span>
+                                            <p matLine>
+                                                <span> <b>price:</b> {{machine.price | currency:'ILS'}}
+                        </span>
 
-                                        </p>
+                                            </p>
+                                        </div>
+                                    </div>
 
+                                    <div class="view-notifications"> <button mat-raised-button (click)="openViewMachineNotificationsDialog(machine)">View
+                      Notifications</button>
                                     </div>
                                     <div class="edit">
 
-                                        <button mat-flat-button color="primary" (click)="openUpdateMachineDialog(machine)">Edit</button>
+                                        <button mat-flat-button color="primary" (click)="openUpdateMachineDialog(machine)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
                                     </div>
                                     <div class="delete">
-                                        <div class="view-notifications-flex-container">
-                                            <div class="row-one"> <button mat-raised-button (click)="delete(machine)" color="warn">Delete</button></div>
-                                            <div class="row-two"> </div>
-                                            <div class="row-three">
-                                                <button mat-raised-button (click)="openViewMachineNotificationsDialog(machine)">View
-                          Notifications</button>
-
-                                            </div>
-                                        </div>
+                                        <button mat-raised-button (click)="delete(machine)" color="warn">
+                      <mat-icon>delete</mat-icon>
+                    </button>
 
 
                                     </div>
+
                                 </div>
 
 

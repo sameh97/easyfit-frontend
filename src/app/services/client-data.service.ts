@@ -8,7 +8,7 @@ import { AppNotificationMessage } from '../model/app-notification-message';
 
 export class ClientDataService {
   constructor(public url: string, public http: HttpClient) {}
-  // TODO: take headers from interceptor
+
   public getAll = (gymId: number): Observable<AppNotificationMessage[]> => {
     return this.http
       .get<AppNotificationMessage[]>(
@@ -34,14 +34,6 @@ export class ClientDataService {
       })
       .pipe(catchError(AppUtil.handleError));
   }
-
-  // update(id: string, resource: any) {
-  //   return this.http
-  //     .put(`${this.url}id`, resource, {
-  //       headers: CoreUtil.createAuthorizationHeader(),
-  //     })
-  //     .pipe(catchError(AppUtil.handleError));
-  // }
 
   get(id: string) {
     return this.http

@@ -56,7 +56,9 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public openCreateGymDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(CreateGymComponent).subscribe()
+      this.navigationService
+        .openDialog(CreateGymComponent, null, null, true)
+        .subscribe()
     );
   }
 
@@ -68,21 +70,14 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.gymService
-            .delete(gym.id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.gymService.delete(gym.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };
@@ -90,7 +85,7 @@ export class AdminPageComponent implements OnInit, OnDestroy, AfterViewInit {
   public openUpdateGymDialog(gym: Gym) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateGymComponent, null, gym, null)
+        .openDialog(UpdateGymComponent, null, gym, true)
         .subscribe()
     );
   }

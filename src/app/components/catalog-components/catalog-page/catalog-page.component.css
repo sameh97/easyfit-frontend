@@ -38,3 +38,22 @@
 table {
     width: 100%;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+th {
+    font-size: 15px;
+    color: black;
+}
+
+:host ::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
+}

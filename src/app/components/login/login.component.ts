@@ -4,26 +4,32 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/model/user';
+import { AccessDeniedError } from 'src/app/exceptions/access-denied-error';
+import { NotFoundError } from 'src/app/exceptions/not-found-error';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends FormInputComponent implements OnInit {
   showSpinner: boolean = false;
   hide: boolean = false;
+  invalidLogin: boolean;
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(3)]], // TODO : change to 8 in production
+    password: ['', [Validators.required, Validators.minLength(3)]], // TODO: change in production
   });
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private fb: FormBuilder
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
@@ -62,7 +68,10 @@ export class LoginComponent implements OnInit {
         }
       },
       (err: Error) => {
-        console.log(JSON.stringify(err));
+        // if (err instanceof NotFoundError) {
+        //   this.invalidLogin = true;
+        //   return;
+        // }
         AppUtil.showError(err);
       }
     );

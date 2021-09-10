@@ -6,13 +6,17 @@ import { AppUtil } from 'src/app/common/app-util';
 import { Bill } from 'src/app/model/bill';
 import { Product } from 'src/app/model/product';
 import { ProductsService } from 'src/app/services/products-service/products.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-sell-product',
   templateUrl: './sell-product.component.html',
   styleUrls: ['./sell-product.component.css'],
 })
-export class SellProductComponent implements OnInit, OnDestroy {
+export class SellProductComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   sellProductForm: FormGroup;
   bill: Bill;
   private subscriptions: Subscription[] = [];
@@ -21,7 +25,9 @@ export class SellProductComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private product: Product,
     private productsService: ProductsService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.bill = new Bill();
@@ -35,10 +41,10 @@ export class SellProductComponent implements OnInit, OnDestroy {
   private buildForm = (): void => {
     this.sellProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      quantity: ['', [Validators.required, Validators.min(1)]],
-      coustomerName: ['', [Validators.required]],
-      coustomerPhone: ['', [Validators.required, Validators.minLength(5)]],
-      coustomerID: ['', [Validators.required, Validators.minLength(5)]],
+      quantity: ['', [Validators.required, this.nonZero]],
+      coustomerName: ['', [Validators.required, this.validateName]],
+      coustomerPhone: ['', [Validators.required, this.validatePhoneNumber]],
+      coustomerID: ['', [Validators.required, this.validateID]],
     });
   };
 
@@ -56,7 +62,7 @@ export class SellProductComponent implements OnInit, OnDestroy {
       this.productsService.sell(this.bill).subscribe(
         (res) => {},
         (error) => {
-          AppUtil.showErrorMessage(error);
+          AppUtil.showError(error);
         }
       )
     );

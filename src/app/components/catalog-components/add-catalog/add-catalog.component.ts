@@ -19,13 +19,18 @@ import { Product } from 'src/app/model/product';
 import { CatalogService } from 'src/app/services/catalog-service/catalog.service';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-catalog',
   templateUrl: './add-catalog.component.html',
   styleUrls: ['./add-catalog.component.css'],
 })
-export class AddCatalogComponent implements OnInit, OnDestroy {
+export class AddCatalogComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   addCatalogForm: FormGroup;
   catalog: Catalog;
   allProducts: Product[];
@@ -38,8 +43,11 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
-    private productsService: ProductsService
-  ) {}
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<AddCatalogComponent>
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -61,7 +69,10 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
     this.catalog = new Catalog();
     this.addCatalogForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      durationDays: ['', [Validators.required, Validators.min(1)]],
+      durationDays: [
+        '',
+        [Validators.required, Validators.min(1), Validators.max(100)],
+      ],
       products: ['', [Validators.required]],
     });
 
@@ -83,6 +94,7 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
   onSelectAll(items: any) {
     this.catalog.products = this.allProducts;
   }
@@ -114,9 +126,10 @@ export class AddCatalogComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(
       this.catalogService.create(this.catalog).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+        },
         (err: Error) => {
-          //TODO:  display an appropriate message in the UI
           AppUtil.showError(err);
         }
       )

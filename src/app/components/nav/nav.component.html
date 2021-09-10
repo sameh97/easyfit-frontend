@@ -2,12 +2,13 @@
     <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
         <mat-toolbar>Menu</mat-toolbar>
         <mat-nav-list>
-            <a mat-list-item routerLink="/home">Home</a>
-            <a mat-list-item routerLink="/members">Members</a>
-            <a mat-list-item routerLink="/machines">Machines</a>
-            <a mat-list-item routerLink="/scheduler">Scheduler</a>
-            <a mat-list-item routerLink="/products">Products</a>
-            <a mat-list-item routerLink="/catalog">Catalogs</a>
+            <a mat-list-item routerLink="/home" [routerLinkActive]="['is-active']">Home</a>
+            <a mat-list-item routerLink="/members" [routerLinkActive]="['is-active']">Members</a>
+            <a mat-list-item routerLink="/machines" [routerLinkActive]="['is-active']">Machines</a>
+            <a mat-list-item routerLink="/trainers" [routerLinkActive]="['is-active']">Trainers</a>
+            <a mat-list-item routerLink="/scheduler" [routerLinkActive]="['is-active']">Scheduler</a>
+            <a mat-list-item routerLink="/products" [routerLinkActive]="['is-active']">Products</a>
+            <a mat-list-item routerLink="/catalog" [routerLinkActive]="['is-active']">Catalogs</a>
 
         </mat-nav-list>
     </mat-sidenav>
@@ -25,8 +26,9 @@
 
                 <div class="notification-bell">
                     <button mat-button (click)="openNotificationsDialog()">
-
-            <mat-icon [matBadge]="getNotificationsLength()" matBadgeColor="warn">notifications</mat-icon>
+            <mat-icon [matBadgeHidden]="getNotificationsLength() === 0" [matBadge]="getNotificationsLength()"
+              matBadgeColor="warn">
+              notifications</mat-icon>
           </button>
 
                 </div>

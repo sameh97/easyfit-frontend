@@ -9,26 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  /** Based on the screen size, switch from standard to one column per row */
-  cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
-    map(({ matches }) => {
-      if (matches) {
-        return [
-          { title: 'Added members this week', cols: 1, rows: 1 },
-          // { title: 'Card 2', cols: 1, rows: 1 },
-          // { title: 'Card 3', cols: 1, rows: 1 },
-          // { title: 'Card 4', cols: 1, rows: 1 },
-        ];
-      }
-
-      return [
-        { title: 'Added members this week', cols: 2, rows: 1 },
-        // { title: 'Card 2', cols: 1, rows: 1 },
-        // { title: 'Card 3', cols: 1, rows: 2 },
-        // { title: 'Card 4', cols: 1, rows: 1 },
-      ];
-    })
-  );
+  constructor(private authService: AuthenticationService) {}
 
   logout() {
     this.authService.logout();
@@ -42,9 +23,4 @@ export class HomeComponent {
       window.history.forward();
     }
   }
-
-  constructor(
-    private authService: AuthenticationService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
 }

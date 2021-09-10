@@ -65,7 +65,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SendCatalogComponent } from './components/catalog-components/send-catalog/send-catalog.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { SellProductComponent } from './components/products-components/sell-product/sell-product.component';
-import { RegisterComponent } from './components/registration-components/register/register.component';
 import { CreateGymComponent } from './components/registration-components/create-gym/create-gym.component';
 import { AdminPageComponent } from './components/registration-components/admin-page/admin-page.component';
 import { AdminNavComponent } from './components/registration-components/admin-nav/admin-nav.component';
@@ -75,6 +74,11 @@ import { AddUserComponent } from './components/registration-components/users-com
 import { UpdateUserComponent } from './components/registration-components/users-components/update-user/update-user.component';
 import { NotificationsDropdownComponent } from './components/notifications/notifications-dropdown.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { AddTrainerComponent } from './components/trainers-components/add-trainer/add-trainer.component';
+import { TrainersPageComponent } from './components/trainers-components/trainers/trainers.component';
+import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
+import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table.component';
+import { DoughnutChartComponent } from './components/members-components/doughnut-chart/doughnut-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -89,6 +93,11 @@ const routes: Routes = [
   {
     path: 'products',
     component: ProductsPageComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'trainers',
+    component: TrainersPageComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -145,7 +154,6 @@ const routes: Routes = [
     UpdateCatalogComponent,
     SendCatalogComponent,
     SellProductComponent,
-    RegisterComponent,
     CreateGymComponent,
     AdminPageComponent,
     AdminNavComponent,
@@ -154,6 +162,11 @@ const routes: Routes = [
     AddUserComponent,
     UpdateUserComponent,
     NotificationsDropdownComponent,
+    AddTrainerComponent,
+    TrainersPageComponent,
+    UpdateTrainerComponent,
+    TrainersTableComponent,
+    DoughnutChartComponent,
   ],
   imports: [
     BrowserModule,

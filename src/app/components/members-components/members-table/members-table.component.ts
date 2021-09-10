@@ -16,11 +16,6 @@ import { NavigationHelperService } from 'src/app/shared/services/navigation-help
 import { Subscription } from 'rxjs';
 import { UpdateMemberComponent } from '../update-member/update-member.component';
 
-import {
-  MembersTableDataSource,
-  MembersTableItem,
-} from './members-table-datasource';
-
 @Component({
   selector: 'app-members-table',
   templateUrl: './members-table.component.html',
@@ -32,6 +27,10 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<Member>;
   dataSource: MatTableDataSource<Member> = new MatTableDataSource<Member>();
+
+  //   private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(
+  //   null
+  // );
 
   members: Member[];
   columns: string[] = [
@@ -90,39 +89,24 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.membersSerive
-            .delete(id)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.membersSerive.delete(id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };
 
   public openUpdateMemberDialog(member: Member) {
-    if (this.navigationService.isMobileMode()) {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(UpdateMemberComponent, '100vw', null, true)
-          .subscribe()
-      );
-    } else {
-      this.subscriptions.push(
-        this.navigationService
-          .openDialog(UpdateMemberComponent, null, member, null)
-          .subscribe()
-      );
-    }
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(UpdateMemberComponent, null, member, true)
+        .subscribe()
+    );
   }
 
   public doFilter = (value: string) => {

@@ -35,12 +35,17 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     'delete',
   ];
 
-  // dataSource = ELEMENT_DATA;
-
   constructor(
     private navigationService: NavigationHelperService,
     private catalogService: CatalogService
   ) {}
+
+  public isCatalogsEmpty(): boolean {
+    if (!this.catalogs) {
+      return false;
+    }
+    return this.catalogs.length === 0;
+  }
 
   ngOnInit(): void {
     this.getAll();
@@ -60,7 +65,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   public openSendCatalogDialog(catalog: Catalog) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(SendCatalogComponent, null, catalog, null)
+        .openDialog(SendCatalogComponent, null, catalog, true)
         .subscribe()
     );
   }
@@ -71,7 +76,9 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
 
   public openCreateCatalogDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(AddCatalogComponent).subscribe()
+      this.navigationService
+        .openDialog(AddCatalogComponent, null, null, true)
+        .subscribe()
     );
   }
 
@@ -84,22 +91,14 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
       .openYesNoDialogNoCallback(message, 500)
       .subscribe((res) => {
         if (res) {
-          this.catalogService
-            .delete(catalog.uuid)
-            .pipe(
-              tap((res) => {
-                this.getAll();
-              })
-            )
-            .subscribe(
-              (res) => {
-                console.log(res);
-                this.catalogs = [...this.catalogs];
-              },
-              (err) => {
-                AppUtil.showError(err);
-              }
-            );
+          this.catalogService.delete(catalog.uuid).subscribe(
+            (res) => {
+              this.catalogs = [...this.catalogs];
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
         }
       });
   };
@@ -107,7 +106,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   public openUpdateCatalogDialog(catalog: Catalog) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateCatalogComponent, null, catalog, null)
+        .openDialog(UpdateCatalogComponent, null, catalog, true)
         .subscribe()
     );
   }

@@ -8,3 +8,9 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.validation-err-container {
+    height: auto;
+    color: red;
+    padding-left: 5px;
+}

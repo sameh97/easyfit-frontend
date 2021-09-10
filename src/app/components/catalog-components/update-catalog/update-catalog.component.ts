@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -8,13 +8,17 @@ import { Catalog } from 'src/app/model/catalog';
 import { Product } from 'src/app/model/product';
 import { CatalogService } from 'src/app/services/catalog-service/catalog.service';
 import { ProductsService } from 'src/app/services/products-service/products.service';
+import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-update-catalog',
   templateUrl: './update-catalog.component.html',
   styleUrls: ['./update-catalog.component.css'],
 })
-export class UpdateCatalogComponent implements OnInit, OnDestroy {
+export class UpdateCatalogComponent
+  extends FormInputComponent
+  implements OnInit, OnDestroy
+{
   updateCatalogForm: FormGroup;
   private subscriptions: Subscription[] = [];
 
@@ -27,8 +31,11 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
     @Inject(MAT_DIALOG_DATA) private catalog: Catalog,
-    private productsService: ProductsService
-  ) {}
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<UpdateCatalogComponent>
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -56,7 +63,7 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-    
+
     this.catalog.products.forEach((product) => {
       const item: any = {
         item_id: product.id,
@@ -76,7 +83,7 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
       // TODO: make the validators more relevant:
       durationDays: [
         this.catalog.durationDays,
-        [Validators.required, Validators.min(1)],
+        [Validators.required, Validators.min(1), Validators.max(100)],
       ],
       products: [this.catalog.products, [Validators.required]],
     });
@@ -116,7 +123,14 @@ export class UpdateCatalogComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(
-      this.catalogService.update(this.catalog).subscribe()
+      this.catalogService.update(this.catalog).subscribe(
+        (catalog) => {
+          this.dialogRef.close();
+        },
+        (err: Error) => {
+          AppUtil.showError(err);
+        }
+      )
     );
   };
 

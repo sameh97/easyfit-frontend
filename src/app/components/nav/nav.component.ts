@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -7,19 +13,54 @@ import { NavigationHelperService } from 'src/app/shared/services/navigation-help
 import { AppUtil } from 'src/app/common/app-util';
 import { NotificationsDropdownComponent } from '../notifications/notifications-dropdown.component';
 import { AppNotificationMessage } from 'src/app/model/app-notification-message';
+import { WebSocketService } from 'src/app/services/web-socket.service';
+import { SocketTopics } from 'src/app/shared/util/socket-util';
+import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
 })
-export class NavComponent implements OnDestroy, AfterViewInit {
-  @ViewChild(NotificationsDropdownComponent)
-  notificationsDropdownComponent: NotificationsDropdownComponent;
-
+export class NavComponent implements OnInit, OnDestroy {
   notifications: AppNotificationMessage[] = [];
-
+  notificationNumber: number = 0;
   private subscriptions: Subscription[] = [];
+
+  constructor(
+    private authService: AuthenticationService,
+    private breakpointObserver: BreakpointObserver,
+    private navigationService: NavigationHelperService,
+    private webSocketService: WebSocketService,
+    private userNotificationsService: UserNotificationsService
+  ) {}
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.userNotificationsService.getAll().subscribe(
+        (notifications) => {
+          this.notificationNumber = notifications.length;
+          // TODO: make a function that retreves only the count of the notifications
+        },
+        (error: Error) => {
+          AppUtil.showError(error);
+        }
+      )
+    );
+
+    this.subscriptions.push(
+      this.webSocketService
+        .onMessage(SocketTopics.TOPIC_GROUPED_NOTIFICATION)
+        .subscribe((notificationFromServer: AppNotificationMessage) => {
+          let sum = 0;
+          for (let notification of notificationFromServer.content) {
+            sum += notification.notificationsCount;
+          }
+          this.notificationNumber = sum;
+        })
+    );
+  }
+
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -28,24 +69,11 @@ export class NavComponent implements OnDestroy, AfterViewInit {
     );
 
   getNotificationsLength() {
-    if (!this.notifications) {
-      return 0;
-    }
-
-    return this.notifications.length;
+    return this.notificationNumber;
   }
 
   logout() {
     this.authService.logout();
-  }
-
-  constructor(
-    private authService: AuthenticationService,
-    private breakpointObserver: BreakpointObserver,
-    private navigationService: NavigationHelperService
-  ) {}
-  ngAfterViewInit(): void {
-    this.notifications = this.notificationsDropdownComponent.notifications;
   }
 
   public openNotificationsDialog() {

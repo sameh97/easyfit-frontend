@@ -43,37 +43,25 @@
 
 /* *** list element flex *** */
 
-.img {
-    flex: 6;
-}
+.img {}
 
-.details {
-    flex: 20;
-}
+.details {}
 
-.edit {
-    flex: 1;
-}
+.edit {}
 
-.delete {
-    flex: 1;
-}
+.delete {}
 
-.sell {
-    flex: 1;
-}
+.sell {}
 
 .list-element-flex-container {
     display: flex;
-    gap: 1rem;
+    gap: 8px;
     justify-content: space-between;
-    flex-wrap: wrap;
     flex: 0 0 100%;
     flex-direction: row;
 }
 
 .list-element-flex-container>div {
-    text-align: center;
     font-size: 15px;
     padding: 10px 0;
 }
@@ -102,6 +90,11 @@
     flex: 6;
 }
 
+.product-description {
+    width: 500px;
+    word-wrap: break-word;
+}
+
 .done-button {
     flex: 1;
 }
@@ -124,10 +117,15 @@
 /* **************************************/
 
 .dashboard-card-products {
-    margin: 5px;
     height: 520px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .dashboard-card-content-products {
     font-family: "Times New Roman", Times, serif;
+}
+
+h1 {
+    font-family: 'Trebuchet MS', sans-serif;
 }

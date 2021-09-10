@@ -85,14 +85,16 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public openCreateUserDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(AddUserComponent, '550px').subscribe()
+      this.navigationService
+        .openDialog(AddUserComponent, null, null, true)
+        .subscribe()
     );
   }
 
   public openUpdateUserDialog(user: User) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateUserComponent, '550px', user, null)
+        .openDialog(UpdateUserComponent, null, user, true)
         .subscribe()
     );
   }

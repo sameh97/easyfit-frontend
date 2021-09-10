@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
 import { BadInputError } from 'src/app/exceptions';
@@ -28,7 +29,8 @@ export class FileUploadService {
         headers: CoreUtil.createAuthorizationHeader(),
         responseType: 'text',
       })
-      .pipe(map((res) => res as string));
+      .pipe(map((res) => res as string))
+      .pipe(catchError(AppUtil.handleError));
   }
 
   public delete(fileUrl: string): Observable<any> {
@@ -39,7 +41,9 @@ export class FileUploadService {
       headers,
       body: formData,
     };
-    return this.http.delete(this.url, options);
+    return this.http
+      .delete(this.url, options)
+      .pipe(catchError(AppUtil.handleError));
   }
 
   public uploadImage(

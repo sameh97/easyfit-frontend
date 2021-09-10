@@ -7,6 +7,7 @@ import { NotFoundError } from '../exceptions/not-found-error';
 import { AccessDeniedError } from '../exceptions/access-denied-error';
 import { AppConsts } from './consts';
 import { User } from '../model/user';
+import { BehaviorSubject } from 'rxjs';
 
 export class AppUtil {
   private static getHttpErrorMessage(errorResponse: HttpErrorResponse): string {
@@ -41,6 +42,23 @@ export class AppUtil {
 
   public static showErrorMessage(message: string) {
     alert(message);
+  }
+
+  public static calculateAge(birthday) {
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  }
+
+  public static daysBetween(date1, date2) {
+    // The number of milliseconds in one day
+    const ONE_DAY = 1000 * 60 * 60 * 24;
+
+    // Calculate the difference in milliseconds
+    const differenceMs = Math.abs(date1 - date2);
+
+    // Convert back to days and return
+    return Math.round(differenceMs / ONE_DAY);
   }
 
   public static showError(err: Error): void {
@@ -98,5 +116,65 @@ export class AppUtil {
       return;
     }
     user.password = '';
+  }
+
+  public static addToSubject(
+    subjectData: BehaviorSubject<any[]>,
+    toAdd: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    currData.push(toAdd);
+    subjectData.next(currData);
+  }
+
+  public static updateInSubject(
+    subjectData: BehaviorSubject<any[]>,
+    toUpdate: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    for (let i = 0; i < currData.length; i++) {
+      if (String(currData[i].id) === String(toUpdate.id)) {
+        currData[i] = toUpdate;
+        subjectData.next(currData);
+      }
+    }
+  }
+
+  public static getJob = (jobID: number): string => {
+    if (jobID === 1) {
+      return 'clean';
+    } else if (jobID === 2) {
+      return 'Machine Service';
+    } else {
+      return 'Not defined';
+    }
+  };
+
+
+  public static removeFromSubject(
+    subjectData: BehaviorSubject<any[]>,
+    id: any
+  ): void {
+    var currData: any[] = subjectData.value;
+    if (!currData) {
+      currData = [];
+    }
+    let indexToDelete = -1;
+    for (let i = 0; i < currData.length; i++) {
+      if (String(currData[i].id) === String(id)) {
+        indexToDelete = i;
+        break;
+      }
+    }
+    if (indexToDelete >= 0) {
+      currData.splice(indexToDelete, 1);
+    }
+    subjectData.next(currData);
   }
 }

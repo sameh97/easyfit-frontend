@@ -12,12 +12,34 @@
                         <mat-label>User first name</mat-label>
                         <input matInput type="text" [(ngModel)]="user.firstName" name="firstName" formControlName="firstName" placeholder="Enter user's first name please">
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.firstName)" class="validation-err-container">
+
+                        <div *ngIf="updateUserForm.controls.firstName.errors.nameNotValid">
+                            <small> User first name is not valid.
+              </small>
+                        </div>
+                        <div *ngIf="updateUserForm.controls.firstName.errors.required">
+                            <small> User first name is required.
+              </small>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <mat-form-field class="example-full-width" appearance="fill">
                         <mat-label>User last name</mat-label>
                         <input matInput type="text" [(ngModel)]="user.lastName" name="lastName" formControlName="lastName" placeholder="Enter user's last name please">
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.lastName)" class="validation-err-container">
+
+                        <div *ngIf="updateUserForm.controls.lastName.errors.nameNotValid">
+                            <small> User last name is not valid.
+              </small>
+                        </div>
+                        <div *ngIf="updateUserForm.controls.lastName.errors.required">
+                            <small> User last name is required.
+              </small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,17 +48,35 @@
                 <mat-label>Email</mat-label>
                 <input matInput type="email" [(ngModel)]="user.email" name="email" formControlName="email" placeholder="Enter user's email please">
             </mat-form-field>
+            <div *ngIf="isInputValidationFailed(updateUserForm.controls.email)" class="validation-err-container">
+
+                <div *ngIf="updateUserForm.controls.email.errors.email">
+                    <small> Email is not valid.
+          </small>
+                </div>
+                <div *ngIf="updateUserForm.controls.email.errors.required">
+                    <small> Email is required.
+          </small>
+                </div>
+            </div>
         </div>
         <div>
             <mat-label>Please choose gym for this user: </mat-label>
 
-            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gym" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
+            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gymId" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
             </ng-multiselect-dropdown>
+            <div *ngIf="isInputValidationFailed(updateUserForm.controls.gymId)" class="validation-err-container">
+
+                <div *ngIf="updateUserForm.controls.gymId.errors.required">
+                    <small> Gym is required.
+          </small>
+                </div>
+            </div>
         </div>
         <div>
             <div class="flex-container-inside-row">
                 <div>
-                    <mat-form-field class="full-width" appearance="outline">
+                    <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Password</mat-label>
                         <input formControlName="password" [(ngModel)]="user.password" matInput [type]=" hide ? 'password' : 'text'" required />
                         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
@@ -44,13 +84,17 @@
                 {{hide ? 'visibility_off' : 'visibility'}}
               </mat-icon>
             </button>
-                        <mat-error *ngIf="!updateUserForm.controls['password'].valid">
-                            Password is required
-                        </mat-error>
+
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.password)" class="validation-err-container">
+                        <div *ngIf="updateUserForm.controls.password.errors.required"><small>Password is required</small></div>
+                        <div *ngIf="updateUserForm.controls.password.errors.minlength"><small>Password must be at least
+                {{ updateUserForm.controls.password.errors.minlength.requiredLength }} characters</small>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <mat-form-field class="full-width" appearance="outline">
+                    <mat-form-field class="example-full-width" appearance="outline">
                         <mat-label>Confirm Password</mat-label>
                         <input formControlName="confirmPassword" ngModel matInput [type]=" hide ? 'password' : 'text'" required />
                         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
@@ -58,10 +102,12 @@
                 {{hide ? 'visibility_off' : 'visibility'}}
               </mat-icon>
             </button>
-                        <mat-error *ngIf="!updateUserForm.controls['confirmPassword'].valid">
-                            Password and confirm password should be same
-                        </mat-error>
+
                     </mat-form-field>
+
+                    <div *ngIf="!passwordsMatch(updateUserForm) && updateUserForm.controls.confirmPassword.touched" class="validation-err-container">
+                        <small>Passwords do not match</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,14 +119,42 @@
                         <mat-label>User phone</mat-label>
                         <input matInput type="text" [(ngModel)]="user.phone" name="phone" formControlName="phone" placeholder="Enter user's phone please">
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.phone)" class="validation-err-container">
+
+                        <div *ngIf="updateUserForm.controls.phone.errors.gymPhoneNotValid">
+                            <small> User phone is not valid.
+              </small>
+                        </div>
+                        <div *ngIf="updateUserForm.controls.phone.errors.required">
+                            <small> User phone is required.
+              </small>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <mat-form-field appearance="fill">
+                    <mat-form-field appearance="fill" class="example-full-width">
                         <mat-label>User birth day</mat-label>
                         <input formControlName="birthDay" matInput [(ngModel)]="user.birthDay" [matDatepicker]="picker">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.birthDay)" class="validation-err-container">
+
+                        <div *ngIf="updateUserForm.controls.birthDay.errors.ageUnder">
+                            <small> User must be at least 16 years old
+              </small>
+                        </div>
+                        <div *ngIf="updateUserForm.controls.birthDay.errors.required">
+                            <small> User birth day is required.
+              </small>
+                        </div>
+                        <div *ngIf="updateUserForm.controls.birthDay.errors.birthDayNotValid">
+                            <small> User birth day is not valid.
+              </small>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,32 +165,22 @@
                         <mat-label>User address</mat-label>
                         <input matInput type="text" [(ngModel)]="user.address" name="address" formControlName="address" placeholder="Enter user's address please">
                     </mat-form-field>
+                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.address)" class="validation-err-container">
+                        <div *ngIf="updateUserForm.controls.address.errors.required">
+                            <small> User address is required.
+              </small>
+                        </div>
+                    </div>
+
                 </div>
                 <div></div>
             </div>
         </div>
-        <div> <button id="create-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
-        Add user </button>
+        <div> <button id="update-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Update user </button>
         </div>
 
     </div>
-    <!-- <mat-grid-list cols="4" rowHeight="70px">
 
-
-    <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="lightblue">
-
-    </mat-grid-tile>
-
-
-    <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightblue">
-
-    </mat-grid-tile>
-
-
-  </mat-grid-list>
- -->
 
 </form>

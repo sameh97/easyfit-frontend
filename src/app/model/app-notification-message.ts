@@ -25,36 +25,4 @@ export class AppNotificationMessage {
     // this.targetUserIds = data.targetUserIds ? data.targetUserIds : null;
     // this.time = new Date();
   }
-
-  // public isUserTargeted(userId: string): boolean {
-  //   if (!userId || !this.targetUserIds) {
-  //     return false;
-  //   }
-  //   for (const targetUserId of this.targetUserIds) {
-  //     if (userId === targetUserId) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  // public shouldAppearInUserNotifications(userId: string): boolean {
-  //   if (!this.topic) {
-  //     console.error(`Notification ${this.id} topic is undefined`);
-  //     return false;
-  //   }
-  //   if (
-  //     this.topic.toLowerCase() ===
-  //       SocketTopics.TOPIC_CLEAN_MACHINE.toLowerCase() ||
-  //     this.topic.toLowerCase() ===
-  //       SocketTopics.TOPIC_MACHINE_SERVICE.toLowerCase() ||
-  //     this.topic.toLowerCase() ===
-  //       SocketTopics.TOPIC_MEMBER_EXPIRED.toLowerCase()
-  //   ) {
-  //     if (this.isUserTargeted(userId)) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
 }

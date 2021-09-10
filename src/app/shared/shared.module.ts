@@ -15,9 +15,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 // MatSuffix
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormInputComponent } from './components/form-input/form-input.component';
 
 @NgModule({
-  declarations: [ConfirmationDialogComponent],
+  declarations: [ConfirmationDialogComponent, FormInputComponent],
   imports: [
     CommonModule,
     MatDialogModule,

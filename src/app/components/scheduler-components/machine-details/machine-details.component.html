@@ -4,33 +4,29 @@
         <mat-card-title>{{machineToDesplay.name}}</mat-card-title>
         <!-- <mat-card-subtitle></mat-card-subtitle>  -->
     </mat-card-header>
-    <img mat-card-image style="height: 100px; width: 100px;" src="https://previews.123rf.com/images/alekseyvanin/alekseyvanin2101/alekseyvanin210101107/162425282-gym-machine-vector-icon-filled-flat-sign-for-mobile-concept-and-web-design-weight-machine-glyph-icon.jpg"
-        alt="Photo of a Shiba Inu">
+    <img mat-card-image style="height: 100px; width: 100px;" src="{{machineToDesplay.imgUrl}}" alt="Photo of a Shiba Inu">
     <mat-card-content>
         <p>
-            Description: {{machineToDesplay.description}}
+            <b>Description:</b> {{machineToDesplay.description}}
         </p>
 
         <p>
-            Production year: {{machineToDesplay.productionYear}}
+            <b>Production year:</b> {{machineToDesplay.productionYear}}
         </p>
 
         <p>
-            Serial Number: {{machineToDesplay.serialNumber}}
+            <b>Serial Number:</b> {{machineToDesplay.serialNumber}}
         </p>
 
 
         <p>
-            Price: {{machineToDesplay.price | currency:'ILS'}}
+            <b>Price:</b> {{machineToDesplay.price | currency:'ILS'}}
         </p>
 
 
 
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
-    </mat-card-actions>
+
 </mat-card>
 
 

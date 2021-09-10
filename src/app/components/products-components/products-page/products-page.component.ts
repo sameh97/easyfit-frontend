@@ -16,12 +16,12 @@ import { Bill } from 'src/app/model/bill';
   styleUrls: ['./products-page.component.css'],
 })
 export class ProductsPageComponent implements OnInit, OnDestroy {
-  products: Product[];
+  products: Product[] = [];
   filteredProducts: Product[];
   bills: Bill[];
   filteredBills: Bill[];
   private subscriptions: Subscription[] = [];
-  items = Array.from({ length: 100000 }).map((_, i) => `Item #${i}`);
+
   constructor(
     private productsService: ProductsService,
     private navigationService: NavigationHelperService
@@ -108,7 +108,7 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
   public openUpdateProductDialog(product: Product) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(UpdateProductPageComponent, null, product, null)
+        .openDialog(UpdateProductPageComponent, null, product, true)
         .subscribe()
     );
   }
@@ -116,14 +116,16 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
   public openSellProductDialog(product: Product) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(SellProductComponent, null, product, null)
+        .openDialog(SellProductComponent, null, product, true)
         .subscribe()
     );
   }
 
   public openCreateProductDialog() {
     this.subscriptions.push(
-      this.navigationService.openDialog(AddProductComponent).subscribe()
+      this.navigationService
+        .openDialog(AddProductComponent, null, null, true)
+        .subscribe()
     );
   }
 
