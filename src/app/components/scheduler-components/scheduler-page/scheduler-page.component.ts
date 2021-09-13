@@ -123,4 +123,11 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
         .subscribe()
     );
   }
+
+  isSceduledJobsEmpty(): boolean {
+    if (!this.scheduledJobs) {
+      return true;
+    }
+    return this.scheduledJobs.length === 0;
+  }
 }

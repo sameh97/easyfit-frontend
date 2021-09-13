@@ -25,6 +25,10 @@
             <!-- TODO: show relevant message when there is no jobs  -->
             <mat-card class="dashboard-card">
                 <mat-card-header>
+                    <div *ngIf="isSceduledJobsEmpty()">
+                        <h3> No Results</h3>
+                    </div>
+
 
                 </mat-card-header>
                 <mat-card-content class="dashboard-card-content">
@@ -53,8 +57,12 @@
                                             <button mat-stroked-button color="primary" (click)="openMachineDetailsDialog(scheduledjob.machineSerialNumber)">Machine Details</button>
                                         </p>
                                     </div>
-                                    <div class="edit"> <button mat-flat-button color="primary" (click)="openUpdateScheduledJobDialog(scheduledjob)"> <mat-icon>edit</mat-icon></button></div>
-                                    <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)" color="warn"><mat-icon>delete</mat-icon></button>
+                                    <div class="edit"> <button mat-flat-button color="primary" (click)="openUpdateScheduledJobDialog(scheduledjob)">
+                      <mat-icon>edit</mat-icon>
+                    </button></div>
+                                    <div class="delete"> <button mat-raised-button (click)="delete(scheduledjob)" color="warn">
+                      <mat-icon>delete</mat-icon>
+                    </button>
                                     </div>
                                     <!-- TODO: consider deleting all notifications from datbase when deleting job-->
                                 </div>
