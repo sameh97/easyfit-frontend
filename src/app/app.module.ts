@@ -125,6 +125,11 @@ const routes: Routes = [
     component: UsersPageComponent,
     canActivate: [AuthGuard], //TODO: add admin guard
   },
+  {
+    path: 'group-trainings',
+    component: DisplayTrainingsComponent,
+    canActivate: [AuthGuard],
+  },
 
   //TODO: make 404 page
 ];
