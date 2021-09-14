@@ -14,6 +14,7 @@ import { GroupTraining } from 'src/app/model/group-training';
 import { GroupTrainingService } from 'src/app/services/group-training-service/group-training.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { AddGroupTrainingComponent } from '../add-group-training/add-group-training.component';
+import { EditGroupTrainingComponent } from '../edit-group-training/edit-group-training.component';
 import { ShowSingleTrainingComponent } from '../show-single-training/show-single-training.component';
 
 @Component({
@@ -58,6 +59,14 @@ export class DisplayTrainingsComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       })
+    );
+  }
+
+  public openUpdateTrainingDialog(groupTraining: GroupTraining) {
+    this.subscriptions.push(
+      this.navigationService
+        .openDialog(EditGroupTrainingComponent, null, groupTraining, true)
+        .subscribe()
     );
   }
 

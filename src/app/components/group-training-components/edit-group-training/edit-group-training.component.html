@@ -1,1 +1,56 @@
-<p>edit-group-training works!</p>
+<div class="center">
+    <h2 mat-dialog-title>Edit group training </h2>
+</div>
+
+<div class="flex-container">
+    <form *ngIf="editGroupTrainingForm && groupTraining" name="editGroupTrainingForm" #theForm="ngForm" [formGroup]="editGroupTrainingForm" (ngSubmit)="update()">
+
+        <div class="row1">
+            <mat-form-field class="start-time" appearance="fill">
+                <input matInput [ngxMatDatetimePicker]="startTimePicker" placeholder="Choose start time" [(ngModel)]="groupTraining.startTime" formControlName="startTime" [min]="minDate" [max]="maxDate" [disabled]="disabled">
+                <mat-datepicker-toggle matSuffix [for]="startTimePicker"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #startTimePicker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="stepHour" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color" [enableMeridian]="enableMeridian" [disableMinute]="disableMinute"
+                    [hideTime]="hideTime">
+                </ngx-mat-datetime-picker>
+            </mat-form-field>
+
+        </div>
+
+        <div class="row2">
+            <mat-label>Please choose members to include in the training: </mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Choose members to include in the training'" formControlName="members" [settings]="membersDropdownSettings" [data]="membersDropdownList" [(ngModel)]="selectedMembers" (onSelect)="onMemberSelect($event)" (onDeSelectAll)="onDeSelectAllMembers($event)"
+                (onSelectAll)="onSelectAllMembers($event)" (onDeSelect)="onMemberDeSelect($event)">
+            </ng-multiselect-dropdown>
+            <!-- <div *ngIf="isInputValidationFailed(addCatalogForm.controls.products)" class="validation-err-container">
+        <div *ngIf="addCatalogForm.controls.products.errors.required && addCatalogForm.controls.products?.touched">
+          <small> Products are required</small>
+
+        </div>
+      </div> -->
+        </div>
+        <div class="row3">
+            <mat-label>Please choose trainer to include in the group training: </mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Choose members to include in the training'" formControlName="trainerId" [settings]="trainersDropdownSettings" [data]="trainersDropdownList" [(ngModel)]="selectedTrainers" (onSelect)="onTrainerSelect($event)" (onDeSelect)="onTrainerDeSelect($event)">
+            </ng-multiselect-dropdown>
+            <!-- <div *ngIf="isInputValidationFailed(addCatalogForm.controls.products)" class="validation-err-container">
+        <div *ngIf="addCatalogForm.controls.products.errors.required && addCatalogForm.controls.products?.touched">
+          <small> Products are required</small>
+
+        </div>
+      </div> -->
+        </div>
+        <div class="row4">
+            <mat-form-field appearance="fill" class="wide">
+                <mat-label>description</mat-label>
+                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" name="description" formControlName="description" [(ngModel)]="groupTraining.description" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" placeholder="Group training description"></textarea>
+                <mat-icon *ngIf="editGroupTrainingForm.controls.description.errors === null" matSuffix>sentiment_very_satisfied
+                </mat-icon>
+
+            </mat-form-field>
+        </div>
+        <div class="row5">
+            <button id="add-training-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
+        Edit training </button>
+        </div>
+    </form>
+</div>
