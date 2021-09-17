@@ -18,7 +18,7 @@
         <div class="row2">
             <mat-card class="dashboard-card">
                 <mat-card-header>
-                    <h2 class="center" *ngIf="isCatalogsEmpty()"> No results </h2>
+
                 </mat-card-header>
                 <mat-card-content class="dashboard-card-content">
                     <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
@@ -71,7 +71,11 @@
 
 
 
-
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="9999">
+                                No results
+                            </td>
+                        </tr>
                         <tr mat-header-row *matHeaderRowDef="columns"></tr>
                         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
                     </table>

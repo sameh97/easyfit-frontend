@@ -88,4 +88,13 @@ export class TrainersService {
       )
       .pipe(catchError(AppUtil.handleError));
   };
+
+  public getById = (id: number): Observable<Trainer> => {
+    return this.http.get<Trainer>(
+      `${AppConsts.BASE_URL}/api/trainer?gymId=${this.gymId}&id=${id}`,
+      {
+        headers: CoreUtil.createAuthorizationHeader(),
+      }
+    );
+  };
 }

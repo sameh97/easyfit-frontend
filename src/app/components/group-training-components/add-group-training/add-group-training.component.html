@@ -1,0 +1,98 @@
+<div class="center">
+    <h2 mat-dialog-title>Create group training </h2>
+</div>
+
+<div class="flex-container">
+    <form *ngIf="addGroupTrainingForm && groupTraining" name="addGroupTrainingForm" #theForm="ngForm" [formGroup]="addGroupTrainingForm" (ngSubmit)="create()">
+
+        <div class="row1">
+
+            <mat-label>Please choose trainer to include in the group training: </mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Choose members to include in the training'" formControlName="trainerId" [settings]="trainersDropdownSettings" [data]="trainersDropdownList" [(ngModel)]="selectedTrainers" (onSelect)="onTrainerSelect($event)" (onDeSelect)="onTrainerDeSelect($event)">
+            </ng-multiselect-dropdown>
+            <div *ngIf="isInputValidationFailed(addGroupTrainingForm.controls.trainerId)" class="validation-err-container">
+                <div *ngIf="addGroupTrainingForm.controls.trainerId.errors.required && addGroupTrainingForm.controls.trainerId?.touched">
+                    <small> Trainer is required</small>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row2">
+            <mat-label>Please choose members to include in the training: </mat-label>
+            <ng-multiselect-dropdown [placeholder]="'Choose members to include in the training'" formControlName="members" [settings]="membersDropdownSettings" [data]="membersDropdownList" [(ngModel)]="selectedMembers" (onSelect)="onMemberSelect($event)" (onDeSelectAll)="onDeSelectAllMembers($event)"
+                (onSelectAll)="onSelectAllMembers($event)" (onDeSelect)="onMemberDeSelect($event)">
+            </ng-multiselect-dropdown>
+            <div *ngIf="isInputValidationFailed(addGroupTrainingForm.controls.members)" class="validation-err-container">
+                <div *ngIf="addGroupTrainingForm.controls.members.errors.required && addGroupTrainingForm.controls.members?.touched">
+                    <small> Members are required</small>
+
+                </div>
+            </div>
+        </div>
+        <div class="row3">
+
+            <div class="flex-container-row ">
+                <div>
+                    <mat-form-field class="start-time" appearance="fill">
+                        <input matInput [ngxMatDatetimePicker]="startTimePicker" placeholder="Choose start time" [(ngModel)]="groupTraining.startTime" formControlName="startTime" [min]="minDate" [max]="maxDate" [disabled]="disabled">
+                        <mat-datepicker-toggle matSuffix [for]="startTimePicker"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker [disabled]="!trainerChooesn" [defaultTime]="defaultTime" #startTimePicker [showSpinners]="showSpinners" [showSeconds]="showSeconds" [stepHour]="1" [stepMinute]="stepMinute" [stepSecond]="stepSecond" [touchUi]="touchUi" [color]="color"
+                            [enableMeridian]="enableMeridian" [disableMinute]="true" [hideTime]="hideTime">
+                        </ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+                <div>
+
+                    <button mat-raised-button type="button" [disabled]="!trainerChooesn" (click)="isTimeAvailable()" color="primary">Check
+            availability</button>
+                </div>
+                <div>
+                    <div *ngIf="showAvailability  && addGroupTrainingForm.controls.startTime.errors === null">
+                        <p class="available" *ngIf="isTimeAvailable()">
+                            Time available</p>
+                        <p class="not-available" *ngIf="isTimeAvailable() === false">Time not Available</p>
+                    </div>
+                </div>
+                <div *ngIf="isInputValidationFailed(addGroupTrainingForm.controls.startTime)" class="validation-err-container">
+                    <div *ngIf="addGroupTrainingForm.controls.startTime.errors.required && addGroupTrainingForm.controls.startTime?.touched">
+                        <small> Start time is required</small>
+
+                    </div>
+
+                    <div *ngIf="addGroupTrainingForm.controls.startTime.errors.dateNotValid">
+                        <small> Start time is not valid</small>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="row4">
+            <mat-form-field appearance="fill" class="wide">
+                <mat-label>description</mat-label>
+                <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" name="description" formControlName="description" [(ngModel)]="groupTraining.description" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5" placeholder="Group training description"></textarea>
+                <mat-icon *ngIf="addGroupTrainingForm.controls.description.errors === null" matSuffix>sentiment_very_satisfied
+                </mat-icon>
+
+            </mat-form-field>
+            <div *ngIf="isInputValidationFailed(addGroupTrainingForm.controls.description)" class="validation-err-container">
+                <div *ngIf="addGroupTrainingForm.controls.description.errors.required && addGroupTrainingForm.controls.description?.touched">
+                    <small> Description is required</small>
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="row5">
+            <button id="add-training-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid || !isTimeAvailable()">
+        Add New training </button>
+        </div>
+    </form>
+</div>

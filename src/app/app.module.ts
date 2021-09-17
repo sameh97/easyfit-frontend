@@ -79,6 +79,11 @@ import { TrainersPageComponent } from './components/trainers-components/trainers
 import { UpdateTrainerComponent } from './components/trainers-components/update-trainer/update-trainer.component';
 import { TrainersTableComponent } from './components/trainers-components/trainers-table/trainers-table.component';
 import { DoughnutChartComponent } from './components/members-components/doughnut-chart/doughnut-chart.component';
+import { DisplayTrainingsComponent } from './components/group-training-components/display-trainings/display-trainings.component';
+import { AddGroupTrainingComponent } from './components/group-training-components/add-group-training/add-group-training.component';
+import { EditGroupTrainingComponent } from './components/group-training-components/edit-group-training/edit-group-training.component';
+import { ShowSingleTrainingComponent } from './components/group-training-components/show-single-training/show-single-training.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -119,6 +124,11 @@ const routes: Routes = [
     path: 'users',
     component: UsersPageComponent,
     canActivate: [AuthGuard], //TODO: add admin guard
+  },
+  {
+    path: 'group-trainings',
+    component: DisplayTrainingsComponent,
+    canActivate: [AuthGuard],
   },
 
   //TODO: make 404 page
@@ -167,6 +177,10 @@ const routes: Routes = [
     UpdateTrainerComponent,
     TrainersTableComponent,
     DoughnutChartComponent,
+    DisplayTrainingsComponent,
+    AddGroupTrainingComponent,
+    EditGroupTrainingComponent,
+    ShowSingleTrainingComponent,
   ],
   imports: [
     BrowserModule,
@@ -203,6 +217,8 @@ const routes: Routes = [
     NgMultiSelectDropDownModule.forRoot(),
     MatChipsModule,
     MatBadgeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
 
   providers: [],

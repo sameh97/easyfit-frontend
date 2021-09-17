@@ -1,30 +1,46 @@
-<app-nav><br>
-    <div class="grid-container">
-        <h1 class="mat-h1">Members Page</h1><br>
-        <mat-grid-list cols="2" rowHeight="350px">
-            <mat-grid-tile [colspan]="2" [rowspan]="4">
-                <mat-card class="dashboard-card">
-                    <mat-card-header>
-                        <mat-card-title>
+<app-nav>
+    <div class="flex-container">
+        <div>
+            <div class="flex-container-header">
+                <div class="header-title">
+                    <h1 class="mat-h1">Members Page</h1>
+                </div>
+                <div class="header-actions"></div>
 
-                            <h2> All Members</h2>
-                            <button class="add-button" type="button" (click)="openCreateMemberDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-                <mat-icon>plus_one</mat-icon>
-              </button>
+            </div>
 
-                            <mat-menu #menu="matMenu" xPosition="before">
-                                <button mat-menu-item>Expand</button>
-                                <button mat-menu-item>Remove</button>
-                            </mat-menu>
-                        </mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="dashboard-card-content">
+        </div>
+        <div>
+            <mat-card class="dashboard-card">
+                <mat-card-header>
+                    <mat-card-title>
 
-                        <app-members-table></app-members-table>
-                    </mat-card-content>
-                </mat-card>
-            </mat-grid-tile>
+                        <h2> All Members</h2>
+                        <button class="add-button" type="button" (click)="openCreateMemberDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+              <mat-icon>plus_one</mat-icon>
+            </button>
 
-        </mat-grid-list>
+                        <mat-menu #menu="matMenu" xPosition="before">
+                            <button mat-menu-item>Expand</button>
+                            <button mat-menu-item>Remove</button>
+                        </mat-menu>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="dashboard-card-content">
+
+                    <app-members-table></app-members-table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div></div>
     </div>
+    <!-- <div class="grid-container">
+
+    <mat-grid-list cols="2" rowHeight="350px">
+      <mat-grid-tile [colspan]="2" [rowspan]="4">
+
+      </mat-grid-tile>
+
+    </mat-grid-list>
+  </div> -->
 </app-nav>

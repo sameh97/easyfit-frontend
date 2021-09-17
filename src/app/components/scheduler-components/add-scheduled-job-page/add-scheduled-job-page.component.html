@@ -49,7 +49,9 @@
                     [hideTime]="hideTime">
                 </ngx-mat-datetime-picker>
             </mat-form-field>
-
+            <!-- [ngxMatDatetimePickerFilter]="dateFilter" -->
+            <!-- <input [owlDateTime]="dt1" [owlDateTimeFilter]="dateFilter" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+            <owl-date-time #dt1></owl-date-time> -->
             <div *ngIf="isInputValidationFailed(addScheduledJobForm.controls.startTime)" class="validation-err-container">
                 <div *ngIf="addScheduledJobForm.controls.startTime.errors.required">
                     <small> Start time is required. </small>

@@ -40,13 +40,6 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
     private catalogService: CatalogService
   ) {}
 
-  public isCatalogsEmpty(): boolean {
-    if (!this.catalogs) {
-      return false;
-    }
-    return this.catalogs.length === 0;
-  }
-
   ngOnInit(): void {
     this.getAll();
   }

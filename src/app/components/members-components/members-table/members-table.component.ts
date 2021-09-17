@@ -55,6 +55,10 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
     private navigationService: NavigationHelperService
   ) {}
 
+  ngOnInit(): void {
+    this.getAll();
+  }
+
   private getAll() {
     this.subscriptions.push(
       this.membersSerive.getAll().subscribe((members) => {
@@ -66,10 +70,6 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this.getAll();
-  }
-
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
   }
@@ -79,7 +79,7 @@ export class MembersTableComponent implements OnInit, AfterViewInit, OnDestroy {
       return '';
     }
     return member.isActive ? 'Active' : 'Not Active';
-  }
+  }  
 
   public delete = (id: number, member: Member) => {
     const message = `Are you sure you want to delete the member with the following name:

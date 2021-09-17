@@ -9,6 +9,9 @@
             <a mat-list-item routerLink="/scheduler" [routerLinkActive]="['is-active']">Scheduler</a>
             <a mat-list-item routerLink="/products" [routerLinkActive]="['is-active']">Products</a>
             <a mat-list-item routerLink="/catalog" [routerLinkActive]="['is-active']">Catalogs</a>
+            <a mat-list-item routerLink="/group-trainings" [routerLinkActive]="['is-active']">Group trainings</a>
+
+
 
         </mat-nav-list>
     </mat-sidenav>
@@ -37,7 +40,12 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
 
-                    <mat-menu #appMenu="matMenu">
+                    <mat-menu class="my-menu" #appMenu="matMenu">
+                        <div class="menu-header">
+                            <div *ngIf="currentUser"></div>
+                            <p> logged in as <b>{{currentUser.firstName}}</b></p>
+                        </div>
+
                         <button (click)="logout()" mat-menu-item>Log out</button>
                         <!-- <button mat-menu-item>Item 2</button> -->
                     </mat-menu>

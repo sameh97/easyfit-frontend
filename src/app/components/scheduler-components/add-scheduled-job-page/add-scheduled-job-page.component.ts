@@ -69,7 +69,6 @@ export class AddScheduledJobPageComponent
       startTime: ['', [Validators.required]],
       endTime: ['', [Validators.required, this.validateEndDate]],
       daysFrequency: ['', [Validators.required, this.validateFrequency]],
-     
     });
     this.dropdownSettings = {
       singleSelection: true,
@@ -81,6 +80,14 @@ export class AddScheduledJobPageComponent
       allowSearchFilter: true,
     };
   }
+
+  // dateFilter = (date: Date) => {
+  //   const day = date.getDay();
+  //   var dt = new Date('2021-09-14 00:00:00.00000');
+
+  //   return date.getTime() !== dt.getTime();
+  //   // return day !== 2 && day !== 6;
+  // };
 
   onItemSelect(item: any) {
     for (let machine of this.machines) {
@@ -163,7 +170,6 @@ export class AddScheduledJobPageComponent
           this.dialogRef.close();
         },
         (err: Error) => {
-        
           AppUtil.showError(err);
         }
       )

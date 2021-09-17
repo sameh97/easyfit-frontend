@@ -10,9 +10,11 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { Gym } from 'src/app/model/gym';
 import { User } from 'src/app/model/user';
+import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { GymsService } from 'src/app/services/gyms-service/gyms.service';
 import { UsersService } from 'src/app/services/users-service/users.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
@@ -39,7 +41,8 @@ export class AddUserComponent
     private formBuilder: FormBuilder,
     private usersService: UsersService,
     private gymsService: GymsService,
-    public dialogRef: MatDialogRef<AddUserComponent>
+    public dialogRef: MatDialogRef<AddUserComponent>,
+    private fileUploadService: FileUploadService
   ) {
     super();
   }
@@ -70,6 +73,7 @@ export class AddUserComponent
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(3)]],
         confirmPassword: ['', [Validators.required]],
+        imageURL: ['', [Validators.required]],
         phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],
         birthDay: ['', [Validators.required, this.validateBirthDay]],
         address: ['', [Validators.required]],
@@ -112,14 +116,23 @@ export class AddUserComponent
     this.user.roleId = 1;
 
     this.subscriptions.push(
-      this.usersService.create(this.user).subscribe(
-        () => {
-          this.dialogRef.close();
-        },
-        (err: Error) => {
-          AppUtil.showError(err);
-        }
-      )
+      this.fileUploadService
+        .uploadImage(this.imageToUpload, null)
+        .pipe(
+          switchMap((imgUrl) => {
+            this.uploadedImageUrl = imgUrl;
+            this.user.imageURL = imgUrl;
+            return this.usersService.create(this.user);
+          })
+        )
+        .subscribe(
+          (user) => {
+            this.dialogRef.close();
+          },
+          (err: Error) => {
+            AppUtil.showError(err);
+          }
+        )
     );
   };
 

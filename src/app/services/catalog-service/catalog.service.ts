@@ -77,6 +77,7 @@ export class CatalogService {
       )
       .pipe(catchError(AppUtil.handleError));
   };
+  
   // TODO: make message content class
   public send = (messageContent: any): Observable<any> => {
     return this.http
