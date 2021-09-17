@@ -35,6 +35,7 @@
     "jwt-decode": "^3.1.2",
     "material-design-icons": "^3.0.1",
     "net": "^1.0.2",
+    "ng-material-datetimepicker": "^1.19.8",
     "ng-multiselect-dropdown": "^0.3.4",
     "ng-pick-datetime": "^7.0.0",
     "rxjs": "~6.6.0",

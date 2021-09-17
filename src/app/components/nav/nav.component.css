@@ -45,3 +45,11 @@
 .is-active {
     background-color: #DCDCDC;
 }
+
+::ng-deep .my-menu {
+    width: 190px;
+}
+
+.menu-header {
+    text-align: center;
+}

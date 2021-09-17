@@ -6,6 +6,7 @@ export class User {
   public password: string;
   public roleId: number;
   public phone: string;
+  public imageURL?: string;
   public birthDay: Date;
   public address: string;
   public gymId: number;

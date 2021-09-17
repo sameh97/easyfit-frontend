@@ -40,7 +40,12 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
 
-                    <mat-menu #appMenu="matMenu">
+                    <mat-menu class="my-menu" #appMenu="matMenu">
+                        <div class="menu-header">
+                            <div *ngIf="currentUser"></div>
+                            <p> logged in as <b>{{currentUser.firstName}}</b></p>
+                        </div>
+
                         <button (click)="logout()" mat-menu-item>Log out</button>
                         <!-- <button mat-menu-item>Item 2</button> -->
                     </mat-menu>

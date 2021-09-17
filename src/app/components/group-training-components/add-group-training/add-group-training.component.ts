@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
@@ -20,10 +21,14 @@ export class AddGroupTrainingComponent
   extends FormInputComponent
   implements OnInit
 {
+  public defaultTime = [new Date().getHours(), 0, 0];
   addGroupTrainingForm: FormGroup;
   groupTraining: GroupTraining;
   members: Member[] = [];
   trainers: Trainer[] = [];
+  groupTrainings: GroupTraining[] = [];
+  showAvailability: boolean = false;
+  trainerChooesn: boolean = false;
 
   // members dropdown
   membersDropdownList = [];
@@ -85,7 +90,7 @@ export class AddGroupTrainingComponent
     this.addGroupTrainingForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
 
-      startTime: ['', [Validators.required]],
+      startTime: ['', [Validators.required, this.checkDate]],
       description: ['', [Validators.required]],
       members: ['', [Validators.required]],
       trainerId: ['', [Validators.required]],
@@ -109,7 +114,31 @@ export class AddGroupTrainingComponent
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
+
+    this.subscriptions.push(
+      this.GroupTrainingService.getAll().subscribe((trainings) => {
+        this.groupTrainings = trainings;
+      })
+    );
   }
+
+  public isTimeAvailable = (): boolean => {
+    this.showAvailability = true;
+    let res: boolean = true;
+
+    for (let training of this.groupTrainings) {
+      if (this.groupTraining.trainerId === training.trainerId) {
+        const currTrainingStartTime = new Date(training.startTime);
+        const trainingToEditStartTime = new Date(this.groupTraining.startTime);
+        if (
+          trainingToEditStartTime.getTime() === currTrainingStartTime.getTime()
+        ) {
+          res = false;
+        }
+      }
+    }
+    return res;
+  };
 
   public create = (): Promise<void> => {
     if (!AppUtil.hasValue(this.groupTraining)) {
@@ -160,6 +189,7 @@ export class AddGroupTrainingComponent
 
   //trainer selection functions:
   onTrainerSelect(item: any) {
+    this.trainerChooesn = true;
     for (let trainer of this.trainers) {
       if (item.item_id === trainer.id) {
         this.groupTraining.trainerId = trainer.id;
@@ -168,6 +198,7 @@ export class AddGroupTrainingComponent
   }
 
   onTrainerDeSelect(item: any) {
+    this.trainerChooesn = false;
     this.groupTraining.trainerId = null;
   }
 

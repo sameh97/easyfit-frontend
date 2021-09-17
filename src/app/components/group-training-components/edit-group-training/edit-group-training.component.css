@@ -48,3 +48,27 @@
     display: flex;
     justify-content: center;
 }
+
+
+/* ************************ */
+
+.flex-container-row {
+    display: flex;
+    gap: 1rem;
+    flex: 0 0 100%;
+    flex-direction: row;
+}
+
+.flex-container-row>div {
+    text-align: center;
+    font-size: 15px;
+    padding: 10px 0;
+}
+
+.available {
+    color: green;
+}
+
+.not-available {
+    color: red;
+}

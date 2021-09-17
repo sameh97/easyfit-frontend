@@ -25,6 +25,9 @@ export class EditGroupTrainingComponent
   private subscriptions: Subscription[] = [];
   allMembers: Member[] = [];
   allTrainers: Trainer[] = [];
+  groupTrainings: GroupTraining[] = [];
+  showAvailability: boolean = false;
+  trainerChooesn: boolean = false;
 
   // members dropdown
   membersDropdownList = [];
@@ -50,12 +53,21 @@ export class EditGroupTrainingComponent
   ngOnInit(): void {
     this.fillMembersSelectionList();
     this.fillTrainersSelectionList();
+
+    this.subscriptions.push(
+      this.groupTrainingService.getAll().subscribe((trainings) => {
+        this.groupTrainings = trainings;
+      })
+    );
   }
 
   private buildForm = (): void => {
     this.editGroupTrainingForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      startTime: [this.groupTraining.startTime, [Validators.required]],
+      startTime: [
+        this.groupTraining.startTime,
+        [Validators.required, this.checkDate],
+      ],
       description: [this.groupTraining.description, [Validators.required]],
       members: [this.groupTraining.members, [Validators.required]],
       trainerId: [this.groupTraining.trainerId, [Validators.required]],
@@ -135,7 +147,11 @@ export class EditGroupTrainingComponent
             };
 
             this.selectedTrainers.push(item);
+
+            this.trainerChooesn = true;
+
             this.trainersDropdownList = [...this.trainersDropdownList];
+
             // after finding the selected trainer then build the form:
             this.buildForm();
             break;
@@ -143,6 +159,29 @@ export class EditGroupTrainingComponent
         }
       })
     );
+  };
+  public isTimeAvailable = (): boolean => {
+    this.showAvailability = true;
+    let res: boolean = true;
+
+    for (let training of this.groupTrainings) {
+
+      // if its the same training, skip
+      if (training.id === this.groupTraining.id) {
+        continue;
+      }
+
+      if (this.groupTraining.trainerId === training.trainerId) {
+        const currTrainingStartTime = new Date(training.startTime);
+        const trainingToEditStartTime = new Date(this.groupTraining.startTime);
+        if (
+          trainingToEditStartTime.getTime() === currTrainingStartTime.getTime()
+        ) {
+          res = false;
+        }
+      }
+    }
+    return res;
   };
 
   // member selection functions:
@@ -174,6 +213,7 @@ export class EditGroupTrainingComponent
 
   //trainer selection functions:
   onTrainerSelect(item: any) {
+    this.trainerChooesn = true;
     for (let trainer of this.allTrainers) {
       if (item.item_id === trainer.id) {
         this.groupTraining.trainerId = trainer.id;
@@ -182,6 +222,7 @@ export class EditGroupTrainingComponent
   }
 
   onTrainerDeSelect(item: any) {
+    this.trainerChooesn = false;
     this.groupTraining.trainerId = null;
   }
 

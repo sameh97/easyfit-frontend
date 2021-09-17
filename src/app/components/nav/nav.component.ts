@@ -16,6 +16,7 @@ import { AppNotificationMessage } from 'src/app/model/app-notification-message';
 import { WebSocketService } from 'src/app/services/web-socket.service';
 import { SocketTopics } from 'src/app/shared/util/socket-util';
 import { UserNotificationsService } from 'src/app/services/user-notifications.service';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-nav',
@@ -26,6 +27,7 @@ export class NavComponent implements OnInit, OnDestroy {
   notifications: AppNotificationMessage[] = [];
   notificationNumber: number = 0;
   private subscriptions: Subscription[] = [];
+  currentUser: User = null;
 
   constructor(
     private authService: AuthenticationService,
@@ -36,6 +38,10 @@ export class NavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe((user: User) => {
+      this.currentUser = user;
+    });
+
     this.subscriptions.push(
       this.userNotificationsService.getAll().subscribe(
         (notifications) => {

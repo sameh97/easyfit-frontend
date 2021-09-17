@@ -86,6 +86,30 @@ export class DisplayTrainingsComponent
     );
   }
 
+  public delete = (training: GroupTraining) => {
+    const date = new Date(training.startTime);
+    let dateFormated: string = date.toString();
+    dateFormated = dateFormated.slice(0, 21);
+
+    const message = `Are you sure you want to delete the training Which will take place on the following date:
+    ${dateFormated} ?`;
+
+    this.navigationService
+      .openYesNoDialogNoCallback(message, 500)
+      .subscribe((res) => {
+        if (res) {
+          this.groupTrainingService.delete(training.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
+        }
+      });
+  };
+
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
