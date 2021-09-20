@@ -9,9 +9,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Trainer } from 'src/app/model/trainer';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 import { TrainersService } from './../../../services/trainers-service/trainers.service';
 
 @Component({
@@ -31,7 +33,8 @@ export class UpdateTrainerComponent
     private trainerService: TrainersService,
     @Inject(MAT_DIALOG_DATA) private trainer: Trainer,
     public dialogRef: MatDialogRef<UpdateTrainerComponent>,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -64,7 +67,7 @@ export class UpdateTrainerComponent
       ],
       gender: [this.trainer.gender, Validators.required],
       birthDay: [this.trainer.birthDay, [Validators.required]],
-      imageURL: [this.trainer.imageURL, [Validators.required]],
+      imageURL: [this.trainer.imageURL, []],
     });
   };
 
@@ -76,25 +79,53 @@ export class UpdateTrainerComponent
       return;
     }
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, this.trainer.imageURL)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            trainer.imageURL = imgUrl;
-            return this.trainerService.update(trainer);
-          })
-        )
-        .subscribe(
+    if (
+      AppUtil.hasValue(this.imageToUpload) ||
+      AppUtil.hasValue(this.trainer.imageURL)
+    ) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, this.trainer.imageURL)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              trainer.imageURL = imgUrl;
+              return this.trainerService.update(trainer);
+            })
+          )
+          .subscribe(
+            () => {
+              this.dialogRef.close();
+              this.navigationHelperService.openSnackBar(
+                'start',
+                'bottom',
+                `Trainer was updated successfully`
+              );
+            },
+            (error: Error) => {
+              AppUtil.showError(error);
+            }
+          )
+      );
+    } else {
+      trainer.imageURL = AppConsts.TRAINER_DEFULT_IMAGE;
+
+      this.subscriptions.push(
+        this.trainerService.update(trainer).subscribe(
           () => {
             this.dialogRef.close();
+            this.navigationHelperService.openSnackBar(
+              'start',
+              'bottom',
+              `Trainer was updated successfully`
+            );
           },
           (error: Error) => {
             AppUtil.showError(error);
           }
         )
-    );
+      );
+    }
   };
 
   get form(): { [key: string]: AbstractControl } {

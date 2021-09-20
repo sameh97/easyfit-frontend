@@ -9,6 +9,7 @@ import { Product } from 'src/app/model/product';
 import { CatalogService } from 'src/app/services/catalog-service/catalog.service';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-update-catalog',
@@ -32,7 +33,8 @@ export class UpdateCatalogComponent
     private catalogService: CatalogService,
     @Inject(MAT_DIALOG_DATA) private catalog: Catalog,
     private productsService: ProductsService,
-    public dialogRef: MatDialogRef<UpdateCatalogComponent>
+    public dialogRef: MatDialogRef<UpdateCatalogComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -126,6 +128,11 @@ export class UpdateCatalogComponent
       this.catalogService.update(this.catalog).subscribe(
         (catalog) => {
           this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Catalog was updated successfully`
+          );
         },
         (err: Error) => {
           AppUtil.showError(err);

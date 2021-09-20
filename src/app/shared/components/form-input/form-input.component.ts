@@ -48,6 +48,22 @@ export class FormInputComponent implements OnInit {
     return pass === confirmPass ? null : { notSame: true };
   };
 
+  //TODO: use validatePassword
+  public validatePassword = (inputControl: AbstractControl): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$');
+
+
+    if (!inputControl.value.match(passwordRegex)) {
+      return { passwordNotValid: true };
+    }
+
+    return null;
+  }
+
   public validateID = (
     inputControl: AbstractControl
   ): ValidationErrors | null => {

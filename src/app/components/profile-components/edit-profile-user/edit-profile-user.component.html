@@ -46,7 +46,7 @@
         <div>
             <mat-form-field class="example-full-width" appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput type="email" [(ngModel)]="user.email" name="email" formControlName="email" placeholder="Enter user's email please">
+                <input readonly matInput type="email" [(ngModel)]="user.email" name="email" formControlName="email" placeholder="Enter user's email please">
             </mat-form-field>
             <div *ngIf="isInputValidationFailed(updateUserForm.controls.email)" class="validation-err-container">
 
@@ -60,19 +60,7 @@
                 </div>
             </div>
         </div>
-        <div>
-            <mat-label>Please choose gym for this user: </mat-label>
 
-            <ng-multiselect-dropdown [placeholder]="'Choose gym for this user'" formControlName="gymId" [settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)">
-            </ng-multiselect-dropdown>
-            <div *ngIf="isInputValidationFailed(updateUserForm.controls.gymId)" class="validation-err-container">
-
-                <div *ngIf="updateUserForm.controls.gymId.errors.required">
-                    <small> Gym is required.
-          </small>
-                </div>
-            </div>
-        </div>
         <div>
             <div class="flex-container-inside-row">
                 <div>
@@ -177,11 +165,10 @@
             </div>
         </div>
         <div> <label for="image">Image</label>
-            <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
-            <mat-hint>(Optional) </mat-hint>
+            <input type="file" [(ngModel)]="user.imageURL" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
         </div>
         <div> <button id="update-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
-        Update user </button>
+        Edit user </button>
         </div>
 
     </div>

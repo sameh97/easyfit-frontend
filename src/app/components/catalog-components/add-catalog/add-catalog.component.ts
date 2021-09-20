@@ -21,6 +21,7 @@ import { ProductsService } from 'src/app/services/products-service/products.serv
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-add-catalog',
@@ -44,7 +45,8 @@ export class AddCatalogComponent
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
     private productsService: ProductsService,
-    public dialogRef: MatDialogRef<AddCatalogComponent>
+    public dialogRef: MatDialogRef<AddCatalogComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -94,7 +96,7 @@ export class AddCatalogComponent
       }
     }
   }
-  
+
   onSelectAll(items: any) {
     this.catalog.products = this.allProducts;
   }
@@ -128,6 +130,11 @@ export class AddCatalogComponent
       this.catalogService.create(this.catalog).subscribe(
         () => {
           this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Catalog was created successfully`
+          );
         },
         (err: Error) => {
           AppUtil.showError(err);

@@ -11,6 +11,7 @@ import { GroupTrainingService } from 'src/app/services/group-training-service/gr
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { TrainersService } from 'src/app/services/trainers-service/trainers.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-edit-group-training',
@@ -28,6 +29,7 @@ export class EditGroupTrainingComponent
   groupTrainings: GroupTraining[] = [];
   showAvailability: boolean = false;
   trainerChooesn: boolean = false;
+  hoursSelectionDisabled: boolean = true;
 
   // members dropdown
   membersDropdownList = [];
@@ -39,13 +41,19 @@ export class EditGroupTrainingComponent
   selectedTrainers = [];
   trainersDropdownSettings: IDropdownSettings = {};
 
+  // hours dropdown
+  hoursDropdownList = [];
+  selectedHours = [];
+  hoursDropdownSettings: IDropdownSettings = {};
+
   constructor(
     private membersService: MembersService,
     private trainersService: TrainersService,
     @Inject(MAT_DIALOG_DATA) private groupTraining: GroupTraining,
     private formBuilder: FormBuilder,
     private groupTrainingService: GroupTrainingService,
-    public dialogRef: MatDialogRef<EditGroupTrainingComponent>
+    public dialogRef: MatDialogRef<EditGroupTrainingComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -53,13 +61,55 @@ export class EditGroupTrainingComponent
   ngOnInit(): void {
     this.fillMembersSelectionList();
     this.fillTrainersSelectionList();
-
     this.subscriptions.push(
       this.groupTrainingService.getAll().subscribe((trainings) => {
         this.groupTrainings = trainings;
+        this.fillHourSelectionList();
       })
     );
   }
+
+  startTimeChange(event) {
+    this.hoursSelectionDisabled = false;
+    this.hoursDropdownList = [];
+    this.selectedHours = [];
+    this.buildHoursDropDown(event.value, this.groupTrainings);
+  }
+  private buildHoursDropDown = (
+    date: Date,
+    trainings: GroupTraining[]
+  ): void => {
+    for (let hour = 0; hour < 24; hour++) {
+      if (this.isHourAvailable(date, hour, trainings)) {
+        const item: any = {
+          item_id: hour,
+          item_text: `${hour}:00`,
+        };
+        this.hoursDropdownList.push(item);
+      }
+    }
+
+    this.hoursDropdownList = [...this.hoursDropdownList];
+  };
+
+  private isHourAvailable = (
+    date: Date,
+    hour: number,
+    trainings: GroupTraining[]
+  ): boolean => {
+    let dateToCheck: Date = new Date(date);
+    dateToCheck.setHours(hour);
+
+    for (let training of trainings) {
+      if (training.trainerId === this.groupTraining.trainerId) {
+        const trainingTime: Date = new Date(training.startTime);
+        if (dateToCheck.getTime() === trainingTime.getTime()) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
 
   private buildForm = (): void => {
     this.editGroupTrainingForm = this.formBuilder.group({
@@ -71,7 +121,24 @@ export class EditGroupTrainingComponent
       description: [this.groupTraining.description, [Validators.required]],
       members: [this.groupTraining.members, [Validators.required]],
       trainerId: [this.groupTraining.trainerId, [Validators.required]],
+      trainingHour: ['', [Validators.required]],
     });
+  };
+
+  private fillHourSelectionList = (): void => {
+    this.hoursDropdownSettings = {
+      singleSelection: true,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+    this.hoursDropdownList = [];
+    this.selectedHours = [];
+    this.buildHoursDropDown(this.groupTraining.startTime, this.groupTrainings);
+    this.hoursSelectionDisabled = false;
   };
 
   private fillMembersSelectionList = (): void => {
@@ -152,37 +219,36 @@ export class EditGroupTrainingComponent
 
             this.trainersDropdownList = [...this.trainersDropdownList];
 
-            // after finding the selected trainer then build the form:
-            this.buildForm();
             break;
           }
         }
+        // after finding the selected trainer then build the form:
+        this.buildForm();
       })
     );
   };
-  public isTimeAvailable = (): boolean => {
-    this.showAvailability = true;
-    let res: boolean = true;
+  // public isTimeAvailable = (): boolean => {
+  //   this.showAvailability = true;
+  //   let res: boolean = true;
 
-    for (let training of this.groupTrainings) {
+  //   for (let training of this.groupTrainings) {
+  //     // if its the same training, skip
+  //     if (training.id === this.groupTraining.id) {
+  //       continue;
+  //     }
 
-      // if its the same training, skip
-      if (training.id === this.groupTraining.id) {
-        continue;
-      }
-
-      if (this.groupTraining.trainerId === training.trainerId) {
-        const currTrainingStartTime = new Date(training.startTime);
-        const trainingToEditStartTime = new Date(this.groupTraining.startTime);
-        if (
-          trainingToEditStartTime.getTime() === currTrainingStartTime.getTime()
-        ) {
-          res = false;
-        }
-      }
-    }
-    return res;
-  };
+  //     if (this.groupTraining.trainerId === training.trainerId) {
+  //       const currTrainingStartTime = new Date(training.startTime);
+  //       const trainingToEditStartTime = new Date(this.groupTraining.startTime);
+  //       if (
+  //         trainingToEditStartTime.getTime() === currTrainingStartTime.getTime()
+  //       ) {
+  //         res = false;
+  //       }
+  //     }
+  //   }
+  //   return res;
+  // };
 
   // member selection functions:
   onMemberSelect(item: any) {
@@ -226,6 +292,14 @@ export class EditGroupTrainingComponent
     this.groupTraining.trainerId = null;
   }
 
+  //hour selection functions:
+  onHourSelect(item: any) {
+    this.groupTraining.startTime = new Date(this.groupTraining.startTime);
+    this.groupTraining.startTime.setHours(item.item_id);
+  }
+
+  onHourDeSelect(item: any) {}
+
   public update = (): Promise<void> => {
     if (!AppUtil.hasValue(this.groupTraining)) {
       AppUtil.showWarningMessage(
@@ -238,6 +312,11 @@ export class EditGroupTrainingComponent
       this.groupTrainingService.update(this.groupTraining).subscribe(
         (catalog) => {
           this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Group training was updated successfully`
+          );
         },
         (err: Error) => {
           AppUtil.showError(err);

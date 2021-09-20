@@ -16,6 +16,7 @@ import { filter, switchMap } from 'rxjs/operators';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 @Component({
   selector: 'app-add-scheduled-job-page',
   templateUrl: './add-scheduled-job-page.component.html',
@@ -38,7 +39,8 @@ export class AddScheduledJobPageComponent
     private formBuilder: FormBuilder,
     private schedulerService: SchedulerService,
     private machinesService: MachinesService,
-    public dialogRef: MatDialogRef<AddScheduledJobPageComponent>
+    public dialogRef: MatDialogRef<AddScheduledJobPageComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -168,6 +170,11 @@ export class AddScheduledJobPageComponent
       this.schedulerService.create(this.scheduledJob).subscribe(
         () => {
           this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Schedule was added successfully`
+          );
         },
         (err: Error) => {
           AppUtil.showError(err);

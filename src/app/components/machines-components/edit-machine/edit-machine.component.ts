@@ -4,11 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Machine } from 'src/app/model/machine';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { UserNotificationsService } from 'src/app/services/user-notifications.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-edit-machine',
@@ -28,7 +30,8 @@ export class EditMachineComponent
     private machinesService: MachinesService,
     private fileUploadService: FileUploadService,
     private userNotificationsService: UserNotificationsService,
-    public dialogRef: MatDialogRef<EditMachineComponent>
+    public dialogRef: MatDialogRef<EditMachineComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -68,9 +71,6 @@ export class EditMachineComponent
       gymId: [this.machine.gymId, [Validators.required]],
     });
   };
-  // public supplierName?: string;
-  // public productionCompany?: string;
-  // public type?: string; //TODO: remove if there are not necessary
 
   public update = (machine: Machine): Promise<void> => {
     if (!AppUtil.hasValue(machine)) {
@@ -80,26 +80,54 @@ export class EditMachineComponent
       return;
     }
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, this.machine.imgUrl)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            machine.imgUrl = imgUrl;
-            return this.machinesService.update(machine);
-          })
-        )
-        .subscribe(
+    if (
+      AppUtil.hasValue(this.imageToUpload) ||
+      AppUtil.hasValue(this.machine.imgUrl)
+    ) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, this.machine.imgUrl)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              machine.imgUrl = imgUrl;
+              return this.machinesService.update(machine);
+            })
+          )
+          .subscribe(
+            () => {
+              this.dialogRef.close();
+              this.showSnackBar();
+            },
+            (err: Error) => {
+              AppUtil.showError(err);
+            }
+          )
+      );
+    } else {
+      machine.imgUrl = AppConsts.MACHINE_DEFULT_IMAGE;
+
+      this.subscriptions.push(
+        this.machinesService.update(machine).subscribe(
           () => {
             this.dialogRef.close();
+            this.showSnackBar();
           },
           (err: Error) => {
             AppUtil.showError(err);
           }
         )
-    );
+      );
+    }
   };
+
+  private showSnackBar(): void {
+    this.navigationHelperService.openSnackBar(
+      'start',
+      'bottom',
+      `Machine was updated successfully`
+    );
+  }
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);

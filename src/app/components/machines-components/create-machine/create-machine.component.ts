@@ -4,10 +4,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Machine } from 'src/app/model/machine';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-create-machine',
@@ -26,7 +28,8 @@ export class CreateMachineComponent
     private formBuilder: FormBuilder,
     private machineService: MachinesService,
     private fileUploadService: FileUploadService,
-    public dialogRef: MatDialogRef<CreateMachineComponent>
+    public dialogRef: MatDialogRef<CreateMachineComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -48,7 +51,7 @@ export class CreateMachineComponent
         ],
       ],
       price: ['', [Validators.required, Validators.min(0), this.validatePrice]],
-      imgUrl: ['', [Validators.required]],
+      imgUrl: ['', []],
     });
   }
 
@@ -60,26 +63,50 @@ export class CreateMachineComponent
       return;
     }
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, null)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            this.machine.imgUrl = imgUrl;
-            return this.machineService.create(this.machine);
-          })
-        )
-        .subscribe(
+    if (AppUtil.hasValue(this.imageToUpload)) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, null)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              this.machine.imgUrl = imgUrl;
+              return this.machineService.create(this.machine);
+            })
+          )
+          .subscribe(
+            () => {
+              this.dialogRef.close();
+              this.navigationHelperService.openSnackBar(
+                'start',
+                'bottom',
+                `Machine was added successfully`
+              );
+            },
+            (err: Error) => {
+              AppUtil.showError(err);
+            }
+          )
+      );
+    } else {
+      this.machine.imgUrl = AppConsts.MACHINE_DEFULT_IMAGE;
+
+      this.subscriptions.push(
+        this.machineService.create(this.machine).subscribe(
           () => {
             this.dialogRef.close();
+            this.navigationHelperService.openSnackBar(
+              'start',
+              'bottom',
+              `Machine was added successfully`
+            );
           },
           (err: Error) => {
-          
             AppUtil.showError(err);
           }
         )
-    );
+      );
+    }
   };
 
   ngOnDestroy(): void {

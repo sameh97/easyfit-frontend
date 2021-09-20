@@ -12,6 +12,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Gym } from 'src/app/model/gym';
 import { User } from 'src/app/model/user';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
@@ -73,7 +74,7 @@ export class AddUserComponent
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(3)]],
         confirmPassword: ['', [Validators.required]],
-        imageURL: ['', [Validators.required]],
+        imageURL: ['', []],
         phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],
         birthDay: ['', [Validators.required, this.validateBirthDay]],
         address: ['', [Validators.required]],
@@ -115,17 +116,30 @@ export class AddUserComponent
 
     this.user.roleId = 1;
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, null)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            this.user.imageURL = imgUrl;
-            return this.usersService.create(this.user);
-          })
-        )
-        .subscribe(
+    if (AppUtil.hasValue(this.imageToUpload)) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, null)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              this.user.imageURL = imgUrl;
+              return this.usersService.create(this.user);
+            })
+          )
+          .subscribe(
+            (user) => {
+              this.dialogRef.close();
+            },
+            (err: Error) => {
+              AppUtil.showError(err);
+            }
+          )
+      );
+    } else {
+      this.user.imageURL = AppConsts.USER_DEFULT_IMAGE;
+      this.subscriptions.push(
+        this.usersService.create(this.user).subscribe(
           (user) => {
             this.dialogRef.close();
           },
@@ -133,7 +147,8 @@ export class AddUserComponent
             AppUtil.showError(err);
           }
         )
-    );
+      );
+    }
   };
 
   ngOnDestroy(): void {

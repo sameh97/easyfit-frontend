@@ -10,10 +10,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Member } from 'src/app/model/member';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-add-member',
@@ -32,7 +34,8 @@ export class AddMemberComponent
     private formBuilder: FormBuilder,
     private membersService: MembersService,
     private fileUploadService: FileUploadService,
-    public dialogRef: MatDialogRef<AddMemberComponent>
+    public dialogRef: MatDialogRef<AddMemberComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -69,29 +72,53 @@ export class AddMemberComponent
     }
 
     // // TODO: remove this link and isactive ... :
-    // if (!AppUtil.hasValue(this.imageToUpload)) {
-    //   this.addMemberAvatar();
-    // }
+    if (AppUtil.hasValue(this.imageToUpload)) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, null)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              this.member.imageURL = imgUrl;
+              return this.membersService.create(this.member);
+            })
+          )
+          .subscribe(
+            (member) => {
+              this.dialogRef.close();
+              this.navigationHelperService.openSnackBar(
+                'start',
+                'bottom',
+                `${member.firstName} ${member.lastName} was added successfully`
+              );
+            },
+            (err: Error) => {
+              AppUtil.showError(err);
+            }
+          )
+      );
+    } else {
+      this.member.imageURL =
+        Number(this.member.gender) === 1
+          ? AppConsts.MALE_MEMBER_DEFULT_IMAGE
+          : AppConsts.FEMALE_MEMBER_DEFULT_IMAGE;
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, null)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            this.member.imageURL = imgUrl;
-            return this.membersService.create(this.member);
-          })
-        )
-        .subscribe(
+      this.subscriptions.push(
+        this.membersService.create(this.member).subscribe(
           (member) => {
             this.dialogRef.close();
+            this.navigationHelperService.openSnackBar(
+              'start',
+              'bottom',
+              `${member.firstName} ${member.lastName} was added successfully`
+            );
           },
           (err: Error) => {
             AppUtil.showError(err);
           }
         )
-    );
+      );
+    }
   };
 
   ngOnDestroy(): void {

@@ -18,12 +18,14 @@ export class ProductsService {
   private productsSubject: BehaviorSubject<Product[]> = new BehaviorSubject<
     Product[]
   >([]);
+  private billsSubject: BehaviorSubject<Bill[]> = new BehaviorSubject<Bill[]>(
+    []
+  );
 
   constructor(
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
-    
     this.initGymID();
   }
 
@@ -50,6 +52,12 @@ export class ProductsService {
       .get<Bill[]>(`${this.url}/bills?gymId=${gymId}`, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        switchMap((bills) => {
+          this.billsSubject.next(bills);
+          return this.billsSubject.asObservable();
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   }
 
@@ -63,6 +71,11 @@ export class ProductsService {
       .post<Bill>(`${this.url}/add-bill`, bill, {
         headers: CoreUtil.createAuthorizationHeader(),
       })
+      .pipe(
+        tap((bill: Bill) => {
+          AppUtil.addToSubject(this.billsSubject, bill);
+        })
+      )
       .pipe(catchError(AppUtil.handleError));
   };
 
