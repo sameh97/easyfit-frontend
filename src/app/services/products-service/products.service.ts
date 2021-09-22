@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
 import { AppConsts } from 'src/app/common/consts';
 import { CoreUtil } from 'src/app/common/core-util';
@@ -26,7 +26,12 @@ export class ProductsService {
     private http: HttpClient,
     private authService: AuthenticationService
   ) {
-    this.initGymID();
+    this.authService.currentUser$
+      .pipe(filter((user) => AppUtil.hasValue(user)))
+      .subscribe((user) => {
+        this.gymId = user.gymId;
+        this.initGymID();
+      });
   }
 
   public getAll(): Observable<Product[]> {
@@ -43,6 +48,13 @@ export class ProductsService {
         })
       )
       .pipe(catchError(AppUtil.handleError));
+  }
+
+  public getSoldProductsPeerMonth(): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${this.url}/sold-products?gymId=${this.gymId}`,
+      { headers: CoreUtil.createAuthorizationHeader() }
+    );
   }
 
   public getAllBills(): Observable<Bill[]> {

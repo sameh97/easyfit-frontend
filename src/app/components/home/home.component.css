@@ -94,10 +94,38 @@
     padding: 1px 0;
 }
 
+.flex-container-inside-card {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    flex: 0 0 100%;
+    flex-direction: column;
+}
+
+.flex-container-inside-card>div {
+    font-size: 15px;
+    padding: 1px 0;
+    align-items: center;
+}
+
 h1 {
     font-family: 'Trebuchet MS', sans-serif;
 }
 
 h2 {
     font-family: 'Trebuchet MS', sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
 }

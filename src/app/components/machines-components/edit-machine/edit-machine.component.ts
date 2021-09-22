@@ -67,7 +67,7 @@ export class EditMachineComponent
         this.machine.price,
         [Validators.required, Validators.min(0), this.validatePrice],
       ],
-      imgUrl: [this.machine.imgUrl, [Validators.required]],
+      imgUrl: ['', []],
       gymId: [this.machine.gymId, [Validators.required]],
     });
   };

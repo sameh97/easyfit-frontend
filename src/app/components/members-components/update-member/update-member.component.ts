@@ -70,7 +70,7 @@ export class UpdateMemberComponent
         this.member.birthDay,
         [Validators.required, , this.validateBirthDay],
       ],
-      imageURL: [this.member.imageURL],
+      imageURL: ['', []],
     });
   };
 

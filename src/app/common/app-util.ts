@@ -148,9 +148,9 @@ export class AppUtil {
 
   public static getJob = (jobID: number): string => {
     if (jobID === 1) {
-      return 'clean';
+      return 'Clean';
     } else if (jobID === 2) {
-      return 'Machine Service';
+      return 'Service';
     } else {
       return 'Not defined';
     }

@@ -123,6 +123,7 @@ export class EditGroupTrainingComponent
       trainerId: [this.groupTraining.trainerId, [Validators.required]],
       trainingHour: ['', [Validators.required]],
     });
+    this.editGroupTrainingForm.markAllAsTouched();
   };
 
   private fillHourSelectionList = (): void => {
@@ -227,28 +228,6 @@ export class EditGroupTrainingComponent
       })
     );
   };
-  // public isTimeAvailable = (): boolean => {
-  //   this.showAvailability = true;
-  //   let res: boolean = true;
-
-  //   for (let training of this.groupTrainings) {
-  //     // if its the same training, skip
-  //     if (training.id === this.groupTraining.id) {
-  //       continue;
-  //     }
-
-  //     if (this.groupTraining.trainerId === training.trainerId) {
-  //       const currTrainingStartTime = new Date(training.startTime);
-  //       const trainingToEditStartTime = new Date(this.groupTraining.startTime);
-  //       if (
-  //         trainingToEditStartTime.getTime() === currTrainingStartTime.getTime()
-  //       ) {
-  //         res = false;
-  //       }
-  //     }
-  //   }
-  //   return res;
-  // };
 
   // member selection functions:
   onMemberSelect(item: any) {

@@ -103,13 +103,23 @@ export class UserNotificationsService extends ClientDataService {
   public update = (
     appNotificationMessage: AppNotificationMessage
   ): Observable<AppNotificationMessage> => {
-    return this.http.put<AppNotificationMessage>(
-      `${AppConsts.BASE_URL}/api/notification`,
-      appNotificationMessage,
-      {
-        headers: CoreUtil.createAuthorizationHeader(),
-      }
-    );
+    return this.http
+      .put<AppNotificationMessage>(
+        `${AppConsts.BASE_URL}/api/notification`,
+        appNotificationMessage,
+        {
+          headers: CoreUtil.createAuthorizationHeader(),
+        }
+      )
+      .pipe(
+        tap((appNotificationMessage: AppNotificationMessage) => {
+          AppUtil.updateInSubject(
+            this.myNotificationsListSubject,
+            appNotificationMessage
+          );
+        })
+      )
+      .pipe(catchError(AppUtil.handleError));
   };
 
   public deleteByTargetObjectId = (

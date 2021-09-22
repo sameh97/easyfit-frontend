@@ -6,7 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -39,7 +39,8 @@ export class UpdateScheduledJobComponent
     @Inject(MAT_DIALOG_DATA) private scheduledJob: ScheduledJob,
     private schedulerService: SchedulerService,
     private machinesService: MachinesService,
-    private navigationHelperService: NavigationHelperService
+    private navigationHelperService: NavigationHelperService,
+    public dialogRef: MatDialogRef<UpdateScheduledJobComponent>
   ) {
     super();
   }
@@ -184,6 +185,7 @@ export class UpdateScheduledJobComponent
     this.subscriptions.push(
       this.schedulerService.update(jobToUpdate).subscribe(
         () => {
+          this.dialogRef.close();
           this.navigationHelperService.openSnackBar(
             'start',
             'bottom',

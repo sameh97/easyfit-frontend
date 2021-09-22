@@ -87,6 +87,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { UserProfileComponent } from './components/profile-components/user-profile/user-profile.component';
 import { EditProfileUserComponent } from './components/profile-components/edit-profile-user/edit-profile-user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductsChartComponent } from './components/products-components/products-chart/products-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -191,6 +192,7 @@ const routes: Routes = [
     ShowSingleTrainingComponent,
     UserProfileComponent,
     EditProfileUserComponent,
+    ProductsChartComponent,
   ],
   imports: [
     BrowserModule,

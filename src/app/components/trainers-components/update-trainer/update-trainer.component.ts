@@ -47,10 +47,13 @@ export class UpdateTrainerComponent
     this.updateTrainerForm = this.formBuilder.group({
       firstName: [
         this.trainer.firstName,
-        [Validators.required, Validators.minLength(3)],
+        [Validators.required, Validators.minLength(3), this.validateName],
       ],
 
-      lastName: [this.trainer.lastName, [Validators.required]],
+      lastName: [
+        this.trainer.lastName,
+        [Validators.required, this.validateName],
+      ],
       email: [this.trainer.email, [Validators.required, Validators.email]],
       joinDate: [this.trainer.joinDate, [Validators.required]],
       certificationDate: [
@@ -59,15 +62,18 @@ export class UpdateTrainerComponent
       ],
       phone: [
         this.trainer.phone,
-        [Validators.required, Validators.minLength(4)],
+        [Validators.required, this.validatePhoneNumber],
       ],
       address: [
         this.trainer.address,
         [Validators.required, Validators.minLength(3)],
       ],
       gender: [this.trainer.gender, Validators.required],
-      birthDay: [this.trainer.birthDay, [Validators.required]],
-      imageURL: [this.trainer.imageURL, []],
+      birthDay: [
+        this.trainer.birthDay,
+        [Validators.required, this.validateBirthDay],
+      ],
+      imageURL: ['', []],
     });
   };
 

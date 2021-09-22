@@ -46,9 +46,11 @@
                             <p> logged in as <b>{{currentUser.firstName}}</b></p>
                         </div>
 
-                        <botton routerLink="/profile" [routerLinkActive]="['is-active']" mat-menu-item>Profile</botton>
+                        <botton routerLink="/profile" [routerLinkActive]="['is-active']" mat-menu-item>Profile
+                            <mat-icon>person</mat-icon>
+                        </botton>
                         <mat-divider></mat-divider>
-                        <button (click)="logout()" mat-menu-item>Log out</button>
+                        <button (click)="logout()" mat-menu-item>Log out <mat-icon>exit_to_app</mat-icon></button>
 
 
                     </mat-menu>

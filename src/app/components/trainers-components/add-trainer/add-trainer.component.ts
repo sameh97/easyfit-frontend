@@ -37,11 +37,16 @@ export class AddTrainerComponent
   ngOnInit(): void {
     this.trainer = new Trainer();
     this.addTrainerForm = this.formBuilder.group({
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
-      lastName: ['', [Validators.required]],
+      firstName: [
+        '',
+        [Validators.required, Validators.minLength(3), this.validateName],
+      ],
+      lastName: ['', [Validators.required, this.validateName]],
       email: ['', [Validators.required, Validators.email]],
       joinDate: ['', [Validators.required]],
       certificationDate: ['', [Validators.required]],
+
+      gender: ['', [Validators.required]],
       phone: [
         '',
         [
@@ -51,7 +56,7 @@ export class AddTrainerComponent
         ],
       ],
       address: ['', [Validators.required, Validators.minLength(3)]],
-      birthDay: ['', [Validators.required]],
+      birthDay: ['', [Validators.required, this.validateBirthDay]],
       imageURL: ['', []],
     });
   }
@@ -114,10 +119,5 @@ export class AddTrainerComponent
 
   ngOnDestroy(): void {
     AppUtil.releaseSubscriptions(this.subscriptions);
-  }
-
-  private addImgUrl() {
-    this.trainer.imageURL =
-      'https://cdn4.iconfinder.com/data/icons/diversity-v2-0-volume-05/64/fitness-trainer-black-male-512.png';
   }
 }

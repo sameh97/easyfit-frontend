@@ -45,7 +45,13 @@ export class NavComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.userNotificationsService.getAll().subscribe(
         (notifications) => {
-          this.notificationNumber = notifications.length;
+          let sum = 0;
+          for (let i = 0; i < notifications.length; i++) {
+            if (!notifications[i].seen) {
+              sum++;
+            }
+          }
+          this.notificationNumber = sum;
           // TODO: make a function that retreves only the count of the notifications
         },
         (error: Error) => {
@@ -79,7 +85,14 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logout();
+    const message: string = `Are you sure you want to log out?`;
+    this.navigationService
+      .openYesNoDialogNoCallback(message, 500)
+      .subscribe((res) => {
+        if (res) {
+          this.authService.logout();
+        }
+      });
   }
 
   public openNotificationsDialog() {

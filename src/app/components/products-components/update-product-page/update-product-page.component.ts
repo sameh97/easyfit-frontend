@@ -63,7 +63,7 @@ export class UpdateProductPageComponent
         this.product.quantity,
         [Validators.compose([Validators.required, this.nonZero])],
       ],
-      imgUrl: [this.product.imgUrl, [Validators.required]],
+      imgUrl: ['', []],
       categoryID: [this.product.categoryID, [Validators.required]],
       gymId: [this.product.gymId, [Validators.required]],
     });

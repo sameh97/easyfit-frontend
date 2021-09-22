@@ -162,6 +162,10 @@ export class FormInputComponent implements OnInit {
       return null;
     }
 
+    if(!AppUtil.hasValue(inputControl.value)) { 
+      return null;
+    }
+
     const regex = new RegExp('^[a-zA-Z][a-zA-Z0-9_ .]*$'); // first char must be character
 
     if (!inputControl.value.match(regex)) {
@@ -174,6 +178,9 @@ export class FormInputComponent implements OnInit {
     inputControl: AbstractControl
   ): ValidationErrors | null => {
     if (!inputControl) {
+      return null;
+    }
+    if(!AppUtil.hasValue(inputControl.value)) { 
       return null;
     }
 
@@ -189,6 +196,9 @@ export class FormInputComponent implements OnInit {
     inputControl: AbstractControl
   ): ValidationErrors | null => {
     if (!inputControl) {
+      return null;
+    }
+    if(!AppUtil.hasValue(inputControl.value)) { 
       return null;
     }
     if (isNaN(inputControl.value)) {
@@ -212,7 +222,9 @@ export class FormInputComponent implements OnInit {
     if (!inputControl) {
       return null;
     }
-
+    if(!AppUtil.hasValue(inputControl.value)) { 
+      return null;
+    }
     const regex = new RegExp('^[sda-zA-z-]+$');
 
     if (!inputControl.value.match(regex)) {
@@ -227,9 +239,14 @@ export class FormInputComponent implements OnInit {
     if (!inputControl) {
       return null;
     }
+    
 
-    if (inputControl.value === '') {
+    if (inputControl.value === "") {
       return { empty: true };
+    }
+
+    if(!AppUtil.hasValue(inputControl.value)) {
+      return null;
     }
 
     let phoneRegx = new RegExp('^[0][5][0|2|3|4|5|9]{1}[-]{0,1}[0-9]{7}$');
@@ -271,6 +288,10 @@ export class FormInputComponent implements OnInit {
     if (!inputControl) {
       return null;
     }
+
+    if(!AppUtil.hasValue(inputControl.value)) { 
+      return null;
+    }
     const regx = new RegExp('^[0-9A-Za-zs-]+$'); // accepts only numbers or chars
 
     if (!inputControl.value.match(regx)) {
@@ -287,6 +308,9 @@ export class FormInputComponent implements OnInit {
       return null;
     }
 
+    if(!AppUtil.hasValue(inputControl.value)) {
+      return null;
+    }
 
     let nameRegx = new RegExp('^[A-Za-z\u0590-\u05fe ]+$');
 
