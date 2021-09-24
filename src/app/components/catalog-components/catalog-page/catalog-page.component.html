@@ -1,26 +1,30 @@
 <app-nav>
     <div class="flex-container">
-        <div class="row1">
-            <mat-grid-list cols="6" rowHeight="70px">
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <h1 class="mat-h1">Catalogs Page</h1><br>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+        <div>
+            <div class="flex-container-header">
+                <div class="header-title">
+                    <h1 class="mat-h1">Catalogs Page</h1>
+                </div>
 
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <button (click)="openCreateCatalogDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-            <mat-icon>plus_one</mat-icon>
-          </button>
-                </mat-grid-tile>
-            </mat-grid-list>
+                <div class="header-actions"></div>
+
+            </div>
+
+
         </div>
-        <div class="row2">
+        <div>
             <mat-card class="dashboard-card">
                 <mat-card-header>
+                    <mat-card-title>
+                        All Catalogs
+                        <button (click)="openCreateCatalogDialog()" class="add-button" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+              <mat-icon>add</mat-icon>
+            </button>
 
+                    </mat-card-title>
                 </mat-card-header>
                 <mat-card-content class="dashboard-card-content">
+                    <br>
                     <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
 
                         <ng-container matColumnDef="link">

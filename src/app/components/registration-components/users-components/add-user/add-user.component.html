@@ -194,6 +194,7 @@
         </div>
         <div> <label for="image">Image</label>
             <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
+            <mat-hint>(Optional) </mat-hint>
         </div>
         <div> <button id="create-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
         Add user </button>

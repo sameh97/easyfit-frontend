@@ -9,10 +9,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Member } from 'src/app/model/member';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { MembersService } from 'src/app/services/members-service/members.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-update-member',
@@ -31,7 +33,8 @@ export class UpdateMemberComponent
     private membersService: MembersService,
     @Inject(MAT_DIALOG_DATA) private member: Member,
     private fileUploadService: FileUploadService,
-    public dialogRef: MatDialogRef<UpdateMemberComponent>
+    public dialogRef: MatDialogRef<UpdateMemberComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -67,7 +70,7 @@ export class UpdateMemberComponent
         this.member.birthDay,
         [Validators.required, , this.validateBirthDay],
       ],
-      imageURL: [this.member.imageURL],
+      imageURL: ['', []],
     });
   };
 
@@ -79,25 +82,57 @@ export class UpdateMemberComponent
       return;
     }
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, this.member.imageURL)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            member.imageURL = imgUrl;
-            return this.membersService.update(member);
-          })
-        )
-        .subscribe(
+    if (
+      AppUtil.hasValue(this.imageToUpload) ||
+      AppUtil.hasValue(this.member.imageURL)
+    ) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, this.member.imageURL)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              member.imageURL = imgUrl;
+              return this.membersService.update(member);
+            })
+          )
+          .subscribe(
+            () => {
+              this.dialogRef.close();
+
+              this.navigationHelperService.openSnackBar(
+                'start',
+                'bottom',
+                `${member.firstName} ${member.lastName} was updated successfully`
+              );
+            },
+            (error: Error) => {
+              AppUtil.showError(error);
+            }
+          )
+      );
+    } else {
+      member.imageURL =
+        Number(member.gender) === 1
+          ? AppConsts.MALE_MEMBER_DEFULT_IMAGE
+          : AppConsts.FEMALE_MEMBER_DEFULT_IMAGE;
+
+      this.subscriptions.push(
+        this.membersService.update(member).subscribe(
           () => {
             this.dialogRef.close();
+            this.navigationHelperService.openSnackBar(
+              'start',
+              'bottom',
+              `${member.firstName} ${member.lastName} was updated successfully`
+            );
           },
           (error: Error) => {
             AppUtil.showError(error);
           }
         )
-    );
+      );
+    }
   };
 
   get form(): { [key: string]: AbstractControl } {

@@ -81,7 +81,7 @@ export class DisplayTrainingsComponent
   public openViewTrainingDialog(training: GroupTraining) {
     this.subscriptions.push(
       this.navigationService
-        .openDialog(ShowSingleTrainingComponent, '1200px', training, true)
+        .openGroupTrainingDialog(ShowSingleTrainingComponent, training)
         .subscribe()
     );
   }

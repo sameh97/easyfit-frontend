@@ -1,28 +1,22 @@
 <app-nav>
 
-    <div class="grid-container">
+    <div class="flex-container">
+        <div>
+            <div class="flex-container-header">
+                <div class="header-title">
+                    <h1 class="mat-h1">All Scheduled Jobs</h1>
+                </div>
 
-        <div class="row1">
-
-            <mat-grid-list cols="6" rowHeight="100px">
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
-                    <h1>All Scheduled Jobs</h1>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
-
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                <div class="header-actions">
                     <button (click)="openCreateScheduledJobDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-            <mat-icon>plus_one</mat-icon>
+            <mat-icon>add</mat-icon>
           </button>
-                </mat-grid-tile>
-            </mat-grid-list>
+                </div>
 
+            </div>
 
         </div>
-
-        <div class="row2">
-            <!-- TODO: show relevant message when there is no jobs  -->
+        <div>
             <mat-card class="dashboard-card">
                 <mat-card-header>
                     <div *ngIf="isSceduledJobsEmpty()">
@@ -76,10 +70,9 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <div class="row3">
 
-
-
-        </div>
     </div>
+
+
+
 </app-nav>

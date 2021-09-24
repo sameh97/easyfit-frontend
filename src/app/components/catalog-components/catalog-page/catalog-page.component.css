@@ -1,34 +1,44 @@
-.row1 {
-    flex: 4;
+.flex-container-header {
+    display: flex;
+    gap: 3px;
+    flex: 0 0 100%;
+    flex-direction: row;
 }
 
-.row2 {
+.header-title {
+    flex: 1;
+    display: block;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 8px;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: right;
+    align-items: right;
     flex: 4;
+    margin-right: 20px;
+    margin-top: 20px;
 }
 
 .flex-container {
     display: flex;
-    gap: 2rem;
+    gap: 5px;
     justify-content: space-between;
     flex-wrap: wrap;
     flex: 0 0 100%;
     flex-direction: column;
-    height: 400px;
 }
 
 .flex-container>div {
-    text-align: center;
     font-size: 15px;
-    padding: 10px 0;
+    padding: 1px 0;
 }
 
 .dashboard-card {
-    position: absolute;
-    top: 200px;
-    left: 50px;
-    right: 50px;
-    bottom: 100px;
-    height: 560px;
+    margin: 20px;
 }
 
 .dashboard-card-content {
@@ -56,4 +66,10 @@ th {
 
 h1 {
     font-family: 'Trebuchet MS', sans-serif;
+}
+
+.add-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }

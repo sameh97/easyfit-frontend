@@ -6,7 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -15,6 +15,7 @@ import { ScheduledJob } from 'src/app/model/scheduled-job';
 import { MachinesService } from 'src/app/services/machines-service/machines.service';
 import { SchedulerService } from 'src/app/services/scheduler-service/scheduler.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-update-scheduled-job',
@@ -37,7 +38,9 @@ export class UpdateScheduledJobComponent
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private scheduledJob: ScheduledJob,
     private schedulerService: SchedulerService,
-    private machinesService: MachinesService
+    private machinesService: MachinesService,
+    private navigationHelperService: NavigationHelperService,
+    public dialogRef: MatDialogRef<UpdateScheduledJobComponent>
   ) {
     super();
   }
@@ -181,7 +184,14 @@ export class UpdateScheduledJobComponent
 
     this.subscriptions.push(
       this.schedulerService.update(jobToUpdate).subscribe(
-        () => {},
+        () => {
+          this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Schedule was updated successfully`
+          );
+        },
         (error: Error) => {
           AppUtil.showError(error);
         }

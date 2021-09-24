@@ -1,12 +1,13 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
 import { Bill } from 'src/app/model/bill';
 import { Product } from 'src/app/model/product';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-sell-product',
@@ -24,7 +25,9 @@ export class SellProductComponent
   constructor(
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private product: Product,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    public dialogRef: MatDialogRef<SellProductComponent>,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -60,7 +63,14 @@ export class SellProductComponent
 
     this.subscriptions.push(
       this.productsService.sell(this.bill).subscribe(
-        (res) => {},
+        (res) => {
+          this.dialogRef.close();
+          this.navigationHelperService.openSnackBar(
+            'start',
+            'bottom',
+            `Product was sold successfully`
+          );
+        },
         (error) => {
           AppUtil.showError(error);
         }

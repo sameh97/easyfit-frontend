@@ -3,12 +3,17 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from './../components/confirmation-dialog/confirmation-dialog.component';
 import { ComponentType } from '@angular/cdk/portal';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NavigationHelperService {
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) {}
 
   public openYesNoDialogNoCallback(
     message: string,
@@ -26,6 +31,19 @@ export class NavigationHelperService {
     });
 
     return dialogRef.afterClosed();
+  }
+
+  public openSnackBar(
+    horizontalPosition: MatSnackBarHorizontalPosition,
+    verticalPosition: MatSnackBarVerticalPosition,
+    message: string
+  ) {
+    this._snackBar.open(message, null, {
+      horizontalPosition: horizontalPosition,
+      verticalPosition: verticalPosition,
+      duration: 3000,
+      panelClass: ['mat-toolbar', 'mat-primary'],
+    });
   }
 
   openDialog(
@@ -55,6 +73,21 @@ export class NavigationHelperService {
         data: dialogData,
       });
     }
+
+    return dialogRef.afterClosed();
+  }
+
+  openGroupTrainingDialog(dialog: ComponentType<{}>, dialogData?: any) {
+    let dialogRef;
+
+    dialogRef = this.dialog.open(dialog, {
+      maxWidth: '150vh',
+      maxHeight: '98vh',
+      height: '98%',
+      width: '98%',
+      data: dialogData,
+      panelClass: 'full-screen-modal',
+    });
 
     return dialogRef.afterClosed();
   }

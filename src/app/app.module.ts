@@ -84,6 +84,10 @@ import { AddGroupTrainingComponent } from './components/group-training-component
 import { EditGroupTrainingComponent } from './components/group-training-components/edit-group-training/edit-group-training.component';
 import { ShowSingleTrainingComponent } from './components/group-training-components/show-single-training/show-single-training.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { UserProfileComponent } from './components/profile-components/user-profile/user-profile.component';
+import { EditProfileUserComponent } from './components/profile-components/edit-profile-user/edit-profile-user.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductsChartComponent } from './components/products-components/products-chart/products-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -128,6 +132,11 @@ const routes: Routes = [
   {
     path: 'group-trainings',
     component: DisplayTrainingsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
     canActivate: [AuthGuard],
   },
 
@@ -181,6 +190,9 @@ const routes: Routes = [
     AddGroupTrainingComponent,
     EditGroupTrainingComponent,
     ShowSingleTrainingComponent,
+    UserProfileComponent,
+    EditProfileUserComponent,
+    ProductsChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -219,6 +231,7 @@ const routes: Routes = [
     MatBadgeModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    MatSnackBarModule,
   ],
 
   providers: [],

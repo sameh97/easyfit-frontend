@@ -9,10 +9,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Product } from 'src/app/model/product';
 import { FileUploadService } from 'src/app/services/file-upload-service/file-upload.service';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
 
 @Component({
   selector: 'app-add-product',
@@ -31,7 +33,8 @@ export class AddProductComponent
     private formBuilder: FormBuilder,
     private productsService: ProductsService,
     public dialogRef: MatDialogRef<AddProductComponent>,
-    private fileUploadService: FileUploadService
+    private fileUploadService: FileUploadService,
+    private navigationHelperService: NavigationHelperService
   ) {
     super();
   }
@@ -46,7 +49,7 @@ export class AddProductComponent
       description: ['', [Validators.required]],
       code: ['', [Validators.required, this.validateProductCode]],
       quantity: ['', [Validators.compose([Validators.required, this.nonZero])]],
-      imgUrl: ['', [Validators.required]],
+      imgUrl: ['', []],
       categoryID: ['', [Validators.required]],
     });
   }
@@ -59,25 +62,50 @@ export class AddProductComponent
       return;
     }
 
-    this.subscriptions.push(
-      this.fileUploadService
-        .uploadImage(this.imageToUpload, null)
-        .pipe(
-          switchMap((imgUrl) => {
-            this.uploadedImageUrl = imgUrl;
-            this.product.imgUrl = imgUrl;
-            return this.productsService.create(this.product);
-          })
-        )
-        .subscribe(
+    if (AppUtil.hasValue(this.imageToUpload)) {
+      this.subscriptions.push(
+        this.fileUploadService
+          .uploadImage(this.imageToUpload, null)
+          .pipe(
+            switchMap((imgUrl) => {
+              this.uploadedImageUrl = imgUrl;
+              this.product.imgUrl = imgUrl;
+              return this.productsService.create(this.product);
+            })
+          )
+          .subscribe(
+            (product) => {
+              this.dialogRef.close();
+              this.navigationHelperService.openSnackBar(
+                'start',
+                'bottom',
+                `Product was added successfully`
+              );
+            },
+            (err: Error) => {
+              AppUtil.showError(err);
+            }
+          )
+      );
+    } else {
+      this.product.imgUrl = AppConsts.PRODUCT_DEFULT_IMAGE;
+
+      this.subscriptions.push(
+        this.productsService.create(this.product).subscribe(
           (product) => {
             this.dialogRef.close();
+            this.navigationHelperService.openSnackBar(
+              'start',
+              'bottom',
+              `Product was added successfully`
+            );
           },
           (err: Error) => {
             AppUtil.showError(err);
           }
         )
-    );
+      );
+    }
   };
 
   ngOnDestroy(): void {
