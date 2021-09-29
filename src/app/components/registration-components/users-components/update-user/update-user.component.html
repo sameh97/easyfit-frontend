@@ -86,10 +86,18 @@
             </button>
 
                     </mat-form-field>
-                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.password)" class="validation-err-container">
+                    <div style="text-align: left" *ngIf="isInputValidationFailed(updateUserForm.controls.password)" class="validation-err-container">
                         <div *ngIf="updateUserForm.controls.password.errors.required"><small>Password is required</small></div>
-                        <div *ngIf="updateUserForm.controls.password.errors.minlength"><small>Password must be at least
-                {{ updateUserForm.controls.password.errors.minlength.requiredLength }} characters</small>
+                        <div *ngIf="updateUserForm.controls.password.errors.passwordNotValid">
+
+                            <p>Password should contain:</p>
+                            <ul>
+                                <li>At least one upper case</li>
+                                <li>At least one lower case English letter</li>
+                                <li>At least one digit</li>
+                                <li>At least one special character</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

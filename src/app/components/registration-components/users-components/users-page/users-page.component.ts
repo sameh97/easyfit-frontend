@@ -77,9 +77,11 @@ export class UsersPageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
 
-  private showGymName(userGymID: number): string {
-    const gym: Gym = this.gyms.find(({ id }) => id === userGymID);
-
+  public showGymName(user: User): string {
+    const gym: Gym = this.gyms.find(({ id }) => id === user.gymId);
+    if (!AppUtil.hasValue(gym)) {
+      return '';
+    }
     return gym.name;
   }
 

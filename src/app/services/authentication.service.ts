@@ -17,13 +17,14 @@ export class AuthenticationService {
   private readonly jwtHelper = new JwtHelperService();
   //TODO: check gym id type:
   //private gymId: number;
-
+  
   private currentUserSubject: BehaviorSubject<User> = new BehaviorSubject<User>(
     null
   );
 
   constructor(private http: HttpClient, private router: Router) {
     this.setCurrentUser();
+  
   }
 
   public isAuthenticated(): boolean {
@@ -43,6 +44,10 @@ export class AuthenticationService {
 
   get currentUser$(): Observable<User> {
     return this.currentUserSubject.asObservable().pipe(distinct());
+  }
+
+  public setCurrentUserSubject(user: User) {
+    this.currentUserSubject.next(user);
   }
 
   public persistTokenFromResponse(response: any): void {

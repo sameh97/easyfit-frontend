@@ -57,6 +57,13 @@ export class ProductsService {
     );
   }
 
+  public getMonthlyIncome(): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${this.url}/monthly-income?gymId=${this.gymId}`,
+      { headers: CoreUtil.createAuthorizationHeader() }
+    );
+  }
+
   public getAllBills(): Observable<Bill[]> {
     const gymId = this.authService.getGymId();
 
@@ -128,6 +135,19 @@ export class ProductsService {
       .pipe(
         tap(() => {
           AppUtil.removeFromSubject(this.productsSubject, id);
+        })
+      )
+      .pipe(catchError(AppUtil.handleError));
+  };
+
+  public deleteBill = (id: number): Observable<any> => {
+    return this.http
+      .delete(`${this.url}/delete-bill?id=${id}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(
+        tap(() => {
+          AppUtil.removeFromSubject(this.billsSubject, id);
         })
       )
       .pipe(catchError(AppUtil.handleError));

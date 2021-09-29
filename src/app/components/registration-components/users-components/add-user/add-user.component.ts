@@ -72,7 +72,7 @@ export class AddUserComponent
         firstName: ['', [Validators.required, this.validateName]],
         lastName: ['', [Validators.required, this.validateName]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(3)]],
+        password: ['', [Validators.required, this.validatePassword]],
         confirmPassword: ['', [Validators.required]],
         imageURL: ['', []],
         phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],

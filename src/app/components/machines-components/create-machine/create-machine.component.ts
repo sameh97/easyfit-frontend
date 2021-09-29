@@ -89,6 +89,7 @@ export class CreateMachineComponent
           )
       );
     } else {
+     
       this.machine.imgUrl = AppConsts.MACHINE_DEFULT_IMAGE;
 
       this.subscriptions.push(

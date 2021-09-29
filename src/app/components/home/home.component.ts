@@ -11,9 +11,6 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 export class HomeComponent {
   constructor(private authService: AuthenticationService) {}
 
-  logout() {
-    this.authService.logout();
-  }
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event) {

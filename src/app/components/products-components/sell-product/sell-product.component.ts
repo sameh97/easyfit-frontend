@@ -1,5 +1,11 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AppUtil } from 'src/app/common/app-util';
@@ -44,7 +50,7 @@ export class SellProductComponent
   private buildForm = (): void => {
     this.sellProductForm = this.formBuilder.group({
       // TODO: make the validators more relevant:
-      quantity: ['', [Validators.required, this.nonZero]],
+      quantity: ['', [Validators.required, this.nonZero, this.validateQuantity]],
       coustomerName: ['', [Validators.required, this.validateName]],
       coustomerPhone: ['', [Validators.required, this.validatePhoneNumber]],
       coustomerID: ['', [Validators.required, this.validateID]],
@@ -76,6 +82,28 @@ export class SellProductComponent
         }
       )
     );
+  };
+
+  public validateQuantity = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+
+    if (!AppUtil.hasValue(inputControl.value)) {
+      return null;
+    }
+
+    // if (Number(inputControl.value) === 0) {
+    //   return { zeroNotValid: true };
+    // }
+
+    if (Number(inputControl.value) > this.product.quantity) {
+      return { quantityNotValid: true };
+    }
+
+    return null;
   };
 
   ngOnDestroy(): void {

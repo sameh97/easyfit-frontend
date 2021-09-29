@@ -8,6 +8,7 @@ export class User {
   public phone: string;
   public imageURL?: string;
   public birthDay: Date;
+  public createdAt: Date;
   public address: string;
   public gymId: number;
 }

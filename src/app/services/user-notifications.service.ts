@@ -59,6 +59,7 @@ export class UserNotificationsService extends ClientDataService {
 
   public getAll = (): Observable<AppNotificationMessage[]> => {
     return this.authService.currentUser$.pipe(
+      filter(u => AppUtil.hasValue(u)),
       switchMap((user) => {
         return this.http
           .get<any[]>(

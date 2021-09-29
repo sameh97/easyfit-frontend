@@ -5,11 +5,11 @@ import { AppUtil } from 'src/app/common/app-util';
 import { ProductsService } from 'src/app/services/products-service/products.service';
 
 @Component({
-  selector: 'app-products-chart',
-  templateUrl: './products-chart.component.html',
-  styleUrls: ['./products-chart.component.css'],
+  selector: 'app-income-chart',
+  templateUrl: './income-chart.component.html',
+  styleUrls: ['./income-chart.component.css'],
 })
-export class ProductsChartComponent implements OnInit, OnDestroy {
+export class IncomeChartComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(private productsService: ProductsService) {
@@ -18,14 +18,14 @@ export class ProductsChartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this.productsService.getSoldProductsPeerMonth().subscribe((data) => {
+      this.productsService.getMonthlyIncome().subscribe((data) => {
         this.buildChart(data);
       })
     );
   }
 
   private buildChart = (soldPeerMonthArray: number[]): void => {
-    let productChart = new Chart('productSalesChart', {
+    let productChart = new Chart('incomeChart', {
       type: 'line',
       data: {
         labels: [
@@ -44,10 +44,10 @@ export class ProductsChartComponent implements OnInit, OnDestroy {
         ],
         datasets: [
           {
-            label: 'Sold products',
+            label: 'income',
             data: soldPeerMonthArray,
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgb(255, 0, 0)',
+            borderColor: 'rgb(26, 233, 75)',
           },
         ],
       },
@@ -59,7 +59,7 @@ export class ProductsChartComponent implements OnInit, OnDestroy {
           },
           title: {
             display: true,
-            text: 'Products Sales Chart',
+            text: 'Monthly Income Chart',
           },
         },
       },

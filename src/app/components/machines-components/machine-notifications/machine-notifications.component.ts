@@ -19,7 +19,7 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private machine: Machine,
+    @Inject(MAT_DIALOG_DATA) public machine: Machine,
     private userNotificationsService: UserNotificationsService,
     private webSocketService: WebSocketService
   ) {}
@@ -84,7 +84,6 @@ export class MachineNotificationsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.userNotificationsService.update(notification).subscribe(
         (notification) => {
-          console.log(notification);
           let index = this.notifications.findIndex(
             (element) => element.id === notification.id
           );

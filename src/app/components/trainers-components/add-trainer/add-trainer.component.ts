@@ -97,7 +97,10 @@ export class AddTrainerComponent
           )
       );
     } else {
-      this.trainer.imageURL = AppConsts.TRAINER_DEFULT_IMAGE;
+      this.trainer.imageURL =
+        Number(this.trainer.gender) === 1
+          ? AppConsts.TRAINER_DEFULT_IMAGE
+          : AppConsts.TRAINER_FEMALE_DEFULT_IMAGE;
 
       this.subscriptions.push(
         this.trainersService.create(this.trainer).subscribe(

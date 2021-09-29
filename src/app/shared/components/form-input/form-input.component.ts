@@ -53,8 +53,12 @@ export class FormInputComponent implements OnInit {
     if (!inputControl) {
       return null;
     }
+    
+    if(!AppUtil.hasValue(inputControl.value)) { 
+      return null;
+    }
 
-    const passwordRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$');
+    const passwordRegex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
 
 
     if (!inputControl.value.match(passwordRegex)) {
@@ -148,7 +152,7 @@ export class FormInputComponent implements OnInit {
   };
 
   public nonZero(control: AbstractControl): { [key: string]: any } {
-    if (Number(control.value) < 0) {
+    if (Number(control.value) <= 0) {
       return { nonZero: true };
     } else {
       return null;
@@ -225,7 +229,7 @@ export class FormInputComponent implements OnInit {
     if(!AppUtil.hasValue(inputControl.value)) { 
       return null;
     }
-    const regex = new RegExp('^[sda-zA-z-]+$');
+    const regex = new RegExp('^[a-zA-Z0-9_.-]*$');
 
     if (!inputControl.value.match(regex)) {
       return { serialNumberNotValid: true };

@@ -1,14 +1,5 @@
-.grid-container {
-    margin: 20px;
-}
-
 .dashboard-card {
     margin: 20px;
-    /* position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px; */
 }
 
 .more-button {
@@ -22,8 +13,6 @@
 }
 
 #main {
-    /* width: 220px;
-  height: 300px; */
     display: flex;
     align-items: center;
 }
@@ -40,20 +29,6 @@
 #main1 div {
     flex: 1;
 }
-
-
-/* .flex-container {
-    display: flex;
-    background-color: white;
-    flex-direction: column;
-}
-
-.flex-container>div {
-    width: 500px;
-    margin-left: 50px;
-    line-height: 75px;
-    font-size: 30px;
-} */
 
 .flex-container-header {
     display: flex;
@@ -118,14 +93,23 @@ h2 {
     font-family: 'Trebuchet MS', sans-serif;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto;
-    padding: 10px;
+
+/*  */
+
+.flex-card-container {
+    display: flex;
+    gap: 2px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex: 0 0 100%;
+    flex-direction: row;
 }
 
-.grid-item {
-    padding: 20px;
-    font-size: 30px;
-    text-align: center;
+.flex-card-container>div {
+    font-size: 15px;
+    padding: 1px 0;
+}
+
+.chart-card {
+    margin: 1px;
 }

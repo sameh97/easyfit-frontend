@@ -104,7 +104,7 @@
         <mat-grid-tile [colspan]="3" [rowspan]="1" [style.background]="lightblue">
             <mat-form-field class="wide" appearance="fill">
                 <mat-label>Quantity</mat-label>
-                <input type="number" formControlName="quantity" [(ngModel)]="bill.quantity" matInput placeholder="Quantity" value="1">
+                <input min="1" type="number" formControlName="quantity" [(ngModel)]="bill.quantity" matInput placeholder="Quantity" value="1">
                 <mat-icon *ngIf="sellProductForm.controls.quantity.errors === null" matSuffix>sentiment_very_satisfied
                 </mat-icon>
 
@@ -115,13 +115,18 @@
             <div *ngIf="isInputValidationFailed(sellProductForm.controls.quantity)" class="validation-err-container">
 
                 <div *ngIf="sellProductForm.controls.quantity.errors.nonZero">
-                    <small> Quantity should be at least 0.
+                    <small> Quantity should be at least 1.
           </small>
                 </div>
                 <div *ngIf="sellProductForm.controls.quantity.errors.required">
                     <small> Quantity is required.
           </small>
                 </div>
+                <div *ngIf="sellProductForm.controls.quantity.errors.quantityNotValid">
+                    <small> Quantity is not available.
+          </small>
+                </div>
+
 
 
 

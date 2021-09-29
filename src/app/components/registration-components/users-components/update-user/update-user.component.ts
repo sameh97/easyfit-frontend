@@ -104,7 +104,7 @@ export class UpdateUserComponent
         email: [this.user.email, [Validators.required, Validators.email]],
         password: [
           this.user.password,
-          [Validators.required, Validators.minLength(3)],
+          [Validators.required, this.validatePassword],
         ],
         confirmPassword: ['', [Validators.required]],
         phone: [
@@ -142,7 +142,10 @@ export class UpdateUserComponent
       );
       return;
     }
-    if (AppUtil.hasValue(this.imageToUpload)) {
+    if (
+      AppUtil.hasValue(this.imageToUpload) ||
+      AppUtil.hasValue(this.user.imageURL)
+    ) {
       this.subscriptions.push(
         this.fileUploadService
           .uploadImage(this.imageToUpload, this.user.imageURL)
