@@ -113,7 +113,7 @@ export class EditGroupTrainingComponent
 
   private buildForm = (): void => {
     this.editGroupTrainingForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+    
       startTime: [
         this.groupTraining.startTime,
         [Validators.required, this.checkDate],

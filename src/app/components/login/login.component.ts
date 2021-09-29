@@ -59,7 +59,7 @@ export class LoginComponent extends FormInputComponent implements OnInit {
 
     this.authService.login(user).subscribe(
       (res) => {
-        console.log(res);
+       
         this.authService.persistTokenFromResponse(res);
         if (this.authService.isAdmin()) {
           this.router.navigateByUrl('/admin');

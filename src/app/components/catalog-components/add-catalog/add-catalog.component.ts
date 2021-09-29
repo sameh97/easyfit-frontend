@@ -70,7 +70,7 @@ export class AddCatalogComponent
 
     this.catalog = new Catalog();
     this.addCatalogForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       durationDays: [
         '',
         [Validators.required, Validators.min(1), Validators.max(100)],

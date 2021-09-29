@@ -34,7 +34,7 @@ export class UpdateGymComponent
 
   private buildForm = (): void => {
     this.updateGymForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+     
       name: [this.gym.name, [Validators.required, this.validateGymName]],
       phone: [
         this.gym.phone,

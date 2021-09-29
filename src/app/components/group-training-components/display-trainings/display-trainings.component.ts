@@ -100,7 +100,7 @@ export class DisplayTrainingsComponent
         if (res) {
           this.groupTrainingService.delete(training.id).subscribe(
             (res) => {
-              console.log(res);
+             
             },
             (err) => {
               AppUtil.showError(err);

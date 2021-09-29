@@ -49,7 +49,7 @@ export class SellProductComponent
 
   private buildForm = (): void => {
     this.sellProductForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+  
       quantity: ['', [Validators.required, this.nonZero, this.validateQuantity]],
       coustomerName: ['', [Validators.required, this.validateName]],
       coustomerPhone: ['', [Validators.required, this.validatePhoneNumber]],

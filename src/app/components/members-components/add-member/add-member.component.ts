@@ -43,7 +43,7 @@ export class AddMemberComponent
   ngOnInit(): void {
     this.member = new Member();
     this.addMemberForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       firstName: [
         '',
         [Validators.required, Validators.minLength(3), this.validateName],

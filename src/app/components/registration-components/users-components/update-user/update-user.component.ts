@@ -92,7 +92,7 @@ export class UpdateUserComponent
   private buildForm = (): void => {
     this.updateUserForm = this.formBuilder.group(
       {
-        // TODO: make the validators more relevant:
+        
         firstName: [
           this.user.firstName,
           [Validators.required, this.validateName],

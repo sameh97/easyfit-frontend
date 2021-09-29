@@ -41,9 +41,9 @@ export class EditMachineComponent
   }
 
   private buildForm = (): void => {
-    // TODO: delete all notifications for this machine if the serial number is changed, and cancel job
+  
     this.updateMachineForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       id: [this.machine.id, [Validators.required]],
       name: [
         this.machine.name,

@@ -64,7 +64,7 @@ export class AddScheduledJobPageComponent
 
     this.scheduledJob = new ScheduledJob();
     this.addScheduledJobForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
 
       jobID: ['', [Validators.required]],
       machineSerialNumber: ['', [Validators.required]],

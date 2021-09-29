@@ -44,23 +44,18 @@ export class EditProfileUserComponent
 
   private buildForm = (): void => {
     this.updateUserForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+  
       firstName: [
         this.user.firstName,
         [Validators.required, this.validateName],
       ],
       lastName: [this.user.lastName, [Validators.required, this.validateName]],
       email: [this.user.email, [Validators.required, Validators.email]],
-      // password: [
-      //   this.user.password,
-      //   [Validators.required, Validators.minLength(3)],
-      // ],
-      // confirmPassword: ['', [Validators.required]],
       phone: [
         this.user.phone,
         [Validators.required, this.validateIsraeliPhoneNumber],
       ],
-      imageURL: [this.user.imageURL, []],
+      imageURL: ['', []],
       birthDay: [
         this.user.birthDay,
         [Validators.required, this.validateBirthDay],

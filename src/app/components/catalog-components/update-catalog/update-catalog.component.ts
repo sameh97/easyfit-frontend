@@ -82,7 +82,7 @@ export class UpdateCatalogComponent
 
   private buildForm = (): void => {
     this.updateCatalogForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       durationDays: [
         this.catalog.durationDays,
         [Validators.required, Validators.min(1), Validators.max(100)],

@@ -68,7 +68,7 @@ export class AddUserComponent
     this.user = new User();
     this.addUserForm = this.formBuilder.group(
       {
-        // TODO: make the validators more relevant:
+    
         firstName: ['', [Validators.required, this.validateName]],
         lastName: ['', [Validators.required, this.validateName]],
         email: ['', [Validators.required, Validators.email]],

@@ -85,7 +85,7 @@ export class UpdateScheduledJobComponent
 
   private buildForm = (): void => {
     this.updateJobForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       id: [this.scheduledJob.id, [Validators.required]],
       jobID: [this.scheduledJob.jobID, [Validators.required]],
       machineSerialNumber: ['', [Validators.required]],
