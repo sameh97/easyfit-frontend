@@ -5,7 +5,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -43,7 +49,6 @@ export class AddMemberComponent
   ngOnInit(): void {
     this.member = new Member();
     this.addMemberForm = this.formBuilder.group({
-      
       firstName: [
         '',
         [Validators.required, Validators.minLength(3), this.validateName],
@@ -54,7 +59,7 @@ export class AddMemberComponent
       ],
       email: ['', [Validators.required, Validators.email]],
       joinDate: ['', [Validators.required]],
-      endOfMembershipDate: ['', [Validators.required, this.checkDate]],
+      endOfMembershipDate: ['', [Validators.required, this.checkEndDate]],
       gender: ['', Validators.required],
       phone: ['', [Validators.required, this.validatePhoneNumber]],
       address: ['', [Validators.required]],
@@ -62,6 +67,29 @@ export class AddMemberComponent
       image: [''],
     });
   }
+
+  public checkEndDate = (
+    inputControl: AbstractControl
+  ): ValidationErrors | null => {
+    if (!inputControl) {
+      return null;
+    }
+    let dateNow: Date = new Date();
+
+    let dateFromForm = new Date(inputControl.value);
+
+    if (dateFromForm.getTime() <= dateNow.getTime()) {
+      return { dateShouldBeInPresent: true };
+    }
+
+    let joinDate = new Date(this.member.joinDate);
+
+    if (joinDate.getTime() > dateFromForm.getTime()) {
+      return { dateNotValid: true };
+    }
+
+    return null;
+  };
 
   public create = (): Promise<void> => {
     if (!AppUtil.hasValue(this.member)) {

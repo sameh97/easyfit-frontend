@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormInputComponent } from 'src/app/shared/components/form-input/form-input.component';
+import { AppConsts } from 'src/app/common/consts';
 
 @Component({
   selector: 'app-send-catalog',
@@ -128,7 +129,7 @@ export class SendCatalogComponent
   };
 
   public getLink = (): string => {
-    const link = `http://localhost:3000/api/catalog-url/${this.catalog.uuid}`;
+    const link = `${AppConsts.BASE_URL}/api/catalog-url/${this.catalog.uuid}`;
     return link;
   };
 

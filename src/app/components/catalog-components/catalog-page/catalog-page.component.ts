@@ -5,6 +5,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppUtil } from 'src/app/common/app-util';
+import { AppConsts } from 'src/app/common/consts';
 import { Catalog } from 'src/app/model/catalog';
 import { CatalogService } from 'src/app/services/catalog-service/catalog.service';
 import { NavigationHelperService } from 'src/app/shared/services/navigation-helper.service';
@@ -64,7 +65,7 @@ export class CatalogPageComponent implements OnInit, OnDestroy {
   }
 
   public displayLink(uuid: string): string {
-    return `http://localhost:3000/api/catalog-url/${uuid}`;
+    return `${AppConsts.BASE_URL}/api/catalog-url/${uuid}`;
   }
 
   public openCreateCatalogDialog() {
