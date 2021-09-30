@@ -36,7 +36,7 @@ export class SendCatalogComponent
   constructor(
     private formBuilder: FormBuilder,
     private catalogService: CatalogService,
-    @Inject(MAT_DIALOG_DATA) private catalog: Catalog
+    @Inject(MAT_DIALOG_DATA) public catalog: Catalog
   ) {
     super();
   }

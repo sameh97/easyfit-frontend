@@ -91,7 +91,7 @@
 }
 
 .product-description {
-    width: 500px;
+    max-width: 350px;
     word-wrap: break-word;
 }
 

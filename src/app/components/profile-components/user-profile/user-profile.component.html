@@ -4,9 +4,9 @@
 
         </div>
         <div>
-            <mat-card class="example-card">
+            <mat-card *ngIf="currentUser" class="example-card">
                 <mat-card-header>
-                    <div *ngIf="currentUser" mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + currentUser.imageURL + ')'}">
+                    <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url(' + currentUser.imageURL + ')'}">
                     </div>
 
                     <mat-card-title>{{currentUser.firstName}} {{currentUser.lastName}}</mat-card-title>
@@ -27,7 +27,7 @@
                     </p>
 
                     <p matLine>
-                        <span><b>Birth day:</b> {{currentUser.birthDay | date:'MMM d, y, h:mm:ss a'}}</span>
+                        <span><b>Birth day:</b> {{currentUser.birthDay | date}}</span>
                     </p>
 
 

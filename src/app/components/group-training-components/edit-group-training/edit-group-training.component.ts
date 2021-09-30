@@ -49,7 +49,7 @@ export class EditGroupTrainingComponent
   constructor(
     private membersService: MembersService,
     private trainersService: TrainersService,
-    @Inject(MAT_DIALOG_DATA) private groupTraining: GroupTraining,
+    @Inject(MAT_DIALOG_DATA) public groupTraining: GroupTraining,
     private formBuilder: FormBuilder,
     private groupTrainingService: GroupTrainingService,
     public dialogRef: MatDialogRef<EditGroupTrainingComponent>,
@@ -113,7 +113,7 @@ export class EditGroupTrainingComponent
 
   private buildForm = (): void => {
     this.editGroupTrainingForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+    
       startTime: [
         this.groupTraining.startTime,
         [Validators.required, this.checkDate],

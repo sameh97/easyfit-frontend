@@ -45,7 +45,7 @@ export class UpdateMemberComponent
 
   private buildForm = (): void => {
     this.updateMemberForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+     
       firstName: [
         this.member.firstName,
         [Validators.required, Validators.minLength(3), this.validateName],

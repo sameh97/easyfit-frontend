@@ -68,11 +68,11 @@ export class AddUserComponent
     this.user = new User();
     this.addUserForm = this.formBuilder.group(
       {
-        // TODO: make the validators more relevant:
+    
         firstName: ['', [Validators.required, this.validateName]],
         lastName: ['', [Validators.required, this.validateName]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(3)]],
+        password: ['', [Validators.required, this.validatePassword]],
         confirmPassword: ['', [Validators.required]],
         imageURL: ['', []],
         phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],

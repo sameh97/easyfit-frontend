@@ -32,6 +32,14 @@ export class UsersService {
       .pipe(catchError(AppUtil.handleError));
   };
 
+  public getByEmail = (email: string): Observable<User> => {
+    return this.http
+      .get<User>(`${this.url}/get-user?email=${email}`, {
+        headers: CoreUtil.createAuthorizationHeader(),
+      })
+      .pipe(catchError(AppUtil.handleError));
+  };
+
   public create = (user: User): Observable<any> => {
     return this.http
       .post<User>(`${this.url}/register`, user, {

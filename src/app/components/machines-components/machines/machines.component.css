@@ -84,7 +84,7 @@
 }
 
 .machine-details {
-    width: 500px;
+    max-width: 350px;
     word-wrap: break-word;
 }
 
@@ -106,9 +106,6 @@
 .dashboard-card {
     margin: 20px;
 }
-
-
-/* .dashboard-card-content {} */
 
 
 /* mat tab */

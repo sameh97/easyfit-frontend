@@ -3,13 +3,13 @@
     <div class="flex-container">
         <div>
             <mat-grid-list cols="6" rowHeight="70px">
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
 
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+                <mat-grid-tile [colspan]="4" [rowspan]="1">
 
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
                     <button (click)="openCreateUserDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
             <mat-icon>plus_one</mat-icon>
           </button>
@@ -71,7 +71,7 @@
 
                             <ng-container matColumnDef="gymName">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Gym name</th>
-                                <td mat-cell *matCellDef="let row">{{ showGymName(row.gymId)}}</td>
+                                <td mat-cell *matCellDef="let row">{{ showGymName(row)}}</td>
                             </ng-container>
 
                             <ng-container matColumnDef="update">

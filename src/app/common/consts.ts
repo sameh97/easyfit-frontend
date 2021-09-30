@@ -19,4 +19,8 @@ export class AppConsts {
     'https://easyfit-gym.s3.amazonaws.com/member-female.jpg';
   public static readonly MACHINE_DEFULT_IMAGE =
     'https://easyfit-gym.s3.amazonaws.com/machineeeeeeeeeee.jpg';
+    public static readonly TRAINER_FEMALE_DEFULT_IMAGE =
+    'https://easyfit-gym.s3.amazonaws.com/4443693.png';
+
+    
 }

@@ -61,44 +61,6 @@
             </div>
         </div>
 
-        <div>
-            <div class="flex-container-inside-row">
-                <div>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Password</mat-label>
-                        <input formControlName="password" [(ngModel)]="user.password" matInput [type]=" hide ? 'password' : 'text'" required />
-                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
-              <mat-icon>
-                {{hide ? 'visibility_off' : 'visibility'}}
-              </mat-icon>
-            </button>
-
-                    </mat-form-field>
-                    <div *ngIf="isInputValidationFailed(updateUserForm.controls.password)" class="validation-err-container">
-                        <div *ngIf="updateUserForm.controls.password.errors.required"><small>Password is required</small></div>
-                        <div *ngIf="updateUserForm.controls.password.errors.minlength"><small>Password must be at least
-                {{ updateUserForm.controls.password.errors.minlength.requiredLength }} characters</small>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Confirm Password</mat-label>
-                        <input formControlName="confirmPassword" ngModel matInput [type]=" hide ? 'password' : 'text'" required />
-                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'" [attr.aria-pressed]="hide">
-              <mat-icon>
-                {{hide ? 'visibility_off' : 'visibility'}}
-              </mat-icon>
-            </button>
-
-                    </mat-form-field>
-
-                    <div *ngIf="!passwordsMatch(updateUserForm) && updateUserForm.controls.confirmPassword.touched" class="validation-err-container">
-                        <small>Passwords do not match</small>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div>
             <div class="flex-container-inside-row">
@@ -165,7 +127,7 @@
             </div>
         </div>
         <div> <label for="image">Image</label>
-            <input type="file" [(ngModel)]="user.imageURL" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
+            <input type="file" formControlName="imageURL" placeholder="Image" accept=".png, .jpg, .jpeg" (change)="handleSelectedImage($event.target.files)">
         </div>
         <div> <button id="update-user-btn" class="btn btn-primary btn-block" [disabled]="!theForm.valid">
         Edit user </button>

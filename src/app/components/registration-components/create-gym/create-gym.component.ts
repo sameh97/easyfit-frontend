@@ -31,7 +31,7 @@ export class CreateGymComponent
   ngOnInit(): void {
     this.gym = new Gym();
     this.addGymForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       name: ['', [Validators.required, this.validateGymName]],
       phone: ['', [Validators.required, this.validateIsraeliPhoneNumber]],
       address: ['', [Validators.required]],

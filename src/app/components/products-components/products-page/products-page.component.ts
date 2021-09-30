@@ -129,6 +129,28 @@ export class ProductsPageComponent implements OnInit, OnDestroy {
     );
   }
 
+  public deleteBill = (bill: Bill) => {
+    const message = `Are you sure you want to delete bill for coustomer:
+    ${bill.coustomerName}?
+
+   This may affect the income data`;
+
+    this.navigationService
+      .openYesNoDialogNoCallback(message, 500)
+      .subscribe((res) => {
+        if (res) {
+          this.productsService.deleteBill(bill.id).subscribe(
+            (res) => {
+              console.log(res);
+            },
+            (err) => {
+              AppUtil.showError(err);
+            }
+          );
+        }
+      });
+  };
+
   public delete = (product: Product) => {
     const message = `Are you sure you want to delete the product with the name:
     ${product.name}?`;

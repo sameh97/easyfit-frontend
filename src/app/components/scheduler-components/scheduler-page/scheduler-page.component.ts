@@ -39,7 +39,7 @@ export class SchedulerPageComponent implements OnInit, OnDestroy {
       this.schedulerService.getAll().subscribe((scheduledJobs) => {
         this.scheduledJobs = scheduledJobs;
         this.scheduledJobs = [...this.scheduledJobs];
-        console.log(scheduledJobs);
+       
       })
     );
   };

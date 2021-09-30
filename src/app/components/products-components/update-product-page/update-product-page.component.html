@@ -115,7 +115,7 @@
             <div *ngIf="isInputValidationFailed(updateProductForm.controls.quantity)" class="validation-err-container">
 
                 <div *ngIf="updateProductForm.controls.quantity.errors.nonZero">
-                    <small> Product quantity should be at least 0.
+                    <small> Product quantity should be at least 1.
           </small>
                 </div>
                 <div *ngIf="updateProductForm.controls.quantity.errors.required">

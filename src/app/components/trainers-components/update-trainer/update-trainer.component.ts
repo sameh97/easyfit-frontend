@@ -96,6 +96,7 @@ export class UpdateTrainerComponent
             switchMap((imgUrl) => {
               this.uploadedImageUrl = imgUrl;
               trainer.imageURL = imgUrl;
+
               return this.trainerService.update(trainer);
             })
           )
@@ -114,7 +115,10 @@ export class UpdateTrainerComponent
           )
       );
     } else {
-      trainer.imageURL = AppConsts.TRAINER_DEFULT_IMAGE;
+      trainer.imageURL =
+        Number(trainer.gender) === 1
+          ? AppConsts.TRAINER_DEFULT_IMAGE
+          : AppConsts.TRAINER_FEMALE_DEFULT_IMAGE;
 
       this.subscriptions.push(
         this.trainerService.update(trainer).subscribe(

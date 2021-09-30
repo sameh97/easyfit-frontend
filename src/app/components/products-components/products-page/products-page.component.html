@@ -4,13 +4,13 @@
             <div class="flex-container">
                 <div>
                     <mat-grid-list cols="6" rowHeight="70px">
-                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
                             <h1>All Products</h1>
                         </mat-grid-tile>
-                        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="4" [rowspan]="1">
 
                         </mat-grid-tile>
-                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
                             <button (click)="openCreateProductDialog()" mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
                 <mat-icon>add</mat-icon>
               </button>
@@ -101,13 +101,13 @@
             <div class="flex-container">
                 <div>
                     <mat-grid-list cols="6" rowHeight="70px">
-                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
                             <h1>All Bills</h1>
                         </mat-grid-tile>
-                        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="4" [rowspan]="1">
 
                         </mat-grid-tile>
-                        <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="lightgreen">
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
 
                         </mat-grid-tile>
                     </mat-grid-list>
@@ -139,7 +139,12 @@
                                                 <p><b>Date:</b> {{bill.createdAt | date:'d/M/yy, h:mm a'}}</p>
 
                                             </div>
+                                            <div>
+                                                <button mat-icon-button color="warn" (click)="deleteBill(bill)">
+                          <mat-icon class="mat-18">delete</mat-icon>
+                        </button>
 
+                                            </div>
                                         </div>
 
 

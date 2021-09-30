@@ -37,7 +37,7 @@ export class MembersChartComponent implements OnInit, OnDestroy {
             ],
             datasets: [
               {
-                label: 'Members number',
+                label: 'Added members',
                 data: data,
                 backgroundColor: [
                   'rgb(255, 99, 132)',
@@ -65,7 +65,16 @@ export class MembersChartComponent implements OnInit, OnDestroy {
                 },
               },
             },
-            
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Added Members Chart',
+              },
+            },
           },
         });
       })

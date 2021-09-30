@@ -42,7 +42,7 @@ export class AddProductComponent
   ngOnInit(): void {
     this.product = new Product();
     this.addProductForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+  
 
       name: ['', [Validators.required, this.validateProductName]],
       price: ['', [Validators.required, Validators.min(0), this.validatePrice]],

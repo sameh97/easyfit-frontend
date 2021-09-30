@@ -88,6 +88,7 @@ import { UserProfileComponent } from './components/profile-components/user-profi
 import { EditProfileUserComponent } from './components/profile-components/edit-profile-user/edit-profile-user.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductsChartComponent } from './components/products-components/products-chart/products-chart.component';
+import { IncomeChartComponent } from './components/products-components/income-chart/income-chart.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -193,6 +194,7 @@ const routes: Routes = [
     UserProfileComponent,
     EditProfileUserComponent,
     ProductsChartComponent,
+    IncomeChartComponent,
   ],
   imports: [
     BrowserModule,

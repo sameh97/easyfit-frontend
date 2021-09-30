@@ -96,7 +96,7 @@ export class AddGroupTrainingComponent
     this.groupTraining = new GroupTraining();
     this.groupTraining.members = [];
     this.addGroupTrainingForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
 
       startTime: ['', [Validators.required, this.checkDate]],
       description: ['', [Validators.required]],

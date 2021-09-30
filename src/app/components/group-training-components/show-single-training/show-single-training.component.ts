@@ -40,7 +40,7 @@ export class ShowSingleTrainingComponent implements OnInit {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private groupTraining: GroupTraining,
+    @Inject(MAT_DIALOG_DATA) public groupTraining: GroupTraining,
     private trainersService: TrainersService
   ) {}
 

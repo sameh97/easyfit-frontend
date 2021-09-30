@@ -38,20 +38,17 @@ export class NavComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe((user: User) => {
-      this.currentUser = user;
-    });
+    this.subscriptions.push(
+      this.authService.currentUser$.subscribe((user: User) => {
+        this.currentUser = user;
+      })
+    );
 
     this.subscriptions.push(
       this.userNotificationsService.getAll().subscribe(
         (notifications) => {
-          let sum = 0;
-          for (let i = 0; i < notifications.length; i++) {
-            if (!notifications[i].seen) {
-              sum++;
-            }
-          }
-          this.notificationNumber = sum;
+          this.notificationNumber =
+            this.getNotSeenNotificationsCount(notifications);
           // TODO: make a function that retreves only the count of the notifications
         },
         (error: Error) => {
@@ -72,6 +69,18 @@ export class NavComponent implements OnInit, OnDestroy {
         })
     );
   }
+
+  private getNotSeenNotificationsCount = (
+    notifications: AppNotificationMessage[]
+  ): number => {
+    let count = 0;
+    for (let i = 0; i < notifications.length; i++) {
+      if (!notifications[i].seen) {
+        count++;
+      }
+    }
+    return count;
+  };
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

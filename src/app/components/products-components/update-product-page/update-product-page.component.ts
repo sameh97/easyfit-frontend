@@ -44,7 +44,7 @@ export class UpdateProductPageComponent
 
   private buildForm = (): void => {
     this.updateProductForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+     
       id: [this.product.id, [Validators.required]],
       price: [
         this.product.price,

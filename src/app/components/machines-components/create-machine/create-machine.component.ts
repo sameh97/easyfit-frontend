@@ -37,7 +37,7 @@ export class CreateMachineComponent
   ngOnInit(): void {
     this.machine = new Machine();
     this.createMachineForm = this.formBuilder.group({
-      // TODO: make the validators more relevant:
+      
       name: ['', [Validators.required, this.validateMachineName]],
       description: ['', [Validators.required]],
       productionYear: ['', [Validators.required, this.validateYear]],
@@ -89,6 +89,7 @@ export class CreateMachineComponent
           )
       );
     } else {
+     
       this.machine.imgUrl = AppConsts.MACHINE_DEFULT_IMAGE;
 
       this.subscriptions.push(
