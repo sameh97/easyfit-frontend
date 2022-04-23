@@ -1,8 +1,12 @@
 # Easyfit
 A website that offers a gym management solution.
 
+Main features:
+
 Machine service scheduler:
 The site has a feature that allows a gym manager to schedule an alert that will remind him to Service or clean a particular machine (the user can pick a date at which the schedule will run)
+
+* each row is a schedule for a particular machine
 
 ![scheduler](https://user-images.githubusercontent.com/75888057/164878981-67a4fedf-1a6a-4dd4-bc62-f744d0ad6839.PNG)
 
