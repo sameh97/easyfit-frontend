@@ -4,13 +4,14 @@ A website that offers a gym management solution.
 Main features:
 
 Machine service scheduler:
+
 The site has a feature that allows a gym manager to schedule an alert that will remind him to Service or clean a particular machine (the user can pick a date at which the schedule will run)
 
 * each row is a schedule for a particular machine
 
 ![scheduler](https://user-images.githubusercontent.com/75888057/164878981-67a4fedf-1a6a-4dd4-bc62-f744d0ad6839.PNG)
 
-View machine button, Lets the manager view the details of the machine for which the schedule is intended:
+View machine button, allows the manager view the details of the machine for which the schedule is intended:
 
 ![view-machine](https://user-images.githubusercontent.com/75888057/164878988-513bfebd-9ce9-4430-a324-cfe785aeceea.PNG)
 
@@ -20,17 +21,18 @@ Add schedule form:
 
 Temporary link to product catalog:
 
-This is a feature that gives a gym manager the ability to create a link that will be available until the date he wants.
+This is a feature that gives a gym manager the ability to create a link that will be available until the date he wants for example three days.
 
-this link will actually display products he selected when creating the link within a catalog, and send this link to his customers so they can see what he posted
+this link will actually display products he selected when creating the link within a catalog, and send this link to his customers so they can see what he posted.
+this helps the gym manager to Advertise his products.
 
-(the link will be available to everyone online That is, there is no need to register on the site)
+(the link will be available to everyone online, there is no need to register on the site)
 
-Here is all the Temporary links for a specific user (Gym manager):
+Here is all the Temporary links for a specific user (Gym manager) displayed in a table:
 
 ![page](https://user-images.githubusercontent.com/75888057/164885662-7d006797-143e-425d-be09-1f555ff3e105.PNG)
 
-And here is how the catalog looks:
+And here is how the catalog looks (how client sees it):
 
 ![catalog](https://user-images.githubusercontent.com/75888057/164885752-fb706806-d0c0-4269-a984-fda15d6e025d.PNG)
 
