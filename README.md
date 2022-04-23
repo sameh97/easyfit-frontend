@@ -18,13 +18,35 @@ Add schedule form:
 
 ![add-schedule](https://user-images.githubusercontent.com/75888057/164878993-f0aa9937-f5b4-45a2-b6a9-615cbead9c22.PNG)
 
+Temporary link to product catalog:
+
+This is a feature that gives a gym manager the ability to create a link that will be available until the date he wants.
+
+this link will actually display products he selected when creating the link within a catalog, and send this link to his customers so they can see what he posted
+
+(the link will be available to everyone online That is, there is no need to register on the site)
+
+Here is all the Temporary links for a specific user (Gym manager):
+
+![page](https://user-images.githubusercontent.com/75888057/164885662-7d006797-143e-425d-be09-1f555ff3e105.PNG)
+
+And here is how the catalog looks:
+
+![catalog](https://user-images.githubusercontent.com/75888057/164885752-fb706806-d0c0-4269-a984-fda15d6e025d.PNG)
 
 
 Home page:
 
+This page contains two charts, one chart showing how many new members have joined by month, and the second chart showing how many male members there are compared to the female members.
+
+this gives the gym manager the ability to see his business data and track it more effectively.
+
 ![home](https://user-images.githubusercontent.com/75888057/164878336-4597b3fb-2835-447f-b81b-7e8b41b63fb5.PNG)
 
 Gym Members page:
+
+The members page shows all the gym members in a table.
+the gym manager can perform operations such as creating, editing, deleting members and also search for members by any property. 
 
 ![members-page](https://user-images.githubusercontent.com/75888057/164878408-a56806a3-24a0-4420-b47e-54e921cb636e.PNG)
 
