@@ -5,6 +5,11 @@ Home page:
 
 ![home](https://user-images.githubusercontent.com/75888057/164878336-4597b3fb-2835-447f-b81b-7e8b41b63fb5.PNG)
 
+Gym Members page:
+
+![members-page](https://user-images.githubusercontent.com/75888057/164878408-a56806a3-24a0-4420-b47e-54e921cb636e.PNG)
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
 
 ## Development server
