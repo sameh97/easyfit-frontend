@@ -13,7 +13,7 @@ RUN npm run build --configuration production
 FROM nginx:alpine
 
 # Copy build to NGINX HTML folder
-COPY --from=build /app/dist/YOUR_PROJECT_NAME /usr/share/nginx/html
+COPY --from=build /app/dist/easyfit-frontend /usr/share/nginx/html
 
 # Optional: custom nginx config (if needed)
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
