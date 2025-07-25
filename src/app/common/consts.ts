@@ -1,5 +1,5 @@
 export class AppConsts {
-  public static BASE_URL = 'http://ec2-18-204-209-185.compute-1.amazonaws.com:3000/';
+  public static BASE_URL = 'http://ec2-18-204-209-185.compute-1.amazonaws.com:3000';
   public static readonly KEY_USER_TOKEN = 'KEY_USER_TOKEN';
   public static readonly STOMP_ENDPOINT = '/easyfit-websocket-endpoint';
   public static readonly FORM_DATA_FILE_UPLOAD_KEY = 'file';
